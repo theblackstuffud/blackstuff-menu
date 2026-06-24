@@ -1,0 +1,330 @@
+:root{
+  --gold:#c9a24a;
+  --gold2:#e2c576;
+  --cream:#f4efe3;
+  --muted:#b8ad9b;
+  --dark:#030403;
+  --glass:rgba(255,255,255,.075);
+  --border:rgba(201,162,74,.36);
+}
+
+*{
+  box-sizing:border-box;
+}
+
+html,body{
+  margin:0;
+  min-height:100%;
+}
+
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+  color:var(--cream);
+  background:
+    radial-gradient(circle at 50% 0%, rgba(33,91,59,.95) 0%, rgba(8,22,15,.98) 38%, #030403 82%);
+  text-align:center;
+  overflow-x:hidden;
+}
+
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  background:
+    radial-gradient(circle at 16% 10%, rgba(201,162,74,.12), transparent 24%),
+    radial-gradient(circle at 84% 0%, rgba(255,255,255,.06), transparent 26%),
+    linear-gradient(120deg, rgba(255,255,255,.04), transparent 38%, rgba(255,255,255,.025));
+  opacity:.95;
+}
+
+body::after{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  background-image:
+    linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.014) 1px, transparent 1px);
+  background-size:42px 42px;
+  opacity:.16;
+}
+
+.page{
+  position:relative;
+  z-index:1;
+  width:min(91vw,460px);
+  min-height:100svh;
+  margin:0 auto;
+  padding:clamp(14px,3.6vh,40px) 0 26px;
+  display:flex;
+  flex-direction:column;
+  animation:pageIn .55s ease both;
+}
+
+.hero{
+  animation:fadeUp .65s ease both;
+}
+
+.logo-shell{
+  width:clamp(118px,32vw,238px);
+  aspect-ratio:1/1;
+  margin:0 auto clamp(12px,2.4vh,22px);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.logo{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  display:block;
+  filter:
+    drop-shadow(0 18px 32px rgba(0,0,0,.75))
+    drop-shadow(0 0 18px rgba(201,162,74,.10));
+  animation:logoIn .75s cubic-bezier(.2,.8,.2,1) both;
+}
+
+.kicker{
+  color:var(--gold);
+  font-size:clamp(10px,2.6vw,13px);
+  font-weight:900;
+  letter-spacing:clamp(1.6px,.6vw,2.9px);
+  text-transform:uppercase;
+  margin-bottom:8px;
+}
+
+h1{
+  margin:0;
+  color:var(--cream);
+  font-size:clamp(29px,7.8vw,42px);
+  line-height:1;
+  letter-spacing:.6px;
+}
+
+.subtitle{
+  margin:10px 0 clamp(15px,2.8vh,25px);
+  color:var(--muted);
+  font-size:clamp(14px,3.6vw,16px);
+  font-weight:650;
+}
+
+.menu-card{
+  background:linear-gradient(180deg, rgba(255,255,255,.095), rgba(255,255,255,.045));
+  border:1px solid var(--border);
+  border-radius:clamp(23px,6vw,31px);
+  padding:clamp(12px,3vw,16px);
+  box-shadow:
+    0 22px 60px rgba(0,0,0,.52),
+    inset 0 1px 0 rgba(255,255,255,.08);
+  backdrop-filter:blur(14px);
+  animation:cardIn .7s cubic-bezier(.2,.8,.2,1) .12s both;
+}
+
+.menu-btn{
+  position:relative;
+  overflow:hidden;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  color:#111;
+  text-decoration:none;
+  background:linear-gradient(180deg,#fff9ec 0%,#e8dcc7 100%);
+  border-radius:clamp(16px,4.2vw,21px);
+  padding:clamp(14px,3.8vw,20px) clamp(18px,4vw,22px);
+  margin:clamp(9px,2.4vw,13px) 0;
+  font-size:clamp(18px,5vw,21px);
+  font-weight:950;
+  box-shadow:
+    0 10px 20px rgba(0,0,0,.30),
+    inset 0 1px 0 rgba(255,255,255,.65);
+  transition:transform .18s ease, box-shadow .18s ease, filter .18s ease;
+}
+
+.menu-btn::before{
+  content:"";
+  position:absolute;
+  top:0;
+  left:-70%;
+  width:45%;
+  height:100%;
+  background:linear-gradient(90deg, transparent, rgba(255,255,255,.42), transparent);
+  transform:skewX(-18deg);
+  opacity:.75;
+}
+
+.menu-btn:hover{
+  transform:translateY(-2px);
+  filter:brightness(1.025);
+}
+
+.menu-btn:active{
+  transform:scale(.985);
+}
+
+.menu-btn:active::before{
+  animation:shine .55s ease;
+}
+
+.flag{
+  font-size:clamp(22px,6vw,27px);
+  filter:drop-shadow(0 2px 2px rgba(0,0,0,.18));
+}
+
+.social{
+  margin-top:clamp(18px,3.4vh,29px);
+  color:var(--muted);
+  font-size:clamp(13px,3.5vw,14px);
+  animation:fadeUp .7s ease .22s both;
+}
+
+.social-links{
+  margin-top:10px;
+}
+
+.social a{
+  display:inline-block;
+  color:var(--gold2);
+  text-decoration:none;
+  font-weight:900;
+  padding:10px 15px;
+  border:1px solid rgba(201,162,74,.38);
+  border-radius:999px;
+  margin:0 5px;
+  background:rgba(255,255,255,.045);
+}
+
+.wifi{
+  margin-top:clamp(14px,2.8vh,22px);
+  padding:clamp(13px,3.4vw,18px);
+  border-radius:22px;
+  background:rgba(0,0,0,.34);
+  border:1px solid rgba(255,255,255,.12);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
+  font-size:clamp(14px,3.6vw,15px);
+  line-height:1.65;
+  animation:fadeUp .7s ease .30s both;
+}
+
+.wifi-title{
+  color:var(--gold);
+  font-weight:950;
+  margin-bottom:4px;
+}
+
+footer{
+  margin-top:18px;
+  color:#83796c;
+  font-size:12px;
+  animation:fadeUp .7s ease .38s both;
+}
+
+@keyframes pageIn{
+  from{opacity:0}
+  to{opacity:1}
+}
+
+@keyframes logoIn{
+  from{opacity:0; transform:translateY(-10px) scale(.94)}
+  to{opacity:1; transform:translateY(0) scale(1)}
+}
+
+@keyframes cardIn{
+  from{opacity:0; transform:translateY(16px) scale(.985)}
+  to{opacity:1; transform:translateY(0) scale(1)}
+}
+
+@keyframes fadeUp{
+  from{opacity:0; transform:translateY(10px)}
+  to{opacity:1; transform:translateY(0)}
+}
+
+@keyframes shine{
+  from{left:-70%}
+  to{left:125%}
+}
+
+@media (max-width:430px){
+  .page{
+    width:90vw;
+    padding-top:12px;
+  }
+
+  .logo-shell{
+    width:116px;
+    margin-bottom:10px;
+  }
+
+  h1{
+    font-size:30px;
+  }
+
+  .subtitle{
+    margin-bottom:13px;
+  }
+
+  .menu-btn{
+    padding:14px 18px;
+    margin:9px 0;
+  }
+
+  .social{
+    margin-top:15px;
+  }
+
+  .wifi{
+    margin-top:12px;
+  }
+}
+
+@media (max-height:720px){
+  .page{
+    padding-top:9px;
+  }
+
+  .logo-shell{
+    width:102px;
+    margin-bottom:8px;
+  }
+
+  .subtitle{
+    margin-bottom:11px;
+  }
+
+  .menu-btn{
+    padding-top:13px;
+    padding-bottom:13px;
+    margin:8px 0;
+  }
+
+  .social{
+    margin-top:12px;
+  }
+
+  .wifi{
+    margin-top:10px;
+  }
+
+  footer{
+    margin-top:12px;
+  }
+}
+
+@media (min-width:768px){
+  .page{
+    width:min(62vw,500px);
+    padding-top:42px;
+  }
+
+  .logo-shell{
+    width:250px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce){
+  *{
+    animation:none !important;
+    transition:none !important;
+  }
+}
