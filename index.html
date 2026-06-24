@@ -8,8 +8,6 @@
 <style>
 :root{
   --bg:#050505;
-  --green:#082f21;
-  --green2:#12422d;
   --gold:#c9a24a;
   --cream:#f4efe3;
   --muted:#b8ad9b;
@@ -24,8 +22,8 @@ body{
   color:var(--cream);
   text-align:center;
   background:
-    radial-gradient(circle at top,#1b4b33 0%,#07130e 38%,#050505 78%),
-    var(--bg);
+    radial-gradient(circle at top,#16472f 0%,#07130e 42%,#050505 82%),
+    #050505;
 }
 
 .page{
@@ -34,19 +32,12 @@ body{
   padding:34px 20px 28px;
 }
 
-.logo-card{
-  background:var(--cream);
-  border:1px solid rgba(201,162,74,.65);
-  border-radius:26px;
-  padding:18px;
-  margin:0 auto 24px;
-  box-shadow:0 22px 60px rgba(0,0,0,.55);
-}
-
-.logo-card img{
-  width:100%;
+.logo{
+  width:82%;
+  max-width:330px;
+  margin:0 auto 26px;
   display:block;
-  border-radius:16px;
+  filter:drop-shadow(0 18px 35px rgba(0,0,0,.65));
 }
 
 .kicker{
@@ -60,7 +51,7 @@ body{
 
 h1{
   margin:0;
-  font-size:32px;
+  font-size:34px;
   line-height:1.05;
   letter-spacing:1px;
 }
@@ -157,9 +148,7 @@ h1{
 
 <div class="page">
 
-  <div class="logo-card">
-    <img src="logo.jpg" alt="The Black Stuff logo">
-  </div>
+  <img class="logo" src="logo.png" alt="The Black Stuff logo">
 
   <div class="kicker">The Black Stuff Irish Pub</div>
   <h1>Digital Menu</h1>
