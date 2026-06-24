@@ -7,10 +7,10 @@
 
 <style>
 :root{
-  --bg:#050505;
   --gold:#c9a24a;
   --cream:#f4efe3;
   --muted:#b8ad9b;
+  --dark:#050505;
 }
 
 *{box-sizing:border-box}
@@ -22,8 +22,7 @@ body{
   color:var(--cream);
   text-align:center;
   background:
-    radial-gradient(circle at top,#16472f 0%,#07130e 42%,#050505 82%),
-    #050505;
+    radial-gradient(circle at top,#174c33 0%,#07130e 42%,#050505 82%);
 }
 
 .page{
@@ -35,39 +34,39 @@ body{
 .logo{
   width:82%;
   max-width:330px;
-  margin:0 auto 26px;
+  margin:0 auto 30px;
   display:block;
-  filter:drop-shadow(0 18px 35px rgba(0,0,0,.65));
+  filter:drop-shadow(0 18px 35px rgba(0,0,0,.75));
 }
 
 .kicker{
   color:var(--gold);
   font-size:13px;
-  font-weight:800;
-  letter-spacing:2.5px;
+  font-weight:900;
+  letter-spacing:2.8px;
   text-transform:uppercase;
   margin-bottom:8px;
 }
 
 h1{
   margin:0;
-  font-size:34px;
-  line-height:1.05;
+  font-size:36px;
+  line-height:1;
   letter-spacing:1px;
 }
 
 .subtitle{
-  margin:12px 0 26px;
+  margin:12px 0 28px;
   color:var(--muted);
   font-size:15px;
 }
 
 .menu-card{
   background:rgba(255,255,255,.07);
-  border:1px solid rgba(201,162,74,.35);
-  border-radius:28px;
+  border:1px solid rgba(201,162,74,.38);
+  border-radius:30px;
   padding:16px;
-  box-shadow:0 18px 50px rgba(0,0,0,.45);
+  box-shadow:0 20px 55px rgba(0,0,0,.5);
   backdrop-filter:blur(10px);
 }
 
@@ -77,13 +76,13 @@ h1{
   align-items:center;
   text-decoration:none;
   color:#111;
-  background:linear-gradient(180deg,#fff8ea,#e7dcc8);
+  background:linear-gradient(180deg,#fff8ea,#e6dac4);
   border-radius:18px;
-  padding:18px 18px;
+  padding:19px 18px;
   margin:12px 0;
   font-size:19px;
   font-weight:900;
-  box-shadow:0 8px 18px rgba(0,0,0,.25);
+  box-shadow:0 8px 18px rgba(0,0,0,.28);
 }
 
 .menu-btn:active{
@@ -100,19 +99,15 @@ h1{
   font-size:14px;
 }
 
-.social-links{
-  margin-top:12px;
-}
-
 .social a{
   display:inline-block;
   color:var(--gold);
   text-decoration:none;
   font-weight:900;
-  padding:10px 14px;
+  padding:10px 15px;
   border:1px solid rgba(201,162,74,.35);
   border-radius:999px;
-  margin:4px;
+  margin:12px 5px 0;
   background:rgba(255,255,255,.04);
 }
 
@@ -120,7 +115,7 @@ h1{
   margin-top:24px;
   padding:18px;
   border-radius:22px;
-  background:rgba(0,0,0,.35);
+  background:rgba(0,0,0,.36);
   border:1px solid rgba(255,255,255,.12);
   font-size:15px;
   line-height:1.7;
@@ -130,10 +125,6 @@ h1{
   color:var(--gold);
   font-weight:900;
   margin-bottom:4px;
-}
-
-.wifi strong{
-  color:var(--cream);
 }
 
 .footer{
@@ -148,25 +139,29 @@ h1{
 
 <div class="page">
 
-  <img class="logo" src="logo.png" alt="The Black Stuff logo">
+  <img class="logo" src="./logo.png" alt="The Black Stuff logo"
+  onerror="
+    if(!this.dataset.try1){this.dataset.try1=1; this.src='./logo.PNG';}
+    else if(!this.dataset.try2){this.dataset.try2=1; this.src='./logo.jpg';}
+    else if(!this.dataset.try3){this.dataset.try3=1; this.src='./logo.jpeg';}
+    else{this.style.display='none';}
+  ">
 
   <div class="kicker">The Black Stuff Irish Pub</div>
   <h1>Digital Menu</h1>
   <div class="subtitle">Choose your language</div>
 
   <div class="menu-card">
-    <a class="menu-btn" href="menu-it.pdf">Italiano <span class="flag">🇮🇹</span></a>
-    <a class="menu-btn" href="menu-en.pdf">English <span class="flag">🇬🇧</span></a>
-    <a class="menu-btn" href="menu-de.pdf">Deutsch <span class="flag">🇩🇪</span></a>
-    <a class="menu-btn" href="menu-es.pdf">Español <span class="flag">🇪🇸</span></a>
+    <a class="menu-btn" href="./menu-it.pdf">Italiano <span class="flag">🇮🇹</span></a>
+    <a class="menu-btn" href="./menu-en.pdf">English <span class="flag">🇬🇧</span></a>
+    <a class="menu-btn" href="./menu-de.pdf">Deutsch <span class="flag">🇩🇪</span></a>
+    <a class="menu-btn" href="./menu-es.pdf">Español <span class="flag">🇪🇸</span></a>
   </div>
 
   <div class="social">
-    Follow us
-    <div class="social-links">
-      <a href="https://www.instagram.com/theblackstuffud?igsh=MW9tZWViMXBvdDFxNA%3D%3D&utm_source=qr" target="_blank">Instagram</a>
-      <a href="https://www.facebook.com/TheBlackStuffUdine?" target="_blank">Facebook</a>
-    </div>
+    Follow us<br>
+    <a href="https://www.instagram.com/theblackstuffud?igsh=MW9tZWViMXBvdDFxNA%3D%3D&utm_source=qr" target="_blank">Instagram</a>
+    <a href="https://www.facebook.com/TheBlackStuffUdine" target="_blank">Facebook</a>
   </div>
 
   <div class="wifi">
