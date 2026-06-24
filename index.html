@@ -10,8 +10,6 @@
   --gold:#c9a24a;
   --cream:#f4efe3;
   --muted:#b9ae9d;
-  --dark:#050505;
-  --card:rgba(10,10,10,.58);
 }
 
 *{box-sizing:border-box}
@@ -26,7 +24,7 @@ body{
   color:var(--cream);
   text-align:center;
   background:
-    radial-gradient(circle at top,#1b5136 0%,#07130e 42%,#050505 82%);
+    radial-gradient(circle at top,#174c33 0%,#06110c 45%,#030303 85%);
   overflow-x:hidden;
 }
 
@@ -36,64 +34,59 @@ body::before{
   inset:0;
   pointer-events:none;
   background:
-    linear-gradient(120deg,rgba(255,255,255,.045),transparent 30%,rgba(255,255,255,.025) 60%,transparent),
-    radial-gradient(circle at 20% 10%,rgba(201,162,74,.13),transparent 28%);
-  opacity:.75;
+    radial-gradient(circle at 20% 10%,rgba(201,162,74,.12),transparent 26%),
+    linear-gradient(120deg,rgba(255,255,255,.04),transparent 35%);
 }
 
 .page{
   width:min(92vw,460px);
   min-height:100svh;
   margin:0 auto;
-  padding:clamp(18px,4vh,38px) 0 28px;
-  display:flex;
-  flex-direction:column;
-  justify-content:flex-start;
-  animation:pageIn .7s ease both;
+  padding:clamp(16px,4vh,38px) 0 26px;
+  animation:fadeIn .6s ease both;
 }
 
 .logo{
-  width:clamp(160px,44vw,300px);
-  max-height:clamp(95px,22vh,210px);
+  width:clamp(135px,42vw,280px);
+  max-height:clamp(85px,18vh,170px);
   object-fit:contain;
-  margin:0 auto clamp(18px,3vh,28px);
+  margin:0 auto clamp(14px,3vh,24px);
   display:block;
-  filter:drop-shadow(0 18px 36px rgba(0,0,0,.72));
-  animation:logoIn .8s ease .08s both;
+  filter:drop-shadow(0 16px 30px rgba(0,0,0,.7));
+  animation:logoIn .7s ease both;
 }
 
 .kicker{
   color:var(--gold);
-  font-size:clamp(11px,2.7vw,13px);
+  font-size:clamp(10px,2.8vw,13px);
   font-weight:900;
-  letter-spacing:clamp(1.7px,.6vw,2.8px);
+  letter-spacing:clamp(1.6px,.6vw,2.8px);
   text-transform:uppercase;
   margin-bottom:8px;
 }
 
 h1{
   margin:0;
-  color:var(--cream);
   font-size:clamp(28px,8vw,42px);
   line-height:1;
   letter-spacing:.5px;
 }
 
 .subtitle{
-  margin:12px 0 clamp(18px,3vh,28px);
+  margin:10px 0 clamp(16px,3vh,26px);
   color:var(--muted);
-  font-size:clamp(14px,3.6vw,16px);
+  font-size:clamp(14px,3.7vw,16px);
   font-weight:600;
 }
 
 .menu-card{
-  background:var(--card);
+  background:rgba(8,8,8,.58);
   border:1px solid rgba(201,162,74,.38);
   border-radius:clamp(22px,6vw,30px);
   padding:clamp(12px,3vw,16px);
   box-shadow:0 20px 55px rgba(0,0,0,.5);
   backdrop-filter:blur(12px);
-  animation:cardIn .7s ease .16s both;
+  animation:up .7s ease .1s both;
 }
 
 .menu-btn{
@@ -103,20 +96,13 @@ h1{
   text-decoration:none;
   color:#111;
   background:linear-gradient(180deg,#fff8ea,#e6dac4);
-  border-radius:clamp(16px,4vw,20px);
-  padding:clamp(15px,4.2vw,20px) clamp(18px,4vw,22px);
-  margin:clamp(10px,2.5vw,13px) 0;
+  border-radius:clamp(15px,4vw,20px);
+  padding:clamp(14px,4vw,20px) clamp(18px,4vw,22px);
+  margin:clamp(9px,2.4vw,13px) 0;
   font-size:clamp(18px,5vw,21px);
   font-weight:950;
   box-shadow:0 9px 18px rgba(0,0,0,.28);
-  transform:translateY(0);
-  transition:transform .18s ease, box-shadow .18s ease, filter .18s ease;
-}
-
-.menu-btn:hover{
-  transform:translateY(-2px);
-  box-shadow:0 13px 24px rgba(0,0,0,.34);
-  filter:brightness(1.03);
+  transition:transform .18s ease, box-shadow .18s ease;
 }
 
 .menu-btn:active{
@@ -128,10 +114,10 @@ h1{
 }
 
 .social{
-  margin-top:clamp(22px,4vh,32px);
+  margin-top:clamp(18px,4vh,30px);
   color:var(--muted);
   font-size:clamp(13px,3.5vw,14px);
-  animation:fadeUp .7s ease .24s both;
+  animation:up .7s ease .2s both;
 }
 
 .social a{
@@ -142,19 +128,19 @@ h1{
   padding:10px 15px;
   border:1px solid rgba(201,162,74,.35);
   border-radius:999px;
-  margin:12px 5px 0;
+  margin:10px 5px 0;
   background:rgba(255,255,255,.045);
 }
 
 .wifi{
-  margin-top:clamp(18px,3vh,24px);
+  margin-top:clamp(16px,3vh,24px);
   padding:clamp(14px,3.6vw,18px);
   border-radius:22px;
   background:rgba(0,0,0,.36);
   border:1px solid rgba(255,255,255,.12);
   font-size:clamp(14px,3.6vw,15px);
   line-height:1.7;
-  animation:fadeUp .7s ease .32s both;
+  animation:up .7s ease .28s both;
 }
 
 .wifi-title{
@@ -167,38 +153,38 @@ h1{
   margin-top:20px;
   color:#83796c;
   font-size:12px;
-  animation:fadeUp .7s ease .38s both;
+  animation:up .7s ease .34s both;
 }
 
-@keyframes pageIn{
+@keyframes fadeIn{
   from{opacity:0}
   to{opacity:1}
 }
 
 @keyframes logoIn{
-  from{opacity:0; transform:translateY(-10px) scale(.96)}
+  from{opacity:0; transform:translateY(-8px) scale(.96)}
   to{opacity:1; transform:translateY(0) scale(1)}
 }
 
-@keyframes cardIn{
-  from{opacity:0; transform:translateY(14px)}
+@keyframes up{
+  from{opacity:0; transform:translateY(12px)}
   to{opacity:1; transform:translateY(0)}
 }
 
-@keyframes fadeUp{
-  from{opacity:0; transform:translateY(10px)}
-  to{opacity:1; transform:translateY(0)}
-}
-
-@media (max-height:720px){
+@media (max-width:430px){
   .page{
+    width:90vw;
     padding-top:14px;
   }
 
   .logo{
-    width:clamp(130px,38vw,220px);
-    max-height:120px;
+    width:150px;
+    max-height:95px;
     margin-bottom:14px;
+  }
+
+  h1{
+    font-size:30px;
   }
 
   .subtitle{
@@ -206,17 +192,28 @@ h1{
   }
 
   .menu-btn{
-    padding-top:14px;
-    padding-bottom:14px;
+    padding:14px 18px;
     margin:9px 0;
+  }
+}
+
+@media (max-height:720px){
+  .logo{
+    width:135px;
+    max-height:80px;
+    margin-bottom:10px;
+  }
+
+  .page{
+    padding-top:12px;
   }
 
   .social{
-    margin-top:18px;
+    margin-top:16px;
   }
 
   .wifi{
-    margin-top:14px;
+    margin-top:12px;
   }
 }
 
@@ -227,8 +224,8 @@ h1{
   }
 
   .logo{
-    width:min(360px,48vw);
-    max-height:240px;
+    width:min(320px,42vw);
+    max-height:210px;
   }
 }
 </style>
