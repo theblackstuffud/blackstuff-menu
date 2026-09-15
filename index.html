@@ -8,6 +8,7 @@
 <title>The Black Stuff - Digital Menu</title>
 
 <style>
+
 * {
   box-sizing: border-box;
 }
@@ -27,7 +28,7 @@ body {
   padding: 42px 0 35px;
 }
 
-/* LOGO */
+/* TESTATA */
 
 .hero {
   text-align: center;
@@ -88,10 +89,10 @@ h1 {
   font-weight: 600;
 
   -webkit-tap-highlight-color: transparent;
+
   transition:
     transform .15s ease,
-    background .2s ease,
-    border-color .2s ease;
+    background .2s ease;
 }
 
 .menu-btn:active {
@@ -114,7 +115,8 @@ h1 {
   position: relative;
   overflow: hidden;
 
-  border-color: rgba(190, 159, 91, .55);
+  border-color: rgba(190,159,91,.55);
+
   background:
     linear-gradient(
       135deg,
@@ -125,38 +127,73 @@ h1 {
   box-shadow: 0 0 22px rgba(190,159,91,.07);
 }
 
+/* FINESTRA DELLA SCRITTA */
+
 .seasonal-label-window {
-  flex: 1;
-  height: 26px;
-  overflow: hidden;
   position: relative;
-  text-align: left;
+  flex: 1;
+  height: 27px;
+  overflow: hidden;
+  margin-right: 12px;
+
+  -webkit-mask-image:
+    linear-gradient(
+      to right,
+      transparent 0,
+      black 6%,
+      black 94%,
+      transparent 100%
+    );
+
+  mask-image:
+    linear-gradient(
+      to right,
+      transparent 0,
+      black 6%,
+      black 94%,
+      transparent 100%
+    );
 }
 
-.seasonal-label {
+/* SCRITTA CONTINUA */
+
+.seasonal-marquee {
   position: absolute;
-  left: 0;
   top: 2px;
+  left: 0;
+
+  display: flex;
+  width: max-content;
   white-space: nowrap;
-  transition:
-    transform .42s cubic-bezier(.4,0,.2,1),
-    opacity .32s ease;
+
+  animation: seasonalScroll 20s linear infinite;
+  will-change: transform;
 }
 
-.seasonal-label.exit {
-  transform: translateX(-35px);
-  opacity: 0;
+.seasonal-marquee span {
+  display: block;
+  flex-shrink: 0;
+  padding-right: 32px;
 }
 
-.seasonal-label.enter {
-  transform: translateX(35px);
-  opacity: 0;
+@keyframes seasonalScroll {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
 }
+
+/* FRECCIA */
 
 .seasonal-arrow {
-  margin-left: 14px;
+  flex-shrink: 0;
+  margin-left: 5px;
   font-size: 22px;
   color: #c8a967;
+
   transition: transform .35s ease;
 }
 
@@ -279,20 +316,18 @@ h1 {
   color: #e5e5df;
 }
 
+/* FOOTER */
+
 footer {
   margin-top: 28px;
   text-align: center;
+
   color: #697168;
   font-size: 10px;
   letter-spacing: 1px;
   text-transform: uppercase;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  * {
-    transition: none !important;
-  }
-}
 </style>
 </head>
 
@@ -304,7 +339,7 @@ footer {
 
     <img
       class="logo"
-      src="Logo.png"
+      src="logo.png"
       alt="The Black Stuff Irish Pub">
 
     <div class="kicker">
@@ -354,11 +389,25 @@ footer {
         aria-expanded="false">
 
         <div class="seasonal-label-window">
-          <span
-            class="seasonal-label"
-            id="seasonalLabel">
-            🍂 Menu stagionale ❄️
-          </span>
+
+          <div class="seasonal-marquee">
+
+            <span>
+              🍂 Menu stagionale ❄️ ·
+              ❄️ Seasonal Menu 🌸 ·
+              🌸 Saisonkarte ☀️ ·
+              ☀️ Menú de temporada 🍂 ·
+            </span>
+
+            <span aria-hidden="true">
+              🍂 Menu stagionale ❄️ ·
+              ❄️ Seasonal Menu 🌸 ·
+              🌸 Saisonkarte ☀️ ·
+              ☀️ Menú de temporada 🍂 ·
+            </span>
+
+          </div>
+
         </div>
 
         <span class="seasonal-arrow">⌄</span>
@@ -370,22 +419,30 @@ footer {
 
         <div class="dropdown-inner">
 
-          <a class="seasonal-option" href="stagionale-it.pdf">
+          <a
+            class="seasonal-option"
+            href="stagionale-it.pdf">
             <span>Italiano</span>
             <span>🇮🇹</span>
           </a>
 
-          <a class="seasonal-option" href="stagionale-en.pdf">
+          <a
+            class="seasonal-option"
+            href="stagionale-en.pdf">
             <span>English</span>
             <span>🇬🇧</span>
           </a>
 
-          <a class="seasonal-option" href="stagionale-de.pdf">
+          <a
+            class="seasonal-option"
+            href="stagionale-de.pdf">
             <span>Deutsch</span>
             <span>🇩🇪</span>
           </a>
 
-          <a class="seasonal-option" href="stagionale-es.pdf">
+          <a
+            class="seasonal-option"
+            href="stagionale-es.pdf">
             <span>Español</span>
             <span>🇪🇸</span>
           </a>
@@ -450,88 +507,21 @@ footer {
 
 <script>
 
-const seasonalTexts = [
-  "🍂 Menu stagionale ❄️",
-  "❄️ Seasonal Menu 🌸",
-  "🌸 Saisonkarte ☀️",
-  "☀️ Menú de temporada 🍂"
-];
+const seasonalWrap =
+  document.getElementById("seasonalWrap");
 
-const wrap = document.getElementById("seasonalWrap");
-const button = document.getElementById("seasonalBtn");
-const label = document.getElementById("seasonalLabel");
+const seasonalBtn =
+  document.getElementById("seasonalBtn");
 
-let currentText = 0;
-let animationTimer;
+seasonalBtn.addEventListener("click", function () {
 
+  const open =
+    seasonalWrap.classList.toggle("open");
 
-/* CAMBIO SCRITTA */
-
-function changeSeasonalText() {
-
-  if (wrap.classList.contains("open")) return;
-
-  label.classList.add("exit");
-
-  setTimeout(() => {
-
-    currentText =
-      (currentText + 1) % seasonalTexts.length;
-
-    label.textContent =
-      seasonalTexts[currentText];
-
-    label.classList.remove("exit");
-    label.classList.add("enter");
-
-    requestAnimationFrame(() => {
-
-      requestAnimationFrame(() => {
-        label.classList.remove("enter");
-      });
-
-    });
-
-  }, 350);
-
-}
-
-
-/* AVVIA ANIMAZIONE */
-
-function startAnimation() {
-
-  clearInterval(animationTimer);
-
-  animationTimer =
-    setInterval(changeSeasonalText, 2400);
-
-}
-
-startAnimation();
-
-
-/* APRI / CHIUDI TENDINA */
-
-button.addEventListener("click", () => {
-
-  const isOpen =
-    wrap.classList.toggle("open");
-
-  button.setAttribute(
+  seasonalBtn.setAttribute(
     "aria-expanded",
-    isOpen ? "true" : "false"
+    open ? "true" : "false"
   );
-
-  if (isOpen) {
-
-    clearInterval(animationTimer);
-
-  } else {
-
-    startAnimation();
-
-  }
 
 });
 
