@@ -1,381 +1,505 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#050805">
-
-<title>The Black Stuff - Digital Menu</title>
-
-<style>
-
-* {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  min-height: 100vh;
-  background:
-    radial-gradient(circle at top, #162118 0%, #080c09 45%, #030503 100%);
-  color: #f5f2e9;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
-}
-
-.page {
-  width: min(92%, 430px);
-  margin: 0 auto;
-  padding: 42px 0 35px;
-}
-
-
-/* TESTATA */
-
-.hero {
-  text-align: center;
-  margin-bottom: 28px;
-}
-
-.logo {
-  width: 145px;
-  max-width: 55%;
-  height: auto;
-  margin-bottom: 16px;
-}
-
-.kicker {
-  color: #aeb9a8;
-  text-transform: uppercase;
-  letter-spacing: 2.5px;
-  font-size: 11px;
-  font-weight: 700;
-}
-
-h1 {
-  margin: 7px 0 4px;
-  font-size: 32px;
-  letter-spacing: -0.5px;
-}
-
-.subtitle {
-  margin: 0;
-  color: #9da79c;
-  font-size: 14px;
-}
-
-
-/* MENU PRINCIPALE */
-
-.menu-card {
-  display: flex;
-  flex-direction: column;
-  gap: 11px;
-}
-
-.menu-btn {
-  width: 100%;
-  min-height: 58px;
-  padding: 0 20px;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  background: rgba(255,255,255,.045);
-  border: 1px solid rgba(255,255,255,.13);
-  border-radius: 15px;
-
-  color: #f5f2e9;
-  text-decoration: none;
-  font-size: 17px;
-  font-weight: 600;
-
-  -webkit-tap-highlight-color: transparent;
-
-  transition:
-    transform .15s ease,
-    background .2s ease;
-}
-
-.menu-btn:active {
-  transform: scale(.98);
-  background: rgba(255,255,255,.08);
-}
-
-.flag {
-  font-size: 23px;
-}
-
-
-/* MENU STAGIONALE */
-
-.seasonal-wrap {
-  margin-top: 12px;
-}
-
-.seasonal-btn {
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-
-  border-color: rgba(190,159,91,.55);
-
-  background:
-    linear-gradient(
-      135deg,
-      rgba(190,159,91,.12),
-      rgba(255,255,255,.035)
-    );
-
-  box-shadow: 0 0 22px rgba(190,159,91,.07);
-}
-
-
-/* FINESTRA SCRITTA */
-
-.seasonal-label-window {
-  position: relative;
-  flex: 1;
-  height: 27px;
-  overflow: hidden;
-  margin-right: 12px;
-
-  -webkit-mask-image:
-    linear-gradient(
-      to right,
-      transparent 0,
-      black 6%,
-      black 94%,
-      transparent 100%
-    );
-
-  mask-image:
-    linear-gradient(
-      to right,
-      transparent 0,
-      black 6%,
-      black 94%,
-      transparent 100%
-    );
-}
-
-
-/* SCRITTA A SCORRIMENTO CONTINUO */
-
-.seasonal-marquee {
-  position: absolute;
-  top: 2px;
-  left: 0;
-
-  display: flex;
-  width: max-content;
-  white-space: nowrap;
-
-  animation: seasonalScroll 20s linear infinite;
-
-  will-change: transform;
-}
-
-.seasonal-marquee span {
-  display: block;
-  flex-shrink: 0;
-  padding-right: 28px;
-}
-
-
-/* ANIMAZIONE */
-
-@keyframes seasonalScroll {
-
-  from {
-    transform: translateX(0);
-  }
-
-  to {
-    transform: translateX(-50%);
-  }
-
-}
-
-
-/* FRECCIA */
-
-.seasonal-arrow {
-  flex-shrink: 0;
-  margin-left: 5px;
-
-  font-size: 22px;
-  color: #c8a967;
-
-  transition: transform .35s ease;
-}
-
-.seasonal-wrap.open .seasonal-arrow {
-  transform: rotate(180deg);
-}
-
-
-/* TENDINA */
-
-.seasonal-dropdown {
-  max-height: 0;
-  overflow: hidden;
-
-  opacity: 0;
-  transform: translateY(-8px);
-
-  transition:
-    max-height .45s ease,
-    opacity .3s ease,
-    transform .4s ease;
-}
-
-.seasonal-wrap.open .seasonal-dropdown {
-  max-height: 310px;
-
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.dropdown-inner {
-  margin-top: 8px;
-  padding: 7px;
-
-  background: rgba(0,0,0,.22);
-
-  border:
-    1px solid rgba(190,159,91,.25);
-
-  border-radius: 14px;
-}
-
-.seasonal-option {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  padding: 14px 13px;
-
-  color: #f5f2e9;
-  text-decoration: none;
-  font-size: 15px;
-
-  border-bottom:
-    1px solid rgba(255,255,255,.07);
-}
-
-.seasonal-option:last-child {
-  border-bottom: 0;
-}
-
-.seasonal-option span:last-child {
-  font-size: 21px;
-}
-
-
-/* SOCIAL */
-
-.social {
-  margin-top: 34px;
-  text-align: center;
-}
-
-.social > span {
-  display: block;
-  margin-bottom: 12px;
-
-  color: #899488;
-
-  text-transform: uppercase;
-  letter-spacing: 2px;
-
-  font-size: 10px;
-  font-weight: 700;
-}
-
-.social-links {
-  display: flex;
-  gap: 10px;
-}
-
-.social-links a {
-  flex: 1;
-
-  padding: 12px 8px;
-
-  color: #e8e8e2;
-  text-decoration: none;
-  font-size: 13px;
-
-  border:
-    1px solid rgba(255,255,255,.12);
-
-  border-radius: 12px;
-
-  background:
-    rgba(255,255,255,.035);
-}
-
-
-/* WIFI */
-
-.wifi {
-  margin-top: 18px;
-  padding: 17px;
-
-  text-align: center;
-
-  background:
-    rgba(255,255,255,.025);
-
-  border:
-    1px solid rgba(255,255,255,.09);
-
-  border-radius: 14px;
-
-  color: #aeb5ac;
-
-  font-size: 12px;
-  line-height: 1.7;
-}
-
-.wifi-title {
-  color: #eeeeea;
-
-  font-size: 14px;
-  font-weight: 700;
-
-  margin-bottom: 4px;
-}
-
-.wifi strong {
-  color: #e5e5df;
-}
-
-
-/* FOOTER */
-
-footer {
-  margin-top: 28px;
-
-  text-align: center;
-
-  color: #697168;
-
-  font-size: 10px;
-  letter-spacing: 1px;
-
-  text-transform: uppercase;
-}
-
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#050805">
+  <title>The Black Stuff - Digital Menu</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      background: #030503;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at top, #172219 0%, #09100b 35%, #030503 72%, #010201 100%);
+      color: #f5f2e9;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+    }
+
+    button,
+    a {
+      font: inherit;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .page {
+      width: min(92%, 430px);
+      margin: 0 auto;
+      padding:
+        max(22px, env(safe-area-inset-top))
+        0
+        max(35px, env(safe-area-inset-bottom));
+    }
+
+    /* =========================
+       TESTATA
+       ========================= */
+
+    .hero {
+      text-align: center;
+      margin-bottom: 27px;
+    }
+
+    .logo {
+      display: block;
+      width: 142px;
+      max-width: 48%;
+      height: auto;
+      margin: 0 auto 18px;
+    }
+
+    .kicker {
+      color: #d6d8cd;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    h1 {
+      margin: 8px 0 4px;
+      color: #fffdf5;
+      font-size: 31px;
+      line-height: 1.08;
+      letter-spacing: -0.8px;
+    }
+
+    .subtitle {
+      margin: 0;
+      color: #a9afa7;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    /* =========================
+       PULSANTI PRINCIPALI
+       ========================= */
+
+    .menu-card {
+      display: flex;
+      flex-direction: column;
+      gap: 11px;
+    }
+
+    .menu-btn {
+      width: 100%;
+      min-height: 58px;
+      padding: 0 20px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      background: rgba(255,255,255,.035);
+      border: 1px solid rgba(255,255,255,.16);
+      border-radius: 16px;
+
+      color: #fffdf5;
+      text-decoration: none;
+
+      font-size: 17px;
+      font-weight: 700;
+
+      transition:
+        transform .15s ease,
+        background .2s ease,
+        border-color .2s ease;
+    }
+
+    .menu-btn:active {
+      transform: scale(.985);
+      background: rgba(255,255,255,.07);
+    }
+
+    .flag {
+      font-size: 22px;
+      line-height: 1;
+    }
+
+    /* =========================
+       DESSERT
+       ========================= */
+
+    .dessert-wrap {
+      width: 100%;
+    }
+
+    .dessert-btn {
+      cursor: pointer;
+      appearance: none;
+      -webkit-appearance: none;
+      text-align: left;
+    }
+
+    .dessert-right {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+    }
+
+    .dessert-icon {
+      font-size: 21px;
+      line-height: 1;
+    }
+
+    .dessert-arrow {
+      color: #aeb5ac;
+      font-size: 20px;
+      line-height: 1;
+      transition: transform .35s ease;
+    }
+
+    .dessert-wrap.open .dessert-arrow {
+      transform: rotate(180deg);
+    }
+
+    .dessert-dropdown {
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      transform: translateY(-7px);
+
+      transition:
+        max-height .45s ease,
+        opacity .28s ease,
+        transform .35s ease;
+    }
+
+    .dessert-wrap.open .dessert-dropdown {
+      max-height: 300px;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .dessert-inner {
+      margin-top: 8px;
+      padding: 6px;
+
+      background: rgba(0,0,0,.22);
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 14px;
+    }
+
+    .dessert-option {
+      min-height: 49px;
+      padding: 0 12px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+
+      border-bottom: 1px solid rgba(255,255,255,.07);
+    }
+
+    .dessert-option:last-child {
+      border-bottom: 0;
+    }
+
+    .dessert-language {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      color: rgba(245,242,233,.72);
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .dessert-language .small-flag {
+      font-size: 19px;
+    }
+
+    .coming-soon {
+      flex-shrink: 0;
+      color: #b99a59;
+      opacity: .82;
+
+      text-transform: uppercase;
+      letter-spacing: .8px;
+      font-size: 9px;
+      font-weight: 800;
+    }
+
+    /* =========================
+       MENU STAGIONALE
+       ========================= */
+
+    .seasonal-wrap {
+      width: 100%;
+    }
+
+    .seasonal-btn {
+      cursor: pointer;
+      appearance: none;
+      -webkit-appearance: none;
+
+      position: relative;
+      overflow: hidden;
+
+      border-color: rgba(197,160,81,.55);
+
+      background:
+        linear-gradient(
+          135deg,
+          rgba(190,151,70,.10),
+          rgba(255,255,255,.025)
+        );
+
+      box-shadow:
+        0 0 25px rgba(190,151,70,.045),
+        inset 0 0 20px rgba(190,151,70,.025);
+    }
+
+    .seasonal-label-window {
+      position: relative;
+      flex: 1;
+      height: 26px;
+      overflow: hidden;
+      margin-right: 11px;
+
+      -webkit-mask-image:
+        linear-gradient(
+          to right,
+          transparent 0%,
+          black 5%,
+          black 95%,
+          transparent 100%
+        );
+
+      mask-image:
+        linear-gradient(
+          to right,
+          transparent 0%,
+          black 5%,
+          black 95%,
+          transparent 100%
+        );
+    }
+
+    .seasonal-marquee {
+      position: absolute;
+      left: 0;
+      top: 1px;
+
+      display: flex;
+      width: max-content;
+      white-space: nowrap;
+
+      animation: seasonalScroll 18s linear infinite;
+      will-change: transform;
+    }
+
+    .seasonal-marquee span {
+      display: block;
+      flex-shrink: 0;
+      padding-right: 28px;
+
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    @keyframes seasonalScroll {
+      from {
+        transform: translateX(0);
+      }
+
+      to {
+        transform: translateX(-50%);
+      }
+    }
+
+    .seasonal-arrow {
+      flex-shrink: 0;
+      color: #c9a65b;
+      font-size: 20px;
+      line-height: 1;
+      transition: transform .35s ease;
+    }
+
+    .seasonal-wrap.open .seasonal-arrow {
+      transform: rotate(180deg);
+    }
+
+    .seasonal-dropdown {
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      transform: translateY(-7px);
+
+      transition:
+        max-height .45s ease,
+        opacity .28s ease,
+        transform .35s ease;
+    }
+
+    .seasonal-wrap.open .seasonal-dropdown {
+      max-height: 300px;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .seasonal-inner {
+      margin-top: 8px;
+      padding: 6px;
+
+      background: rgba(0,0,0,.24);
+      border: 1px solid rgba(197,160,81,.22);
+      border-radius: 14px;
+    }
+
+    .seasonal-option {
+      min-height: 49px;
+      padding: 0 12px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      color: #f5f2e9;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+
+      border-bottom: 1px solid rgba(255,255,255,.07);
+    }
+
+    .seasonal-option:last-child {
+      border-bottom: 0;
+    }
+
+    .seasonal-option span:last-child {
+      font-size: 20px;
+    }
+
+    /* =========================
+       SOCIAL
+       ========================= */
+
+    .social {
+      margin-top: 32px;
+      text-align: center;
+    }
+
+    .social-title {
+      display: block;
+      margin-bottom: 12px;
+
+      color: #8e968d;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      font-size: 10px;
+      font-weight: 800;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 10px;
+    }
+
+    .social-links a {
+      flex: 1;
+      padding: 13px 8px;
+
+      color: #efeee8;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 13px;
+
+      background: rgba(255,255,255,.025);
+    }
+
+    /* =========================
+       WIFI
+       ========================= */
+
+    .wifi {
+      margin-top: 18px;
+      padding: 17px;
+
+      text-align: center;
+
+      background: rgba(255,255,255,.02);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 15px;
+
+      color: #b3b7b0;
+      font-size: 12px;
+      line-height: 1.7;
+    }
+
+    .wifi-title {
+      margin-bottom: 4px;
+      color: #f1f0e9;
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .wifi strong {
+      color: #e8e7e0;
+    }
+
+    /* =========================
+       FOOTER
+       ========================= */
+
+    footer {
+      margin-top: 28px;
+      text-align: center;
+
+      color: #6e756d;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      font-size: 9px;
+    }
+
+    /* schermi molto piccoli */
+
+    @media (max-width: 350px) {
+      .page {
+        width: 94%;
+      }
+
+      h1 {
+        font-size: 28px;
+      }
+
+      .menu-btn {
+        min-height: 55px;
+        padding: 0 16px;
+        font-size: 16px;
+      }
+
+      .seasonal-marquee span {
+        font-size: 15px;
+      }
+    }
+
+    /* rispetto impostazione "riduci movimento" */
+
+    @media (prefers-reduced-motion: reduce) {
+      .seasonal-marquee {
+        animation-duration: 35s;
+      }
+    }
+
+  </style>
 </head>
-
 
 <body>
 
 <main class="page">
-
 
   <!-- TESTATA -->
 
@@ -390,9 +514,7 @@ footer {
       The Black Stuff Irish Pub
     </div>
 
-    <h1>
-      Digital Menu
-    </h1>
+    <h1>Digital Menu</h1>
 
     <p class="subtitle">
       Choose your language
@@ -401,59 +523,123 @@ footer {
   </section>
 
 
-
-  <!-- MENU PRINCIPALE -->
+  <!-- MENU -->
 
   <section class="menu-card">
 
-
-    <a
-      class="menu-btn"
-      href="menu-it.pdf">
-
+    <a class="menu-btn" href="menu-it.pdf">
       <span>Italiano</span>
       <span class="flag">🇮🇹</span>
-
     </a>
 
-
-    <a
-      class="menu-btn"
-      href="menu-en.pdf">
-
+    <a class="menu-btn" href="menu-en.pdf">
       <span>English</span>
       <span class="flag">🇬🇧</span>
-
     </a>
 
-
-    <a
-      class="menu-btn"
-      href="menu-de.pdf">
-
+    <a class="menu-btn" href="menu-de.pdf">
       <span>Deutsch</span>
       <span class="flag">🇩🇪</span>
-
     </a>
 
-
-    <a
-      class="menu-btn"
-      href="menu-es.pdf">
-
+    <a class="menu-btn" href="menu-es.pdf">
       <span>Español</span>
       <span class="flag">🇪🇸</span>
-
     </a>
 
+
+    <!-- DESSERT -->
+
+    <div class="dessert-wrap" id="dessertWrap">
+
+      <button
+        class="menu-btn dessert-btn"
+        id="dessertBtn"
+        type="button"
+        aria-expanded="false">
+
+        <span>Dessert</span>
+
+        <span class="dessert-right">
+
+          <span class="dessert-icon">🍰</span>
+
+          <span class="dessert-arrow">⌄</span>
+
+        </span>
+
+      </button>
+
+
+      <div class="dessert-dropdown">
+
+        <div class="dessert-inner">
+
+          <div class="dessert-option">
+
+            <span class="dessert-language">
+              <span class="small-flag">🇮🇹</span>
+              Italiano
+            </span>
+
+            <span class="coming-soon">
+              Coming soon
+            </span>
+
+          </div>
+
+
+          <div class="dessert-option">
+
+            <span class="dessert-language">
+              <span class="small-flag">🇬🇧</span>
+              English
+            </span>
+
+            <span class="coming-soon">
+              Coming soon
+            </span>
+
+          </div>
+
+
+          <div class="dessert-option">
+
+            <span class="dessert-language">
+              <span class="small-flag">🇩🇪</span>
+              Deutsch
+            </span>
+
+            <span class="coming-soon">
+              Coming soon
+            </span>
+
+          </div>
+
+
+          <div class="dessert-option">
+
+            <span class="dessert-language">
+              <span class="small-flag">🇪🇸</span>
+              Español
+            </span>
+
+            <span class="coming-soon">
+              Coming soon
+            </span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
 
 
     <!-- MENU STAGIONALE -->
 
-    <div
-      class="seasonal-wrap"
-      id="seasonalWrap">
-
+    <div class="seasonal-wrap" id="seasonalWrap">
 
       <button
         class="menu-btn seasonal-btn"
@@ -461,9 +647,7 @@ footer {
         type="button"
         aria-expanded="false">
 
-
         <div class="seasonal-label-window">
-
 
           <div class="seasonal-marquee">
 
@@ -477,25 +661,18 @@ footer {
 
           </div>
 
-
         </div>
-
 
         <span class="seasonal-arrow">
           ⌄
         </span>
 
-
       </button>
 
 
-
-      <!-- TENDINA LINGUE -->
-
       <div class="seasonal-dropdown">
 
-        <div class="dropdown-inner">
-
+        <div class="seasonal-inner">
 
           <a
             class="seasonal-option"
@@ -506,7 +683,6 @@ footer {
 
           </a>
 
-
           <a
             class="seasonal-option"
             href="stagionale-en.pdf">
@@ -515,7 +691,6 @@ footer {
             <span>🇬🇧</span>
 
           </a>
-
 
           <a
             class="seasonal-option"
@@ -526,7 +701,6 @@ footer {
 
           </a>
 
-
           <a
             class="seasonal-option"
             href="stagionale-es.pdf">
@@ -536,50 +710,42 @@ footer {
 
           </a>
 
-
         </div>
 
       </div>
 
-
     </div>
 
   </section>
-
 
 
   <!-- SOCIAL -->
 
   <section class="social">
 
-    <span>
+    <span class="social-title">
       Follow us
     </span>
 
     <div class="social-links">
 
       <a
-        href="https://www.instagram.com/theblackstuffud"
+        href="https://www.instagram.com/theblackstuffud?igsh=MW9tZWViMXBvdDFxNA%3D%3D&utm_source=qr"
         target="_blank"
         rel="noopener">
-
         Instagram
-
       </a>
 
       <a
         href="https://www.facebook.com/TheBlackStuffUdine"
         target="_blank"
         rel="noopener">
-
         Facebook
-
       </a>
 
     </div>
 
   </section>
-
 
 
   <!-- WIFI -->
@@ -591,55 +757,93 @@ footer {
     </div>
 
     <div>
-      Rete:
-      <strong>TheBlackStuff</strong>
+      Rete: <strong>TheBlackStuff</strong>
     </div>
 
     <div>
-      Password:
-      <strong>theblackstuff</strong>
+      Password: <strong>theblackstuff</strong>
     </div>
 
   </section>
-
 
 
   <footer>
     The Black Stuff Irish Pub · Udine
   </footer>
 
-
 </main>
 
 
 <script>
 
-/* APERTURA E CHIUSURA TENDINA */
+  /* DESSERT */
 
-const seasonalWrap =
-  document.getElementById("seasonalWrap");
+  const dessertWrap =
+    document.getElementById("dessertWrap");
 
-const seasonalBtn =
-  document.getElementById("seasonalBtn");
+  const dessertBtn =
+    document.getElementById("dessertBtn");
+
+  dessertBtn.addEventListener("click", function () {
+
+    const isOpen =
+      dessertWrap.classList.toggle("open");
+
+    dessertBtn.setAttribute(
+      "aria-expanded",
+      isOpen ? "true" : "false"
+    );
+
+    /* se apro Dessert, chiudo lo stagionale */
+
+    if (isOpen) {
+
+      seasonalWrap.classList.remove("open");
+
+      seasonalBtn.setAttribute(
+        "aria-expanded",
+        "false"
+      );
+
+    }
+
+  });
 
 
-seasonalBtn.addEventListener(
-  "click",
-  function () {
+  /* MENU STAGIONALE */
 
-    const open =
+  const seasonalWrap =
+    document.getElementById("seasonalWrap");
+
+  const seasonalBtn =
+    document.getElementById("seasonalBtn");
+
+  seasonalBtn.addEventListener("click", function () {
+
+    const isOpen =
       seasonalWrap.classList.toggle("open");
 
     seasonalBtn.setAttribute(
       "aria-expanded",
-      open ? "true" : "false"
+      isOpen ? "true" : "false"
     );
 
-  }
-);
+    /* se apro lo stagionale, chiudo Dessert */
+
+    if (isOpen) {
+
+      dessertWrap.classList.remove("open");
+
+      dessertBtn.setAttribute(
+        "aria-expanded",
+        "false"
+      );
+
+    }
+
+  });
 
 </script>
-
 
 </body>
 </html>
