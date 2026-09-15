@@ -54,13 +54,10 @@ body {
 
 body::before {
   content: "";
-
   position: fixed;
   inset: 0;
-
   pointer-events: none;
   z-index: 0;
-
   opacity: .16;
 
   background-image:
@@ -78,15 +75,10 @@ body::before {
     45px 70px;
 }
 
-
-/* LEGGERA OMBRA AI BORDI */
-
 body::after {
   content: "";
-
   position: fixed;
   inset: 0;
-
   pointer-events: none;
   z-index: 0;
 
@@ -101,7 +93,8 @@ body::after {
 
 
 button,
-a {
+a,
+input {
   font: inherit;
   -webkit-tap-highlight-color: transparent;
 }
@@ -132,29 +125,23 @@ a {
 
 .logo {
   display: block;
-
   width: 142px;
   max-width: 48%;
   height: auto;
-
   margin: 0 auto 18px;
 }
 
 .kicker {
   color: #d5dbd3;
-
   text-transform: uppercase;
   letter-spacing: 3px;
-
   font-size: 11px;
   font-weight: 800;
 }
 
 h1 {
   margin: 8px 0 4px;
-
   color: #fffdf5;
-
   font-size: 31px;
   line-height: 1.08;
   letter-spacing: -.8px;
@@ -162,16 +149,14 @@ h1 {
 
 .subtitle {
   margin: 0;
-
   color: #adb8af;
-
   font-size: 14px;
   font-weight: 500;
 }
 
 
 /* =========================
-   MENU PRINCIPALE
+   PULSANTI GENERALI
    ========================= */
 
 .menu-card {
@@ -188,15 +173,13 @@ h1 {
 .menu-btn {
   width: 100%;
   min-height: 58px;
-
   padding: 0 20px;
 
   display: flex;
   align-items: center;
   justify-content: space-between;
 
-  background:
-    rgba(6, 20, 12, .72);
+  background: rgba(6, 20, 12, .72);
 
   border:
     1px solid rgba(220,235,223,.17);
@@ -207,7 +190,6 @@ h1 {
   -webkit-backdrop-filter: blur(7px);
 
   color: #fffdf5;
-
   text-decoration: none;
 
   font-size: 17px;
@@ -224,9 +206,7 @@ h1 {
 
 .menu-btn:active {
   transform: scale(.985);
-
-  background:
-    rgba(20, 53, 33, .72);
+  background: rgba(20, 53, 33, .72);
 }
 
 .flag {
@@ -246,10 +226,8 @@ h1 {
 
 .dessert-btn {
   cursor: pointer;
-
   appearance: none;
   -webkit-appearance: none;
-
   text-align: left;
 }
 
@@ -261,42 +239,36 @@ h1 {
 
 .dessert-icon {
   font-size: 21px;
-  line-height: 1;
 }
 
-.dessert-arrow {
+.dessert-arrow,
+.allergen-arrow {
   color: #aeb9b0;
-
   font-size: 20px;
-  line-height: 1;
-
   transition: transform .35s ease;
 }
 
-.dessert-wrap.open .dessert-arrow {
+.dessert-wrap.open .dessert-arrow,
+.allergen-wrap.open .allergen-arrow {
   transform: rotate(180deg);
 }
 
-
-.dessert-dropdown {
+.dessert-dropdown,
+.allergen-dropdown {
   max-height: 0;
-
   opacity: 0;
   overflow: hidden;
-
   transform: translateY(-7px);
 
   transition:
-    max-height .45s ease,
+    max-height .55s ease,
     opacity .28s ease,
     transform .35s ease;
 }
 
 .dessert-wrap.open .dessert-dropdown {
   max-height: 300px;
-
   opacity: 1;
-
   transform: translateY(0);
 }
 
@@ -304,8 +276,7 @@ h1 {
   margin-top: 8px;
   padding: 6px;
 
-  background:
-    rgba(3,16,9,.84);
+  background: rgba(3,16,9,.84);
 
   border:
     1px solid rgba(255,255,255,.10);
@@ -318,14 +289,11 @@ h1 {
 
 .dessert-option {
   min-height: 49px;
-
   padding: 0 12px;
 
   display: flex;
   align-items: center;
   justify-content: space-between;
-
-  gap: 12px;
 
   color: #f5f2e9;
   text-decoration: none;
@@ -335,21 +303,10 @@ h1 {
 
   border-bottom:
     1px solid rgba(255,255,255,.07);
-
-  transition:
-    background .2s ease,
-    transform .15s ease;
 }
 
 .dessert-option:last-child {
   border-bottom: 0;
-}
-
-.dessert-option:active {
-  background:
-    rgba(255,255,255,.05);
-
-  transform: scale(.99);
 }
 
 .dessert-option span:last-child {
@@ -368,7 +325,6 @@ h1 {
 
 .seasonal-btn {
   cursor: pointer;
-
   appearance: none;
   -webkit-appearance: none;
 
@@ -390,16 +346,11 @@ h1 {
     inset 0 0 22px rgba(190,151,70,.035);
 }
 
-
 .seasonal-label-window {
   position: relative;
-
   flex: 1;
-
   height: 26px;
-
   overflow: hidden;
-
   margin-right: 11px;
 
   -webkit-mask-image:
@@ -421,26 +372,17 @@ h1 {
     );
 }
 
-
-/* TICKER CONTINUO */
-
 .seasonal-marquee {
   position: absolute;
-
   left: 0;
   top: 1px;
 
   display: flex;
-
   width: max-content;
-
   white-space: nowrap;
 
   animation:
-    seasonalScroll
-    18s
-    linear
-    infinite;
+    seasonalScroll 18s linear infinite;
 
   will-change: transform;
 }
@@ -448,15 +390,12 @@ h1 {
 .seasonal-marquee span {
   display: block;
   flex-shrink: 0;
-
   padding-right: 0;
-
   font-size: 16px;
   font-weight: 700;
 }
 
 @keyframes seasonalScroll {
-
   from {
     transform: translateX(0);
   }
@@ -464,18 +403,12 @@ h1 {
   to {
     transform: translateX(-50%);
   }
-
 }
-
 
 .seasonal-arrow {
   flex-shrink: 0;
-
   color: #d2aa52;
-
   font-size: 20px;
-  line-height: 1;
-
   transition: transform .35s ease;
 }
 
@@ -483,13 +416,10 @@ h1 {
   transform: rotate(180deg);
 }
 
-
 .seasonal-dropdown {
   max-height: 0;
-
   opacity: 0;
   overflow: hidden;
-
   transform: translateY(-7px);
 
   transition:
@@ -500,9 +430,7 @@ h1 {
 
 .seasonal-wrap.open .seasonal-dropdown {
   max-height: 300px;
-
   opacity: 1;
-
   transform: translateY(0);
 }
 
@@ -524,7 +452,6 @@ h1 {
 
 .seasonal-option {
   min-height: 49px;
-
   padding: 0 12px;
 
   display: flex;
@@ -532,7 +459,6 @@ h1 {
   justify-content: space-between;
 
   color: #f5f2e9;
-
   text-decoration: none;
 
   font-size: 14px;
@@ -552,6 +478,259 @@ h1 {
 
 
 /* =========================
+   ALLERGENI
+   ========================= */
+
+.allergen-wrap {
+  width: 100%;
+
+  /* SPAZIO NETTO DOPO IL BANNER */
+  margin-top: 28px;
+}
+
+.allergen-btn {
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.allergen-right {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+
+.allergen-icon {
+  font-size: 20px;
+}
+
+.allergen-wrap.open .allergen-dropdown {
+  max-height: 1200px;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.allergen-panel {
+  margin-top: 9px;
+  padding: 15px;
+
+  background:
+    rgba(3,16,9,.88);
+
+  border:
+    1px solid rgba(220,235,223,.14);
+
+  border-radius: 16px;
+
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+
+/* AVVISO INIZIALE */
+
+.allergen-warning {
+  margin-bottom: 13px;
+  padding: 11px 12px;
+
+  color: #d5dbd3;
+
+  background:
+    rgba(181,145,62,.08);
+
+  border:
+    1px solid rgba(210,170,82,.20);
+
+  border-radius: 12px;
+
+  font-size: 11.5px;
+  line-height: 1.5;
+
+  transition:
+    padding .3s ease,
+    font-size .3s ease,
+    opacity .3s ease;
+}
+
+.allergen-warning.compact {
+  padding: 8px 10px;
+  font-size: 10.5px;
+  opacity: .78;
+}
+
+
+/* RICERCA */
+
+.search-shell {
+  position: relative;
+}
+
+.search-icon {
+  position: absolute;
+  left: 13px;
+  top: 50%;
+  transform: translateY(-50%);
+
+  pointer-events: none;
+
+  font-size: 15px;
+  opacity: .65;
+}
+
+.allergen-search {
+  width: 100%;
+  height: 48px;
+
+  padding:
+    0 40px 0 39px;
+
+  border:
+    1px solid rgba(255,255,255,.16);
+
+  border-radius: 13px;
+
+  outline: none;
+
+  color: #fffdf5;
+
+  background:
+    rgba(0,0,0,.22);
+
+  font-size: 14px;
+
+  transition:
+    border-color .2s ease,
+    background .2s ease,
+    box-shadow .2s ease;
+}
+
+.allergen-search::placeholder {
+  color: #839087;
+}
+
+.allergen-search:focus {
+  border-color:
+    rgba(113,178,133,.50);
+
+  background:
+    rgba(0,0,0,.31);
+
+  box-shadow:
+    0 0 0 3px rgba(72,132,91,.08);
+}
+
+.search-clear {
+  position: absolute;
+  right: 7px;
+  top: 50%;
+
+  transform:
+    translateY(-50%)
+    scale(.8);
+
+  width: 31px;
+  height: 31px;
+
+  border: 0;
+  border-radius: 50%;
+
+  color: #9eaaa1;
+  background: transparent;
+
+  cursor: pointer;
+
+  opacity: 0;
+  pointer-events: none;
+
+  transition:
+    opacity .2s ease,
+    transform .2s ease;
+}
+
+.search-clear.visible {
+  opacity: 1;
+  pointer-events: auto;
+
+  transform:
+    translateY(-50%)
+    scale(1);
+}
+
+
+/* RISULTATI */
+
+.allergen-results {
+  margin-top: 13px;
+}
+
+.result-heading {
+  margin-bottom: 8px;
+
+  color: #f4f1e7;
+
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.result-subheading {
+  margin-bottom: 11px;
+
+  color: #98a49b;
+
+  font-size: 10.5px;
+  line-height: 1.45;
+}
+
+.product-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.product-item {
+  padding: 10px 11px;
+
+  color: #e6e9e4;
+
+  background:
+    rgba(255,255,255,.035);
+
+  border:
+    1px solid rgba(255,255,255,.07);
+
+  border-radius: 10px;
+
+  font-size: 11.5px;
+  line-height: 1.4;
+}
+
+.no-specific-products,
+.no-search-result {
+  padding: 12px;
+
+  color: #c7cec8;
+
+  background:
+    rgba(255,255,255,.035);
+
+  border:
+    1px solid rgba(255,255,255,.08);
+
+  border-radius: 11px;
+
+  font-size: 11.5px;
+  line-height: 1.55;
+}
+
+.no-search-result strong {
+  display: block;
+  margin-bottom: 4px;
+  color: #f0eee7;
+  font-size: 12px;
+}
+
+
+/* =========================
    SOCIAL
    ========================= */
 
@@ -562,7 +741,6 @@ h1 {
 
 .social-title {
   display: block;
-
   margin-bottom: 12px;
 
   color: #929e94;
@@ -581,11 +759,9 @@ h1 {
 
 .social-links a {
   flex: 1;
-
   padding: 13px 8px;
 
   color: #efeee8;
-
   text-decoration: none;
 
   font-size: 13px;
@@ -598,9 +774,6 @@ h1 {
 
   background:
     rgba(4,18,10,.68);
-
-  backdrop-filter: blur(7px);
-  -webkit-backdrop-filter: blur(7px);
 }
 
 
@@ -610,9 +783,7 @@ h1 {
 
 .wifi {
   margin-top: 18px;
-
   padding: 17px;
-
   text-align: center;
 
   background:
@@ -623,9 +794,6 @@ h1 {
 
   border-radius: 15px;
 
-  backdrop-filter: blur(7px);
-  -webkit-backdrop-filter: blur(7px);
-
   color: #b6beb7;
 
   font-size: 12px;
@@ -634,9 +802,7 @@ h1 {
 
 .wifi-title {
   margin-bottom: 4px;
-
   color: #f1f0e9;
-
   font-size: 14px;
   font-weight: 800;
 }
@@ -652,7 +818,6 @@ h1 {
 
 footer {
   margin-top: 28px;
-
   text-align: center;
 
   color: #778078;
@@ -680,9 +845,7 @@ footer {
 
   .menu-btn {
     min-height: 55px;
-
     padding: 0 16px;
-
     font-size: 16px;
   }
 
@@ -691,7 +854,6 @@ footer {
   }
 
 }
-
 
 @media (prefers-reduced-motion: reduce) {
 
@@ -737,56 +899,32 @@ footer {
 
   <div class="languages">
 
-
-    <a
-      class="menu-btn"
-      href="menu-it.pdf">
-
+    <a class="menu-btn" href="menu-it.pdf">
       <span>Italiano</span>
       <span class="flag">🇮🇹</span>
-
     </a>
 
-
-    <a
-      class="menu-btn"
-      href="menu-en.pdf">
-
+    <a class="menu-btn" href="menu-en.pdf">
       <span>English</span>
       <span class="flag">🇬🇧</span>
-
     </a>
 
-
-    <a
-      class="menu-btn"
-      href="menu-de.pdf">
-
+    <a class="menu-btn" href="menu-de.pdf">
       <span>Deutsch</span>
       <span class="flag">🇩🇪</span>
-
     </a>
 
-
-    <a
-      class="menu-btn"
-      href="menu-es.pdf">
-
+    <a class="menu-btn" href="menu-es.pdf">
       <span>Español</span>
       <span class="flag">🇪🇸</span>
-
     </a>
-
 
   </div>
 
 
   <!-- DESSERT -->
 
-  <div
-    class="dessert-wrap"
-    id="dessertWrap">
-
+  <div class="dessert-wrap" id="dessertWrap">
 
     <button
       class="menu-btn dessert-btn"
@@ -794,22 +932,12 @@ footer {
       type="button"
       aria-expanded="false">
 
-
       <span>Dessert</span>
 
-
       <span class="dessert-right">
-
-        <span class="dessert-icon">
-          🍰
-        </span>
-
-        <span class="dessert-arrow">
-          ⌄
-        </span>
-
+        <span class="dessert-icon">🍰</span>
+        <span class="dessert-arrow">⌄</span>
       </span>
-
 
     </button>
 
@@ -818,46 +946,25 @@ footer {
 
       <div class="dessert-inner">
 
-
-        <a
-          class="dessert-option"
-          href="dessert-it.pdf">
-
+        <a class="dessert-option" href="dessert-it.pdf">
           <span>Italiano</span>
           <span>🇮🇹</span>
-
         </a>
 
-
-        <a
-          class="dessert-option"
-          href="dessert-en.pdf">
-
+        <a class="dessert-option" href="dessert-en.pdf">
           <span>English</span>
           <span>🇬🇧</span>
-
         </a>
 
-
-        <a
-          class="dessert-option"
-          href="dessert-de.pdf">
-
+        <a class="dessert-option" href="dessert-de.pdf">
           <span>Deutsch</span>
           <span>🇩🇪</span>
-
         </a>
 
-
-        <a
-          class="dessert-option"
-          href="dessert-es.pdf">
-
+        <a class="dessert-option" href="dessert-es.pdf">
           <span>Español</span>
           <span>🇪🇸</span>
-
         </a>
-
 
       </div>
 
@@ -868,10 +975,7 @@ footer {
 
   <!-- MENU STAGIONALE -->
 
-  <div
-    class="seasonal-wrap"
-    id="seasonalWrap">
-
+  <div class="seasonal-wrap" id="seasonalWrap">
 
     <button
       class="menu-btn seasonal-btn"
@@ -879,31 +983,25 @@ footer {
       type="button"
       aria-expanded="false">
 
-
       <div class="seasonal-label-window">
 
         <div class="seasonal-marquee">
-
 
           <span>
             🍂 Menu stagionale ❄️ Seasonal Menu 🌸 Saisonkarte ☀️ Menú de temporada&nbsp;
           </span>
 
-
           <span aria-hidden="true">
             🍂 Menu stagionale ❄️ Seasonal Menu 🌸 Saisonkarte ☀️ Menú de temporada&nbsp;
           </span>
-
 
         </div>
 
       </div>
 
-
       <span class="seasonal-arrow">
         ⌄
       </span>
-
 
     </button>
 
@@ -912,45 +1010,104 @@ footer {
 
       <div class="seasonal-inner">
 
-
-        <a
-          class="seasonal-option"
-          href="stagionale-it.pdf">
-
+        <a class="seasonal-option" href="stagionale-it.pdf">
           <span>Italiano</span>
           <span>🇮🇹</span>
-
         </a>
 
-
-        <a
-          class="seasonal-option"
-          href="stagionale-en.pdf">
-
+        <a class="seasonal-option" href="stagionale-en.pdf">
           <span>English</span>
           <span>🇬🇧</span>
-
         </a>
 
-
-        <a
-          class="seasonal-option"
-          href="stagionale-de.pdf">
-
+        <a class="seasonal-option" href="stagionale-de.pdf">
           <span>Deutsch</span>
           <span>🇩🇪</span>
-
         </a>
 
-
-        <a
-          class="seasonal-option"
-          href="stagionale-es.pdf">
-
+        <a class="seasonal-option" href="stagionale-es.pdf">
           <span>Español</span>
           <span>🇪🇸</span>
-
         </a>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================
+       RICERCA ALLERGENI
+       ========================= -->
+
+  <div class="allergen-wrap" id="allergenWrap">
+
+    <button
+      class="menu-btn allergen-btn"
+      id="allergenBtn"
+      type="button"
+      aria-expanded="false">
+
+      <span>Allergeni · Allergens</span>
+
+      <span class="allergen-right">
+        <span class="allergen-icon">🔎</span>
+        <span class="allergen-arrow">⌄</span>
+      </span>
+
+    </button>
+
+
+    <div class="allergen-dropdown">
+
+      <div class="allergen-panel">
+
+
+        <div
+          class="allergen-warning"
+          id="allergenWarning">
+
+          ⚠️ Non possiamo garantire la totale assenza di
+          contaminazioni crociate. In caso di allergie o
+          intolleranze, informa sempre il personale prima
+          di ordinare.
+
+        </div>
+
+
+        <div class="search-shell">
+
+          <span class="search-icon">
+            🔍
+          </span>
+
+          <input
+            id="allergenSearch"
+            class="allergen-search"
+            type="search"
+            autocomplete="off"
+            autocapitalize="none"
+            spellcheck="false"
+            placeholder="Cerca un allergene / Search an allergen...">
+
+          <button
+            id="searchClear"
+            class="search-clear"
+            type="button"
+            aria-label="Clear search">
+
+            ✕
+
+          </button>
+
+        </div>
+
+
+        <div
+          class="allergen-results"
+          id="allergenResults">
+        </div>
 
 
       </div>
@@ -969,29 +1126,21 @@ footer {
     Follow us
   </span>
 
-
   <div class="social-links">
-
 
     <a
       href="https://www.instagram.com/theblackstuffud?igsh=MW9tZWViMXBvdDFxNA%3D%3D&utm_source=qr"
       target="_blank"
       rel="noopener">
-
       Instagram
-
     </a>
-
 
     <a
       href="https://www.facebook.com/TheBlackStuffUdine"
       target="_blank"
       rel="noopener">
-
       Facebook
-
     </a>
-
 
   </div>
 
@@ -1000,23 +1149,19 @@ footer {
 
 <section class="wifi">
 
-
   <div class="wifi-title">
     📶 Free Wi-Fi
   </div>
-
 
   <div>
     Rete:
     <strong>TheBlackStuff</strong>
   </div>
 
-
   <div>
     Password:
     <strong>theblackstuff</strong>
   </div>
-
 
 </section>
 
@@ -1031,6 +1176,10 @@ footer {
 
 <script>
 
+/* =========================
+   ELEMENTI MENU
+   ========================= */
+
 const dessertWrap =
   document.getElementById("dessertWrap");
 
@@ -1043,32 +1192,1324 @@ const seasonalWrap =
 const seasonalBtn =
   document.getElementById("seasonalBtn");
 
+const allergenWrap =
+  document.getElementById("allergenWrap");
 
-dessertBtn.addEventListener(
-  "click",
+const allergenBtn =
+  document.getElementById("allergenBtn");
+
+const allergenSearch =
+  document.getElementById("allergenSearch");
+
+const allergenWarning =
+  document.getElementById("allergenWarning");
+
+const allergenResults =
+  document.getElementById("allergenResults");
+
+const searchClear =
+  document.getElementById("searchClear");
+
+
+/* =========================
+   APERTURA SEZIONI
+   ========================= */
+
+function closeAllExcept(section) {
+
+  if (section !== "dessert") {
+    dessertWrap.classList.remove("open");
+    dessertBtn.setAttribute("aria-expanded", "false");
+  }
+
+  if (section !== "seasonal") {
+    seasonalWrap.classList.remove("open");
+    seasonalBtn.setAttribute("aria-expanded", "false");
+  }
+
+  if (section !== "allergen") {
+    allergenWrap.classList.remove("open");
+    allergenBtn.setAttribute("aria-expanded", "false");
+  }
+
+}
+
+
+dessertBtn.addEventListener("click", function () {
+
+  const isOpen =
+    dessertWrap.classList.toggle("open");
+
+  dessertBtn.setAttribute(
+    "aria-expanded",
+    isOpen ? "true" : "false"
+  );
+
+  if (isOpen) {
+    closeAllExcept("dessert");
+  }
+
+});
+
+
+seasonalBtn.addEventListener("click", function () {
+
+  const isOpen =
+    seasonalWrap.classList.toggle("open");
+
+  seasonalBtn.setAttribute(
+    "aria-expanded",
+    isOpen ? "true" : "false"
+  );
+
+  if (isOpen) {
+    closeAllExcept("seasonal");
+  }
+
+});
+
+
+allergenBtn.addEventListener("click", function () {
+
+  const isOpen =
+    allergenWrap.classList.toggle("open");
+
+  allergenBtn.setAttribute(
+    "aria-expanded",
+    isOpen ? "true" : "false"
+  );
+
+  if (isOpen) {
+
+    closeAllExcept("allergen");
+
+    setTimeout(function () {
+      allergenSearch.focus();
+    }, 420);
+
+  }
+
+});
+
+
+/* =========================
+   DATABASE ALLERGENI
+
+   I prodotti riportati qui
+   derivano dalla tabella allergeni
+   presente nei menu.
+   ========================= */
+
+const allergens = {
+
+
+  gluten: {
+
+    names: {
+      it: "Cereali contenenti glutine",
+      en: "Cereals containing gluten",
+      de: "Glutenhaltiges Getreide",
+      es: "Cereales con gluten"
+    },
+
+    aliases: {
+
+      it: [
+        "glutine",
+        "cereali",
+        "cereali e derivati"
+      ],
+
+      en: [
+        "gluten",
+        "cereals",
+        "cereals containing gluten"
+      ],
+
+      de: [
+        "gluten",
+        "getreide",
+        "glutenhaltiges getreide"
+      ],
+
+      es: [
+        "gluten",
+        "cereales",
+        "cereales con gluten"
+      ]
+
+    },
+
+    products: {
+
+      it: [
+        "Tutti gli hamburger",
+        "Tutti i sandwich",
+        "Tutte le pizze",
+        "Tutti gli hot dog",
+        "Alette di pollo",
+        "Patate Black Pepper",
+        "Verdure pastellate",
+        "Anelli di cipolla",
+        "Mozzarelline impanate",
+        "Olive all’ascolana",
+        "Jalapeños",
+        "Nuggets",
+        "Tutte le birre, fatta eccezione per quella senza glutine"
+      ],
+
+      en: [
+        "All burgers",
+        "All sandwiches",
+        "All pizzas",
+        "All hot dogs",
+        "Chicken wings",
+        "Fries",
+        "Battered vegetables",
+        "Onion rings",
+        "Breaded mozzarella bites",
+        "Stuffed olives (ascolane)",
+        "Jalapeños",
+        "Chicken nuggets",
+        "All beers, except gluten-free beer"
+      ],
+
+      de: [
+        "Alle Burger",
+        "Alle Sandwiches",
+        "Alle Pizzen",
+        "Alle Hot Dogs",
+        "Chicken Wings",
+        "Pommes Frites",
+        "Gemüse im Backteig",
+        "Zwiebelringe",
+        "Panierte Mozzarella-Bällchen",
+        "Gefüllte Oliven (Ascolane)",
+        "Jalapeños",
+        "Chicken Nuggets",
+        "Alle Biere, außer glutenfreiem Bier"
+      ],
+
+      es: [
+        "Todas las hamburguesas",
+        "Todos los sándwiches",
+        "Todas las pizzas",
+        "Todos los hot dogs",
+        "Alitas de pollo",
+        "Patatas Black Pepper",
+        "Verduras rebozadas",
+        "Aros de cebolla",
+        "Bolitas de mozzarella empanadas",
+        "Aceitunas rellenas estilo Ascoli",
+        "Jalapeños",
+        "Nuggets de pollo",
+        "Todas las cervezas, excepto la cerveza sin gluten"
+      ]
+
+    }
+
+  },
+
+
+  crustaceans: {
+
+    names: {
+      it: "Crostacei",
+      en: "Crustaceans",
+      de: "Krebstiere",
+      es: "Crustáceos"
+    },
+
+    aliases: {
+      it: ["crostacei", "crostaceo"],
+      en: ["crustaceans", "crustacean"],
+      de: ["krebstiere", "krebstier"],
+      es: ["crustaceos", "crustaceo"]
+    },
+
+    products: {
+      it: [],
+      en: [],
+      de: [],
+      es: []
+    }
+
+  },
+
+
+  eggs: {
+
+    names: {
+      it: "Uova",
+      en: "Eggs",
+      de: "Eier",
+      es: "Huevos"
+    },
+
+    aliases: {
+      it: ["uova", "uovo"],
+      en: ["eggs", "egg"],
+      de: ["eier", "ei"],
+      es: ["huevos", "huevo"]
+    },
+
+    products: {
+
+      it: [
+        "Eggburger",
+        "Connemara",
+        "Dublin",
+        "Irish",
+        "Salzburger",
+        "Diablo",
+        "Toast",
+        "Toast farcito"
+      ],
+
+      en: [
+        "Egg Burger",
+        "Connemara",
+        "Dublin",
+        "Irish Ciabatta",
+        "Salzburger",
+        "Diablo Ciabatta",
+        "Classic Toast",
+        "Stuffed Toast"
+      ],
+
+      de: [
+        "Eggburger",
+        "Connemara",
+        "Dublin",
+        "Irish Ciabatta",
+        "Salzburger",
+        "Diablo",
+        "Toast",
+        "Gefüllter Toast"
+      ],
+
+      es: [
+        "Eggburger",
+        "Connemara",
+        "Dublin",
+        "Irish",
+        "Salzburger",
+        "Diablo",
+        "Toast",
+        "Toast especial"
+      ]
+
+    }
+
+  },
+
+
+  fish: {
+
+    names: {
+      it: "Pesce",
+      en: "Fish",
+      de: "Fisch",
+      es: "Pescado"
+    },
+
+    aliases: {
+      it: ["pesce"],
+      en: ["fish"],
+      de: ["fisch"],
+      es: ["pescado"]
+    },
+
+    products: {
+      it: [],
+      en: [],
+      de: [],
+      es: []
+    }
+
+  },
+
+
+  peanuts: {
+
+    names: {
+      it: "Arachidi",
+      en: "Peanuts",
+      de: "Erdnüsse",
+      es: "Cacahuetes"
+    },
+
+    aliases: {
+      it: ["arachidi", "arachide"],
+      en: ["peanuts", "peanut"],
+      de: ["erdnusse", "erdnüsse", "erdnuss"],
+      es: ["cacahuetes", "cacahuete"]
+    },
+
+    products: {
+      it: [],
+      en: [],
+      de: [],
+      es: []
+    }
+
+  },
+
+
+  soy: {
+
+    names: {
+      it: "Soia",
+      en: "Soy",
+      de: "Soja",
+      es: "Soja"
+    },
+
+    aliases: {
+      it: ["soia"],
+      en: ["soy", "soya"],
+      de: ["soja"],
+      es: ["soja"]
+    },
+
+    products: {
+
+      it: [
+        "Veggyburger",
+        "Olive all’ascolana"
+      ],
+
+      en: [
+        "Veggy Burger",
+        "Stuffed olives (ascolane)"
+      ],
+
+      de: [
+        "Veggyburger",
+        "Gefüllte Oliven (Ascolane)"
+      ],
+
+      es: [
+        "Veggyburger",
+        "Aceitunas rellenas estilo Ascoli"
+      ]
+
+    }
+
+  },
+
+
+  milk: {
+
+    names: {
+      it: "Latte",
+      en: "Milk",
+      de: "Milch",
+      es: "Leche"
+    },
+
+    aliases: {
+      it: ["latte", "latticini"],
+      en: ["milk", "dairy"],
+      de: ["milch", "milchprodukte"],
+      es: ["leche", "lacteos"]
+    },
+
+    products: {
+
+      it: [
+        "Pane per hot dog",
+        "Pizze",
+        "Crocchette di patate",
+        "Verdure pastellate",
+        "Mozzarelline impanate",
+        "Jalapeños",
+        "Olive all’ascolana",
+        "Diablo",
+        "Connemara",
+        "Irish",
+        "Dublin"
+      ],
+
+      en: [
+        "Hot dog bun",
+        "Pizzas",
+        "Potato croquettes",
+        "Battered vegetables",
+        "Breaded mozzarella bites",
+        "Jalapeños",
+        "Stuffed olives (ascolane)",
+        "Diablo Ciabatta",
+        "Connemara",
+        "Irish Ciabatta",
+        "Dublin Ciabatta"
+      ],
+
+      de: [
+        "Hot Dog Bun",
+        "Pizzen",
+        "Kartoffelkroketten",
+        "Gemüse im Backteig",
+        "Panierte Mozzarella-Bällchen",
+        "Jalapeños",
+        "Gefüllte Oliven (Ascolane)",
+        "Diablo",
+        "Connemara",
+        "Irish Ciabatta",
+        "Dublin Ciabatta"
+      ],
+
+      es: [
+        "Pan de hot dog",
+        "Pizzas",
+        "Croquetas de patata",
+        "Verduras rebozadas",
+        "Bolitas de mozzarella empanadas",
+        "Jalapeños",
+        "Aceitunas rellenas estilo Ascoli",
+        "Diablo",
+        "Connemara",
+        "Irish",
+        "Dublin"
+      ]
+
+    }
+
+  },
+
+
+  nuts: {
+
+    names: {
+      it: "Frutta a guscio",
+      en: "Nuts",
+      de: "Schalenfrüchte",
+      es: "Frutos de cáscara"
+    },
+
+    aliases: {
+
+      it: [
+        "frutta a guscio",
+        "frutta secca"
+      ],
+
+      en: [
+        "nuts",
+        "tree nuts"
+      ],
+
+      de: [
+        "schalenfruchte",
+        "schalenfrüchte",
+        "nusse",
+        "nüsse"
+      ],
+
+      es: [
+        "frutos de cascara",
+        "frutos secos"
+      ]
+
+    },
+
+    products: {
+
+      it: [
+        "Diablo",
+        "Dublin",
+        "Connemara",
+        "Irish"
+      ],
+
+      en: [
+        "Diablo Ciabatta",
+        "Dublin Ciabatta",
+        "Connemara",
+        "Irish Ciabatta"
+      ],
+
+      de: [
+        "Diablo",
+        "Dublin",
+        "Connemara",
+        "Irish Ciabatta"
+      ],
+
+      es: [
+        "Diablo",
+        "Dublin",
+        "Connemara",
+        "Irish"
+      ]
+
+    }
+
+  },
+
+
+  celery: {
+
+    names: {
+      it: "Sedano",
+      en: "Celery",
+      de: "Sellerie",
+      es: "Apio"
+    },
+
+    aliases: {
+      it: ["sedano"],
+      en: ["celery"],
+      de: ["sellerie"],
+      es: ["apio"]
+    },
+
+    products: {
+
+      it: [
+        "Olive all’ascolana",
+        "Alette di pollo"
+      ],
+
+      en: [
+        "Stuffed olives (ascolane)",
+        "Chicken wings"
+      ],
+
+      de: [
+        "Gefüllte Oliven (Ascolane)",
+        "Chicken Wings"
+      ],
+
+      es: [
+        "Aceitunas rellenas estilo Ascoli",
+        "Alitas de pollo"
+      ]
+
+    }
+
+  },
+
+
+  mustard: {
+
+    names: {
+      it: "Senape",
+      en: "Mustard",
+      de: "Senf",
+      es: "Mostaza"
+    },
+
+    aliases: {
+      it: ["senape"],
+      en: ["mustard"],
+      de: ["senf"],
+      es: ["mostaza"]
+    },
+
+    products: {
+
+      it: [
+        "Coney Dog",
+        "Frisburger"
+      ],
+
+      en: [
+        "Coney Dog",
+        "Fries Burger"
+      ],
+
+      de: [
+        "Coney Dog",
+        "Frisburger"
+      ],
+
+      es: [
+        "Coney Dog",
+        "Frisburger"
+      ]
+
+    }
+
+  },
+
+
+  sesame: {
+
+    names: {
+      it: "Sesamo",
+      en: "Sesame",
+      de: "Sesam",
+      es: "Sésamo"
+    },
+
+    aliases: {
+      it: ["sesamo"],
+      en: ["sesame"],
+      de: ["sesam"],
+      es: ["sesamo"]
+    },
+
+    products: {
+
+      it: [
+        "Tutti gli hamburger, a parte l’Hamburger Light"
+      ],
+
+      en: [
+        "All burgers, except the Light Burger"
+      ],
+
+      de: [
+        "Alle Burger, außer Light Burger"
+      ],
+
+      es: [
+        "Todas las hamburguesas, excepto la Hamburguesa Light"
+      ]
+
+    }
+
+  },
+
+
+  sulphites: {
+
+    names: {
+      it: "Anidride solforosa e solfiti",
+      en: "Sulphur dioxide and sulphites",
+      de: "Schwefeldioxid und Sulfite",
+      es: "Dióxido de azufre y sulfitos"
+    },
+
+    aliases: {
+
+      it: [
+        "solfiti",
+        "anidride solforosa"
+      ],
+
+      en: [
+        "sulphites",
+        "sulfites",
+        "sulphur dioxide",
+        "sulfur dioxide"
+      ],
+
+      de: [
+        "sulfite",
+        "schwefeldioxid"
+      ],
+
+      es: [
+        "sulfitos",
+        "dioxido de azufre"
+      ]
+
+    },
+
+    products: {
+      it: [],
+      en: [],
+      de: [],
+      es: []
+    }
+
+  },
+
+
+  lupin: {
+
+    names: {
+      it: "Lupini",
+      en: "Lupin",
+      de: "Lupinen",
+      es: "Altramuces"
+    },
+
+    aliases: {
+      it: ["lupini", "lupino"],
+      en: ["lupin", "lupins"],
+      de: ["lupinen", "lupine"],
+      es: ["altramuces", "altramuz"]
+    },
+
+    products: {
+      it: [],
+      en: [],
+      de: [],
+      es: []
+    }
+
+  },
+
+
+  molluscs: {
+
+    names: {
+      it: "Molluschi",
+      en: "Molluscs",
+      de: "Weich- und Schalentiere",
+      es: "Moluscos"
+    },
+
+    aliases: {
+
+      it: [
+        "molluschi",
+        "mollusco"
+      ],
+
+      en: [
+        "molluscs",
+        "mollusks",
+        "mollusc",
+        "mollusk"
+      ],
+
+      de: [
+        "weichtiere",
+        "schalentiere",
+        "weich und schalentiere"
+      ],
+
+      es: [
+        "moluscos",
+        "molusco"
+      ]
+
+    },
+
+    products: {
+      it: [],
+      en: [],
+      de: [],
+      es: []
+    }
+
+  }
+
+};
+
+
+/* =========================
+   TESTI INTERFACCIA
+   ========================= */
+
+const ui = {
+
+  it: {
+
+    warning:
+      "⚠️ Non possiamo garantire la totale assenza di contaminazioni crociate. In caso di allergie o intolleranze, informa sempre il personale prima di ordinare.",
+
+    compactWarning:
+      "⚠️ Possibili contaminazioni crociate · verifica sempre con il personale.",
+
+    contains:
+      "Prodotti indicati come contenenti",
+
+    source:
+      "Risultati basati sulla tabella allergeni del menu.",
+
+    noneForAllergen:
+      "Nella tabella allergeni attuale non sono indicati prodotti specifici per questo allergene. Per sicurezza, chiedi sempre conferma al personale.",
+
+    unknownTitle:
+      "Non trovi quello che stai cercando?",
+
+    unknown:
+      "Per allergie o intolleranze particolari, rivolgiti al personale. Verificheremo al momento ingredienti e possibili allergeni dei prodotti."
+
+  },
+
+
+  en: {
+
+    warning:
+      "⚠️ We cannot guarantee the complete absence of cross-contamination. If you have allergies or intolerances, always inform our staff before ordering.",
+
+    compactWarning:
+      "⚠️ Cross-contamination may occur · always check with our staff.",
+
+    contains:
+      "Products listed as containing",
+
+    source:
+      "Results are based on the allergen information in our menu.",
+
+    noneForAllergen:
+      "The current allergen table does not list specific products for this allergen. For your safety, please always check with our staff.",
+
+    unknownTitle:
+      "Can't find what you're looking for?",
+
+    unknown:
+      "For specific allergies or intolerances, please speak to our staff. We will check the ingredients and possible allergens of the products at the time."
+
+  },
+
+
+  de: {
+
+    warning:
+      "⚠️ Eine vollständige Vermeidung von Kreuzkontaminationen kann nicht garantiert werden. Bitte informieren Sie unser Personal vor der Bestellung über Allergien oder Unverträglichkeiten.",
+
+    compactWarning:
+      "⚠️ Kreuzkontaminationen sind möglich · bitte immer beim Personal nachfragen.",
+
+    contains:
+      "Als allergenhaltig aufgeführte Produkte",
+
+    source:
+      "Die Ergebnisse basieren auf den Allergenangaben unserer Speisekarte.",
+
+    noneForAllergen:
+      "In der aktuellen Allergentabelle sind für dieses Allergen keine bestimmten Produkte aufgeführt. Bitte fragen Sie zur Sicherheit immer unser Personal.",
+
+    unknownTitle:
+      "Nicht gefunden, wonach Sie suchen?",
+
+    unknown:
+      "Bei besonderen Allergien oder Unverträglichkeiten wenden Sie sich bitte an unser Personal. Wir prüfen die Zutaten und möglichen Allergene der Produkte direkt vor Ort."
+
+  },
+
+
+  es: {
+
+    warning:
+      "⚠️ No podemos garantizar la ausencia total de contaminación cruzada. En caso de alergias o intolerancias, informa siempre al personal antes de pedir.",
+
+    compactWarning:
+      "⚠️ Puede producirse contaminación cruzada · consulta siempre con el personal.",
+
+    contains:
+      "Productos indicados como que contienen",
+
+    source:
+      "Los resultados se basan en la información sobre alérgenos del menú.",
+
+    noneForAllergen:
+      "La tabla actual de alérgenos no indica productos específicos para este alérgeno. Por seguridad, consulta siempre con el personal.",
+
+    unknownTitle:
+      "¿No encuentras lo que buscas?",
+
+    unknown:
+      "Para alergias o intolerancias específicas, consulta con el personal. Comprobaremos en el momento los ingredientes y los posibles alérgenos de los productos."
+
+  }
+
+};
+
+
+/* =========================
+   NORMALIZZAZIONE TESTO
+   ========================= */
+
+function normalizeText(text) {
+
+  return text
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .trim();
+
+}
+
+
+/* =========================
+   LINGUA DEL BROWSER
+   ========================= */
+
+function browserLanguage() {
+
+  const language =
+    (navigator.language || "it")
+      .toLowerCase();
+
+  if (language.startsWith("de")) {
+    return "de";
+  }
+
+  if (language.startsWith("es")) {
+    return "es";
+  }
+
+  if (language.startsWith("en")) {
+    return "en";
+  }
+
+  return "it";
+
+}
+
+
+/* =========================
+   TROVA ALLERGENE + LINGUA
+   ========================= */
+
+function findAllergen(query) {
+
+  const normalized =
+    normalizeText(query);
+
+  if (!normalized) {
+    return null;
+  }
+
+  const matches = [];
+
+
+  Object.entries(allergens)
+    .forEach(function ([key, allergen]) {
+
+      Object.entries(allergen.aliases)
+        .forEach(function ([lang, aliases]) {
+
+          aliases.forEach(function (alias) {
+
+            const normalizedAlias =
+              normalizeText(alias);
+
+            if (
+              normalized === normalizedAlias ||
+              normalizedAlias.startsWith(normalized) ||
+              normalized.startsWith(normalizedAlias)
+            ) {
+
+              matches.push({
+                key: key,
+                lang: lang,
+                allergen: allergen,
+                aliasLength: normalizedAlias.length
+              });
+
+            }
+
+          });
+
+        });
+
+    });
+
+
+  if (!matches.length) {
+    return null;
+  }
+
+
+  /* Se la parola è identica in più lingue,
+     preferiamo la lingua del browser */
+
+  const preferredLanguage =
+    browserLanguage();
+
+  const browserMatch =
+    matches.find(function (match) {
+      return match.lang === preferredLanguage;
+    });
+
+  if (browserMatch) {
+    return browserMatch;
+  }
+
+
+  /* Altrimenti prendiamo la corrispondenza
+     più precisa */
+
+  matches.sort(function (a, b) {
+    return a.aliasLength - b.aliasLength;
+  });
+
+
+  return matches[0];
+
+}
+
+
+/* =========================
+   LINGUA PROBABILE
+   PER RICERCA NON TROVATA
+   ========================= */
+
+function guessLanguage(query) {
+
+  const q =
+    normalizeText(query);
+
+
+  const germanHints = [
+    "milch",
+    "eier",
+    "senf",
+    "sellerie",
+    "erdnuss",
+    "lupin",
+    "getreide",
+    "sulfite",
+    "schalen"
+  ];
+
+
+  const spanishHints = [
+    "leche",
+    "huevo",
+    "mostaza",
+    "apio",
+    "pescado",
+    "cacahuete",
+    "altram",
+    "molus",
+    "cereales"
+  ];
+
+
+  const englishHints = [
+    "milk",
+    "egg",
+    "mustard",
+    "celery",
+    "fish",
+    "peanut",
+    "nuts",
+    "soy",
+    "mollusc",
+    "lupin"
+  ];
+
+
+  if (
+    germanHints.some(function (word) {
+      return q.includes(word);
+    })
+  ) {
+    return "de";
+  }
+
+
+  if (
+    spanishHints.some(function (word) {
+      return q.includes(word);
+    })
+  ) {
+    return "es";
+  }
+
+
+  if (
+    englishHints.some(function (word) {
+      return q.includes(word);
+    })
+  ) {
+    return "en";
+  }
+
+
+  return browserLanguage();
+
+}
+
+
+/* =========================
+   MOSTRA RISULTATI
+   ========================= */
+
+function renderResult(match) {
+
+  const lang =
+    match.lang;
+
+  const allergen =
+    match.allergen;
+
+  const texts =
+    ui[lang];
+
+  const products =
+    allergen.products[lang];
+
+  const allergenName =
+    allergen.names[lang];
+
+
+  allergenWarning.textContent =
+    texts.compactWarning;
+
+  allergenWarning
+    .classList
+    .add("compact");
+
+
+  if (!products.length) {
+
+    allergenResults.innerHTML =
+
+      '<div class="result-heading">' +
+        allergenName +
+      '</div>' +
+
+      '<div class="no-specific-products">' +
+        texts.noneForAllergen +
+      '</div>';
+
+    return;
+
+  }
+
+
+  const productHtml =
+    products
+      .map(function (product) {
+
+        return (
+          '<div class="product-item">' +
+            product +
+          '</div>'
+        );
+
+      })
+      .join("");
+
+
+  allergenResults.innerHTML =
+
+    '<div class="result-heading">' +
+      texts.contains +
+      ' <strong>' +
+        allergenName +
+      '</strong>' +
+    '</div>' +
+
+    '<div class="result-subheading">' +
+      texts.source +
+    '</div>' +
+
+    '<div class="product-list">' +
+      productHtml +
+    '</div>';
+
+}
+
+
+/* =========================
+   NESSUN RISULTATO
+   ========================= */
+
+function renderUnknown(query) {
+
+  const lang =
+    guessLanguage(query);
+
+  const texts =
+    ui[lang];
+
+
+  allergenWarning.textContent =
+    texts.compactWarning;
+
+  allergenWarning
+    .classList
+    .add("compact");
+
+
+  allergenResults.innerHTML =
+
+    '<div class="no-search-result">' +
+
+      '<strong>' +
+        texts.unknownTitle +
+      '</strong>' +
+
+      texts.unknown +
+
+    '</div>';
+
+}
+
+
+/* =========================
+   RESET
+   ========================= */
+
+function resetSearch() {
+
+  allergenResults.innerHTML = "";
+
+  allergenWarning.classList.remove("compact");
+
+  allergenWarning.textContent =
+    ui[browserLanguage()].warning;
+
+  searchClear.classList.remove("visible");
+
+}
+
+
+/* =========================
+   EVENTO RICERCA
+   ========================= */
+
+allergenSearch.addEventListener(
+  "focus",
   function () {
 
-    const isOpen =
-      dessertWrap.classList.toggle("open");
+    allergenWarning.classList.add("compact");
+
+    allergenWarning.textContent =
+      ui[browserLanguage()]
+        .compactWarning;
+
+  }
+);
 
 
-    dessertBtn.setAttribute(
-      "aria-expanded",
-      isOpen ? "true" : "false"
-    );
+allergenSearch.addEventListener(
+  "input",
+  function () {
+
+    const query =
+      allergenSearch.value.trim();
 
 
-    if (isOpen) {
+    if (!query) {
 
-      seasonalWrap
-        .classList
-        .remove("open");
+      resetSearch();
+      return;
 
-      seasonalBtn
-        .setAttribute(
-          "aria-expanded",
-          "false"
-        );
+    }
+
+
+    searchClear
+      .classList
+      .add("visible");
+
+
+    const match =
+      findAllergen(query);
+
+
+    /*
+      Aspettiamo almeno 2 caratteri
+      prima di mostrare "nessun risultato".
+    */
+
+    if (!match && query.length < 2) {
+
+      allergenResults.innerHTML = "";
+      return;
+
+    }
+
+
+    if (match) {
+
+      renderResult(match);
+
+    } else {
+
+      renderUnknown(query);
 
     }
 
@@ -1076,36 +2517,29 @@ dessertBtn.addEventListener(
 );
 
 
-seasonalBtn.addEventListener(
+/* =========================
+   CANCELLA RICERCA
+   ========================= */
+
+searchClear.addEventListener(
   "click",
   function () {
 
-    const isOpen =
-      seasonalWrap.classList.toggle("open");
+    allergenSearch.value = "";
 
+    resetSearch();
 
-    seasonalBtn.setAttribute(
-      "aria-expanded",
-      isOpen ? "true" : "false"
-    );
-
-
-    if (isOpen) {
-
-      dessertWrap
-        .classList
-        .remove("open");
-
-      dessertBtn
-        .setAttribute(
-          "aria-expanded",
-          "false"
-        );
-
-    }
+    allergenSearch.focus();
 
   }
 );
+
+
+/* AVVISO INIZIALE
+   NELLA LINGUA DEL TELEFONO */
+
+allergenWarning.textContent =
+  ui[browserLanguage()].warning;
 
 </script>
 
