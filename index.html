@@ -241,8 +241,6 @@ h1 {
 
 .dessert-wrap {
   width: 100%;
-
-  /* SPAZIO NETTO DOPO ESPAÑOL */
   margin-top: 28px;
 }
 
@@ -279,8 +277,6 @@ h1 {
   transform: rotate(180deg);
 }
 
-
-/* TENDINA DESSERT */
 
 .dessert-dropdown {
   max-height: 0;
@@ -367,8 +363,6 @@ h1 {
 
 .seasonal-wrap {
   width: 100%;
-
-  /* SPAZIO NETTO DOPO DESSERT */
   margin-top: 28px;
 }
 
@@ -396,8 +390,6 @@ h1 {
     inset 0 0 22px rgba(190,151,70,.035);
 }
 
-
-/* FINESTRA TICKER */
 
 .seasonal-label-window {
   position: relative;
@@ -457,7 +449,7 @@ h1 {
   display: block;
   flex-shrink: 0;
 
-  padding-right: 28px;
+  padding-right: 0;
 
   font-size: 16px;
   font-weight: 700;
@@ -491,8 +483,6 @@ h1 {
   transform: rotate(180deg);
 }
 
-
-/* TENDINA STAGIONALE */
 
 .seasonal-dropdown {
   max-height: 0;
@@ -703,8 +693,6 @@ footer {
 }
 
 
-/* ACCESSIBILITÀ */
-
 @media (prefers-reduced-motion: reduce) {
 
   .seasonal-marquee {
@@ -721,10 +709,6 @@ footer {
 
 <main class="page">
 
-
-<!-- =========================
-     TESTATA
-     ========================= -->
 
 <section class="hero">
 
@@ -748,15 +732,8 @@ footer {
 </section>
 
 
-
-<!-- =========================
-     MENU
-     ========================= -->
-
 <section class="menu-card">
 
-
-  <!-- MENU PRINCIPALE -->
 
   <div class="languages">
 
@@ -765,13 +742,8 @@ footer {
       class="menu-btn"
       href="menu-it.pdf">
 
-      <span>
-        Italiano
-      </span>
-
-      <span class="flag">
-        🇮🇹
-      </span>
+      <span>Italiano</span>
+      <span class="flag">🇮🇹</span>
 
     </a>
 
@@ -780,13 +752,8 @@ footer {
       class="menu-btn"
       href="menu-en.pdf">
 
-      <span>
-        English
-      </span>
-
-      <span class="flag">
-        🇬🇧
-      </span>
+      <span>English</span>
+      <span class="flag">🇬🇧</span>
 
     </a>
 
@@ -795,13 +762,8 @@ footer {
       class="menu-btn"
       href="menu-de.pdf">
 
-      <span>
-        Deutsch
-      </span>
-
-      <span class="flag">
-        🇩🇪
-      </span>
+      <span>Deutsch</span>
+      <span class="flag">🇩🇪</span>
 
     </a>
 
@@ -810,13 +772,8 @@ footer {
       class="menu-btn"
       href="menu-es.pdf">
 
-      <span>
-        Español
-      </span>
-
-      <span class="flag">
-        🇪🇸
-      </span>
+      <span>Español</span>
+      <span class="flag">🇪🇸</span>
 
     </a>
 
@@ -824,10 +781,7 @@ footer {
   </div>
 
 
-
-  <!-- =========================
-       DESSERT
-       ========================= -->
+  <!-- DESSERT -->
 
   <div
     class="dessert-wrap"
@@ -841,9 +795,7 @@ footer {
       aria-expanded="false">
 
 
-      <span>
-        Dessert
-      </span>
+      <span>Dessert</span>
 
 
       <span class="dessert-right">
@@ -862,7 +814,6 @@ footer {
     </button>
 
 
-
     <div class="dessert-dropdown">
 
       <div class="dessert-inner">
@@ -872,61 +823,38 @@ footer {
           class="dessert-option"
           href="dessert-it.pdf">
 
-          <span>
-            Italiano
-          </span>
-
-          <span>
-            🇮🇹
-          </span>
+          <span>Italiano</span>
+          <span>🇮🇹</span>
 
         </a>
-
 
 
         <a
           class="dessert-option"
           href="dessert-en.pdf">
 
-          <span>
-            English
-          </span>
-
-          <span>
-            🇬🇧
-          </span>
+          <span>English</span>
+          <span>🇬🇧</span>
 
         </a>
-
 
 
         <a
           class="dessert-option"
           href="dessert-de.pdf">
 
-          <span>
-            Deutsch
-          </span>
-
-          <span>
-            🇩🇪
-          </span>
+          <span>Deutsch</span>
+          <span>🇩🇪</span>
 
         </a>
-
 
 
         <a
           class="dessert-option"
           href="dessert-es.pdf">
 
-          <span>
-            Español
-          </span>
-
-          <span>
-            🇪🇸
-          </span>
+          <span>Español</span>
+          <span>🇪🇸</span>
 
         </a>
 
@@ -938,10 +866,7 @@ footer {
   </div>
 
 
-
-  <!-- =========================
-       MENU STAGIONALE
-       ========================= -->
+  <!-- MENU STAGIONALE -->
 
   <div
     class="seasonal-wrap"
@@ -961,12 +886,12 @@ footer {
 
 
           <span>
-            🍂 Menu stagionale ❄️ Seasonal Menu 🌸 Saisonkarte ☀️ Menú de temporada&nbsp;&nbsp;
+            🍂 Menu stagionale ❄️ Seasonal Menu 🌸 Saisonkarte ☀️ Menú de temporada&nbsp;
           </span>
 
 
           <span aria-hidden="true">
-            🍂 Menu stagionale ❄️ Seasonal Menu 🌸 Saisonkarte ☀️ Menú de temporada&nbsp;&nbsp;
+            🍂 Menu stagionale ❄️ Seasonal Menu 🌸 Saisonkarte ☀️ Menú de temporada&nbsp;
           </span>
 
 
@@ -983,7 +908,6 @@ footer {
     </button>
 
 
-
     <div class="seasonal-dropdown">
 
       <div class="seasonal-inner">
@@ -993,13 +917,8 @@ footer {
           class="seasonal-option"
           href="stagionale-it.pdf">
 
-          <span>
-            Italiano
-          </span>
-
-          <span>
-            🇮🇹
-          </span>
+          <span>Italiano</span>
+          <span>🇮🇹</span>
 
         </a>
 
@@ -1008,13 +927,8 @@ footer {
           class="seasonal-option"
           href="stagionale-en.pdf">
 
-          <span>
-            English
-          </span>
-
-          <span>
-            🇬🇧
-          </span>
+          <span>English</span>
+          <span>🇬🇧</span>
 
         </a>
 
@@ -1023,13 +937,8 @@ footer {
           class="seasonal-option"
           href="stagionale-de.pdf">
 
-          <span>
-            Deutsch
-          </span>
-
-          <span>
-            🇩🇪
-          </span>
+          <span>Deutsch</span>
+          <span>🇩🇪</span>
 
         </a>
 
@@ -1038,13 +947,8 @@ footer {
           class="seasonal-option"
           href="stagionale-es.pdf">
 
-          <span>
-            Español
-          </span>
-
-          <span>
-            🇪🇸
-          </span>
+          <span>Español</span>
+          <span>🇪🇸</span>
 
         </a>
 
@@ -1058,11 +962,6 @@ footer {
 
 </section>
 
-
-
-<!-- =========================
-     SOCIAL
-     ========================= -->
 
 <section class="social">
 
@@ -1099,11 +998,6 @@ footer {
 </section>
 
 
-
-<!-- =========================
-     WIFI
-     ========================= -->
-
 <section class="wifi">
 
 
@@ -1114,22 +1008,17 @@ footer {
 
   <div>
     Rete:
-    <strong>
-      TheBlackStuff
-    </strong>
+    <strong>TheBlackStuff</strong>
   </div>
 
 
   <div>
     Password:
-    <strong>
-      theblackstuff
-    </strong>
+    <strong>theblackstuff</strong>
   </div>
 
 
 </section>
-
 
 
 <footer>
@@ -1140,12 +1029,7 @@ footer {
 </main>
 
 
-
 <script>
-
-/* =========================
-   ELEMENTI
-   ========================= */
 
 const dessertWrap =
   document.getElementById("dessertWrap");
@@ -1160,11 +1044,6 @@ const seasonalBtn =
   document.getElementById("seasonalBtn");
 
 
-
-/* =========================
-   APERTURA DESSERT
-   ========================= */
-
 dessertBtn.addEventListener(
   "click",
   function () {
@@ -1178,9 +1057,6 @@ dessertBtn.addEventListener(
       isOpen ? "true" : "false"
     );
 
-
-    /* SE APRO DESSERT,
-       CHIUDO LO STAGIONALE */
 
     if (isOpen) {
 
@@ -1200,11 +1076,6 @@ dessertBtn.addEventListener(
 );
 
 
-
-/* =========================
-   APERTURA MENU STAGIONALE
-   ========================= */
-
 seasonalBtn.addEventListener(
   "click",
   function () {
@@ -1218,9 +1089,6 @@ seasonalBtn.addEventListener(
       isOpen ? "true" : "false"
     );
 
-
-    /* SE APRO LO STAGIONALE,
-       CHIUDO DESSERT */
 
     if (isOpen) {
 
