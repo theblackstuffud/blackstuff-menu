@@ -79,7 +79,7 @@ body::before {
 }
 
 
-/* leggerissima ombra ai bordi */
+/* LEGGERA OMBRA AI BORDI */
 
 body::after {
   content: "";
@@ -242,7 +242,7 @@ h1 {
 .dessert-wrap {
   width: 100%;
 
-  /* stacco da Español */
+  /* SPAZIO NETTO DOPO ESPAÑOL */
   margin-top: 28px;
 }
 
@@ -280,7 +280,7 @@ h1 {
 }
 
 
-/* tendina dessert */
+/* TENDINA DESSERT */
 
 .dessert-dropdown {
   max-height: 0;
@@ -331,42 +331,33 @@ h1 {
 
   gap: 12px;
 
+  color: #f5f2e9;
+  text-decoration: none;
+
+  font-size: 14px;
+  font-weight: 600;
+
   border-bottom:
     1px solid rgba(255,255,255,.07);
+
+  transition:
+    background .2s ease,
+    transform .15s ease;
 }
 
 .dessert-option:last-child {
   border-bottom: 0;
 }
 
-.dessert-language {
-  display: flex;
-  align-items: center;
+.dessert-option:active {
+  background:
+    rgba(255,255,255,.05);
 
-  gap: 10px;
-
-  color:
-    rgba(245,242,233,.72);
-
-  font-size: 14px;
-  font-weight: 600;
+  transform: scale(.99);
 }
 
-.small-flag {
-  font-size: 19px;
-}
-
-.coming-soon {
-  flex-shrink: 0;
-
-  color: #c4a35f;
-  opacity: .82;
-
-  text-transform: uppercase;
-  letter-spacing: .8px;
-
-  font-size: 9px;
-  font-weight: 800;
+.dessert-option span:last-child {
+  font-size: 20px;
 }
 
 
@@ -377,7 +368,7 @@ h1 {
 .seasonal-wrap {
   width: 100%;
 
-  /* stacco da Dessert */
+  /* SPAZIO NETTO DOPO DESSERT */
   margin-top: 28px;
 }
 
@@ -406,7 +397,7 @@ h1 {
 }
 
 
-/* finestra ticker */
+/* FINESTRA TICKER */
 
 .seasonal-label-window {
   position: relative;
@@ -439,7 +430,7 @@ h1 {
 }
 
 
-/* ticker continuo */
+/* TICKER CONTINUO */
 
 .seasonal-marquee {
   position: absolute;
@@ -501,7 +492,7 @@ h1 {
 }
 
 
-/* tendina stagionale */
+/* TENDINA STAGIONALE */
 
 .seasonal-dropdown {
   max-height: 0;
@@ -712,7 +703,7 @@ footer {
 }
 
 
-/* accessibilità */
+/* ACCESSIBILITÀ */
 
 @media (prefers-reduced-motion: reduce) {
 
@@ -731,7 +722,9 @@ footer {
 <main class="page">
 
 
-<!-- TESTATA -->
+<!-- =========================
+     TESTATA
+     ========================= -->
 
 <section class="hero">
 
@@ -756,42 +749,85 @@ footer {
 
 
 
-<!-- MENU -->
+<!-- =========================
+     MENU
+     ========================= -->
 
 <section class="menu-card">
 
 
-  <!-- LINGUE -->
+  <!-- MENU PRINCIPALE -->
 
   <div class="languages">
 
-    <a class="menu-btn" href="menu-it.pdf">
-      <span>Italiano</span>
-      <span class="flag">🇮🇹</span>
+
+    <a
+      class="menu-btn"
+      href="menu-it.pdf">
+
+      <span>
+        Italiano
+      </span>
+
+      <span class="flag">
+        🇮🇹
+      </span>
+
     </a>
 
-    <a class="menu-btn" href="menu-en.pdf">
-      <span>English</span>
-      <span class="flag">🇬🇧</span>
+
+    <a
+      class="menu-btn"
+      href="menu-en.pdf">
+
+      <span>
+        English
+      </span>
+
+      <span class="flag">
+        🇬🇧
+      </span>
+
     </a>
 
-    <a class="menu-btn" href="menu-de.pdf">
-      <span>Deutsch</span>
-      <span class="flag">🇩🇪</span>
+
+    <a
+      class="menu-btn"
+      href="menu-de.pdf">
+
+      <span>
+        Deutsch
+      </span>
+
+      <span class="flag">
+        🇩🇪
+      </span>
+
     </a>
 
-    <a class="menu-btn" href="menu-es.pdf">
-      <span>Español</span>
-      <span class="flag">🇪🇸</span>
+
+    <a
+      class="menu-btn"
+      href="menu-es.pdf">
+
+      <span>
+        Español
+      </span>
+
+      <span class="flag">
+        🇪🇸
+      </span>
+
     </a>
+
 
   </div>
 
 
 
-  <!-- =====================
+  <!-- =========================
        DESSERT
-       ===================== -->
+       ========================= -->
 
   <div
     class="dessert-wrap"
@@ -832,83 +868,67 @@ footer {
       <div class="dessert-inner">
 
 
-        <div class="dessert-option">
+        <a
+          class="dessert-option"
+          href="dessert-it.pdf">
 
-          <span class="dessert-language">
-
-            <span class="small-flag">
-              🇮🇹
-            </span>
-
+          <span>
             Italiano
-
           </span>
 
-          <span class="coming-soon">
-            Coming soon
+          <span>
+            🇮🇹
           </span>
 
-        </div>
+        </a>
 
 
 
-        <div class="dessert-option">
+        <a
+          class="dessert-option"
+          href="dessert-en.pdf">
 
-          <span class="dessert-language">
-
-            <span class="small-flag">
-              🇬🇧
-            </span>
-
+          <span>
             English
-
           </span>
 
-          <span class="coming-soon">
-            Coming soon
+          <span>
+            🇬🇧
           </span>
 
-        </div>
+        </a>
 
 
 
-        <div class="dessert-option">
+        <a
+          class="dessert-option"
+          href="dessert-de.pdf">
 
-          <span class="dessert-language">
-
-            <span class="small-flag">
-              🇩🇪
-            </span>
-
+          <span>
             Deutsch
-
           </span>
 
-          <span class="coming-soon">
-            Coming soon
+          <span>
+            🇩🇪
           </span>
 
-        </div>
+        </a>
 
 
 
-        <div class="dessert-option">
+        <a
+          class="dessert-option"
+          href="dessert-es.pdf">
 
-          <span class="dessert-language">
-
-            <span class="small-flag">
-              🇪🇸
-            </span>
-
+          <span>
             Español
-
           </span>
 
-          <span class="coming-soon">
-            Coming soon
+          <span>
+            🇪🇸
           </span>
 
-        </div>
+        </a>
 
 
       </div>
@@ -919,9 +939,9 @@ footer {
 
 
 
-  <!-- =====================
+  <!-- =========================
        MENU STAGIONALE
-       ===================== -->
+       ========================= -->
 
   <div
     class="seasonal-wrap"
@@ -973,8 +993,13 @@ footer {
           class="seasonal-option"
           href="stagionale-it.pdf">
 
-          <span>Italiano</span>
-          <span>🇮🇹</span>
+          <span>
+            Italiano
+          </span>
+
+          <span>
+            🇮🇹
+          </span>
 
         </a>
 
@@ -983,8 +1008,13 @@ footer {
           class="seasonal-option"
           href="stagionale-en.pdf">
 
-          <span>English</span>
-          <span>🇬🇧</span>
+          <span>
+            English
+          </span>
+
+          <span>
+            🇬🇧
+          </span>
 
         </a>
 
@@ -993,8 +1023,13 @@ footer {
           class="seasonal-option"
           href="stagionale-de.pdf">
 
-          <span>Deutsch</span>
-          <span>🇩🇪</span>
+          <span>
+            Deutsch
+          </span>
+
+          <span>
+            🇩🇪
+          </span>
 
         </a>
 
@@ -1003,8 +1038,13 @@ footer {
           class="seasonal-option"
           href="stagionale-es.pdf">
 
-          <span>Español</span>
-          <span>🇪🇸</span>
+          <span>
+            Español
+          </span>
+
+          <span>
+            🇪🇸
+          </span>
 
         </a>
 
@@ -1020,7 +1060,9 @@ footer {
 
 
 
-<!-- SOCIAL -->
+<!-- =========================
+     SOCIAL
+     ========================= -->
 
 <section class="social">
 
@@ -1058,7 +1100,9 @@ footer {
 
 
 
-<!-- WIFI -->
+<!-- =========================
+     WIFI
+     ========================= -->
 
 <section class="wifi">
 
@@ -1070,13 +1114,17 @@ footer {
 
   <div>
     Rete:
-    <strong>TheBlackStuff</strong>
+    <strong>
+      TheBlackStuff
+    </strong>
   </div>
 
 
   <div>
     Password:
-    <strong>theblackstuff</strong>
+    <strong>
+      theblackstuff
+    </strong>
   </div>
 
 
@@ -1095,6 +1143,10 @@ footer {
 
 <script>
 
+/* =========================
+   ELEMENTI
+   ========================= */
+
 const dessertWrap =
   document.getElementById("dessertWrap");
 
@@ -1109,7 +1161,9 @@ const seasonalBtn =
 
 
 
-/* DESSERT */
+/* =========================
+   APERTURA DESSERT
+   ========================= */
 
 dessertBtn.addEventListener(
   "click",
@@ -1118,11 +1172,15 @@ dessertBtn.addEventListener(
     const isOpen =
       dessertWrap.classList.toggle("open");
 
+
     dessertBtn.setAttribute(
       "aria-expanded",
       isOpen ? "true" : "false"
     );
 
+
+    /* SE APRO DESSERT,
+       CHIUDO LO STAGIONALE */
 
     if (isOpen) {
 
@@ -1143,7 +1201,9 @@ dessertBtn.addEventListener(
 
 
 
-/* MENU STAGIONALE */
+/* =========================
+   APERTURA MENU STAGIONALE
+   ========================= */
 
 seasonalBtn.addEventListener(
   "click",
@@ -1152,11 +1212,15 @@ seasonalBtn.addEventListener(
     const isOpen =
       seasonalWrap.classList.toggle("open");
 
+
     seasonalBtn.setAttribute(
       "aria-expanded",
       isOpen ? "true" : "false"
     );
 
+
+    /* SE APRO LO STAGIONALE,
+       CHIUDO DESSERT */
 
     if (isOpen) {
 
