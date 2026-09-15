@@ -1,60 +1,541 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#050805">
-  <title>The Black Stuff - Digital Menu</title>
-  <link rel="stylesheet" href="style.css?v=5">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#050805">
+
+<title>The Black Stuff - Digital Menu</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top, #162118 0%, #080c09 45%, #030503 100%);
+  color: #f5f2e9;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+}
+
+.page {
+  width: min(92%, 430px);
+  margin: 0 auto;
+  padding: 42px 0 35px;
+}
+
+/* LOGO */
+
+.hero {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.logo {
+  width: 145px;
+  max-width: 55%;
+  height: auto;
+  margin-bottom: 16px;
+}
+
+.kicker {
+  color: #aeb9a8;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+h1 {
+  margin: 7px 0 4px;
+  font-size: 32px;
+  letter-spacing: -0.5px;
+}
+
+.subtitle {
+  margin: 0;
+  color: #9da79c;
+  font-size: 14px;
+}
+
+/* MENU PRINCIPALE */
+
+.menu-card {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+
+.menu-btn {
+  width: 100%;
+  min-height: 58px;
+  padding: 0 20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  background: rgba(255,255,255,.045);
+  border: 1px solid rgba(255,255,255,.13);
+  border-radius: 15px;
+
+  color: #f5f2e9;
+  text-decoration: none;
+  font-size: 17px;
+  font-weight: 600;
+
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    transform .15s ease,
+    background .2s ease,
+    border-color .2s ease;
+}
+
+.menu-btn:active {
+  transform: scale(.98);
+  background: rgba(255,255,255,.08);
+}
+
+.flag {
+  font-size: 23px;
+}
+
+/* MENU STAGIONALE */
+
+.seasonal-wrap {
+  margin-top: 12px;
+}
+
+.seasonal-btn {
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+
+  border-color: rgba(190, 159, 91, .55);
+  background:
+    linear-gradient(
+      135deg,
+      rgba(190,159,91,.12),
+      rgba(255,255,255,.035)
+    );
+
+  box-shadow: 0 0 22px rgba(190,159,91,.07);
+}
+
+.seasonal-label-window {
+  flex: 1;
+  height: 26px;
+  overflow: hidden;
+  position: relative;
+  text-align: left;
+}
+
+.seasonal-label {
+  position: absolute;
+  left: 0;
+  top: 2px;
+  white-space: nowrap;
+  transition:
+    transform .42s cubic-bezier(.4,0,.2,1),
+    opacity .32s ease;
+}
+
+.seasonal-label.exit {
+  transform: translateX(-35px);
+  opacity: 0;
+}
+
+.seasonal-label.enter {
+  transform: translateX(35px);
+  opacity: 0;
+}
+
+.seasonal-arrow {
+  margin-left: 14px;
+  font-size: 22px;
+  color: #c8a967;
+  transition: transform .35s ease;
+}
+
+.seasonal-wrap.open .seasonal-arrow {
+  transform: rotate(180deg);
+}
+
+/* TENDINA */
+
+.seasonal-dropdown {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(-8px);
+
+  transition:
+    max-height .45s ease,
+    opacity .3s ease,
+    transform .4s ease;
+}
+
+.seasonal-wrap.open .seasonal-dropdown {
+  max-height: 310px;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.dropdown-inner {
+  margin-top: 8px;
+  padding: 7px;
+
+  background: rgba(0,0,0,.22);
+  border: 1px solid rgba(190,159,91,.25);
+  border-radius: 14px;
+}
+
+.seasonal-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 14px 13px;
+
+  color: #f5f2e9;
+  text-decoration: none;
+  font-size: 15px;
+
+  border-bottom: 1px solid rgba(255,255,255,.07);
+}
+
+.seasonal-option:last-child {
+  border-bottom: 0;
+}
+
+.seasonal-option span:last-child {
+  font-size: 21px;
+}
+
+/* SOCIAL */
+
+.social {
+  margin-top: 34px;
+  text-align: center;
+}
+
+.social > span {
+  display: block;
+  margin-bottom: 12px;
+
+  color: #899488;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.social-links {
+  display: flex;
+  gap: 10px;
+}
+
+.social-links a {
+  flex: 1;
+  padding: 12px 8px;
+
+  color: #e8e8e2;
+  text-decoration: none;
+  font-size: 13px;
+
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 12px;
+  background: rgba(255,255,255,.035);
+}
+
+/* WIFI */
+
+.wifi {
+  margin-top: 18px;
+  padding: 17px;
+
+  text-align: center;
+
+  background: rgba(255,255,255,.025);
+  border: 1px solid rgba(255,255,255,.09);
+  border-radius: 14px;
+
+  color: #aeb5ac;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.wifi-title {
+  color: #eeeeea;
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.wifi strong {
+  color: #e5e5df;
+}
+
+footer {
+  margin-top: 28px;
+  text-align: center;
+  color: #697168;
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+  }
+}
+</style>
 </head>
+
 <body>
 
 <main class="page">
+
   <section class="hero">
-    <div class="logo-shell">
-      <img id="pubLogo" class="logo" src="Logo.png?v=5" alt="The Black Stuff logo">
+
+    <img
+      class="logo"
+      src="Logo.png"
+      alt="The Black Stuff Irish Pub">
+
+    <div class="kicker">
+      The Black Stuff Irish Pub
     </div>
 
-    <div class="kicker">The Black Stuff Irish Pub</div>
     <h1>Digital Menu</h1>
-    <p class="subtitle">Choose your language</p>
+
+    <p class="subtitle">
+      Choose your language
+    </p>
+
   </section>
 
-  <section class="menu-card" aria-label="Language selection">
+
+  <section class="menu-card">
+
     <a class="menu-btn" href="menu-it.pdf">
-      <span>Italiano</span><span class="flag">🇮🇹</span>
+      <span>Italiano</span>
+      <span class="flag">🇮🇹</span>
     </a>
 
     <a class="menu-btn" href="menu-en.pdf">
-      <span>English</span><span class="flag">🇬🇧</span>
+      <span>English</span>
+      <span class="flag">🇬🇧</span>
     </a>
 
     <a class="menu-btn" href="menu-de.pdf">
-      <span>Deutsch</span><span class="flag">🇩🇪</span>
+      <span>Deutsch</span>
+      <span class="flag">🇩🇪</span>
     </a>
 
     <a class="menu-btn" href="menu-es.pdf">
-      <span>Español</span><span class="flag">🇪🇸</span>
+      <span>Español</span>
+      <span class="flag">🇪🇸</span>
     </a>
+
+
+    <!-- MENU STAGIONALE -->
+
+    <div class="seasonal-wrap" id="seasonalWrap">
+
+      <button
+        class="menu-btn seasonal-btn"
+        id="seasonalBtn"
+        type="button"
+        aria-expanded="false">
+
+        <div class="seasonal-label-window">
+          <span
+            class="seasonal-label"
+            id="seasonalLabel">
+            🍂 Menu stagionale ❄️
+          </span>
+        </div>
+
+        <span class="seasonal-arrow">⌄</span>
+
+      </button>
+
+
+      <div class="seasonal-dropdown">
+
+        <div class="dropdown-inner">
+
+          <a class="seasonal-option" href="stagionale-it.pdf">
+            <span>Italiano</span>
+            <span>🇮🇹</span>
+          </a>
+
+          <a class="seasonal-option" href="stagionale-en.pdf">
+            <span>English</span>
+            <span>🇬🇧</span>
+          </a>
+
+          <a class="seasonal-option" href="stagionale-de.pdf">
+            <span>Deutsch</span>
+            <span>🇩🇪</span>
+          </a>
+
+          <a class="seasonal-option" href="stagionale-es.pdf">
+            <span>Español</span>
+            <span>🇪🇸</span>
+          </a>
+
+        </div>
+
+      </div>
+
+    </div>
+
   </section>
+
 
   <section class="social">
+
     <span>Follow us</span>
+
     <div class="social-links">
-      <a href="https://www.instagram.com/theblackstuffud?igsh=MW9tZWViMXBvdDFxNA%3D%3D&utm_source=qr" target="_blank" rel="noopener">Instagram</a>
-      <a href="https://www.facebook.com/TheBlackStuffUdine" target="_blank" rel="noopener">Facebook</a>
+
+      <a
+        href="https://www.instagram.com/theblackstuffud"
+        target="_blank"
+        rel="noopener">
+        Instagram
+      </a>
+
+      <a
+        href="https://www.facebook.com/TheBlackStuffUdine"
+        target="_blank"
+        rel="noopener">
+        Facebook
+      </a>
+
     </div>
+
   </section>
+
 
   <section class="wifi">
-    <div class="wifi-title">📶 Free Wi‑Fi</div>
-    <div>Rete: <strong>TheBlackStuff</strong></div>
-    <div>Password: <strong>theblackstuff</strong></div>
+
+    <div class="wifi-title">
+      📶 Free Wi-Fi
+    </div>
+
+    <div>
+      Rete: <strong>TheBlackStuff</strong>
+    </div>
+
+    <div>
+      Password: <strong>theblackstuff</strong>
+    </div>
+
   </section>
 
-  <footer>The Black Stuff Irish Pub · Udine</footer>
+
+  <footer>
+    The Black Stuff Irish Pub · Udine
+  </footer>
+
 </main>
 
-<script src="script.js?v=5"></script>
+
+<script>
+
+const seasonalTexts = [
+  "🍂 Menu stagionale ❄️",
+  "❄️ Seasonal Menu 🌸",
+  "🌸 Saisonkarte ☀️",
+  "☀️ Menú de temporada 🍂"
+];
+
+const wrap = document.getElementById("seasonalWrap");
+const button = document.getElementById("seasonalBtn");
+const label = document.getElementById("seasonalLabel");
+
+let currentText = 0;
+let animationTimer;
+
+
+/* CAMBIO SCRITTA */
+
+function changeSeasonalText() {
+
+  if (wrap.classList.contains("open")) return;
+
+  label.classList.add("exit");
+
+  setTimeout(() => {
+
+    currentText =
+      (currentText + 1) % seasonalTexts.length;
+
+    label.textContent =
+      seasonalTexts[currentText];
+
+    label.classList.remove("exit");
+    label.classList.add("enter");
+
+    requestAnimationFrame(() => {
+
+      requestAnimationFrame(() => {
+        label.classList.remove("enter");
+      });
+
+    });
+
+  }, 350);
+
+}
+
+
+/* AVVIA ANIMAZIONE */
+
+function startAnimation() {
+
+  clearInterval(animationTimer);
+
+  animationTimer =
+    setInterval(changeSeasonalText, 2400);
+
+}
+
+startAnimation();
+
+
+/* APRI / CHIUDI TENDINA */
+
+button.addEventListener("click", () => {
+
+  const isOpen =
+    wrap.classList.toggle("open");
+
+  button.setAttribute(
+    "aria-expanded",
+    isOpen ? "true" : "false"
+  );
+
+  if (isOpen) {
+
+    clearInterval(animationTimer);
+
+  } else {
+
+    startAnimation();
+
+  }
+
+});
+
+</script>
+
 </body>
 </html>
