@@ -232,7 +232,8 @@ h1 {
   text-align: left;
 }
 
-.dessert-right {
+.dessert-right,
+.allergen-right {
   display: flex;
   align-items: center;
   gap: 11px;
@@ -479,7 +480,7 @@ h1 {
 
 
 /* =========================
-   ALLERGENI
+   ALLERGENI + INGREDIENTI
    ========================= */
 
 .allergen-wrap {
@@ -493,18 +494,12 @@ h1 {
   -webkit-appearance: none;
 }
 
-.allergen-right {
-  display: flex;
-  align-items: center;
-  gap: 11px;
-}
-
 .allergen-icon {
   font-size: 20px;
 }
 
 .allergen-wrap.open .allergen-dropdown {
-  max-height: 1600px;
+  max-height: 5000px;
   opacity: 1;
   transform: translateY(0);
 }
@@ -680,6 +675,27 @@ h1 {
   line-height: 1.45;
 }
 
+.result-type {
+  display: inline-block;
+  margin-left: 5px;
+  padding: 2px 6px;
+
+  border:
+    1px solid rgba(255,255,255,.11);
+
+  border-radius: 20px;
+
+  color: #aab5ac;
+
+  font-size: 8px;
+  font-weight: 800;
+
+  text-transform: uppercase;
+  letter-spacing: .5px;
+
+  vertical-align: 1px;
+}
+
 .product-list {
   display: flex;
   flex-direction: column;
@@ -773,6 +789,9 @@ h1 {
 
   background:
     rgba(4,18,10,.68);
+
+  backdrop-filter: blur(7px);
+  -webkit-backdrop-filter: blur(7px);
 }
 
 
@@ -871,6 +890,8 @@ footer {
 <main class="page">
 
 
+<!-- TESTATA -->
+
 <section class="hero">
 
   <img
@@ -892,6 +913,8 @@ footer {
 
 </section>
 
+
+<!-- MENU -->
 
 <section class="menu-card">
 
@@ -1036,7 +1059,7 @@ footer {
   </div>
 
 
-  <!-- RICERCA ALLERGENI -->
+  <!-- ALLERGENI E INGREDIENTI -->
 
   <div class="allergen-wrap" id="allergenWrap">
 
@@ -1046,7 +1069,7 @@ footer {
       type="button"
       aria-expanded="false">
 
-      <span>Allergeni · Allergens</span>
+      <span>Allergeni e ingredienti</span>
 
       <span class="allergen-right">
         <span class="allergen-icon">🔎</span>
@@ -1060,15 +1083,22 @@ footer {
 
       <div class="allergen-panel">
 
+
         <div
           class="allergen-warning"
           id="allergenWarning">
+
+          ⚠️ Non possiamo garantire la totale assenza di contaminazioni crociate.
+          In caso di allergie o intolleranze, informa sempre il personale prima di ordinare.
+
         </div>
 
 
         <div class="search-shell">
 
-          <span class="search-icon">🔍</span>
+          <span class="search-icon">
+            🔍
+          </span>
 
           <input
             id="allergenSearch"
@@ -1077,14 +1107,16 @@ footer {
             autocomplete="off"
             autocapitalize="none"
             spellcheck="false"
-            placeholder="Cerca un allergene / Search an allergen...">
+            placeholder="Cerca allergene o ingrediente...">
 
           <button
             id="searchClear"
             class="search-clear"
             type="button"
             aria-label="Clear search">
+
             ✕
+
           </button>
 
         </div>
@@ -1095,6 +1127,7 @@ footer {
           id="allergenResults">
         </div>
 
+
       </div>
 
     </div>
@@ -1104,6 +1137,8 @@ footer {
 
 </section>
 
+
+<!-- SOCIAL -->
 
 <section class="social">
 
@@ -1131,6 +1166,8 @@ footer {
 
 </section>
 
+
+<!-- WIFI -->
 
 <section class="wifi">
 
@@ -1161,44 +1198,28 @@ footer {
 
 <script>
 
-/* =========================
-   ELEMENTI
-   ========================= */
+/* =========================================================
+   ELEMENTI PAGINA
+   ========================================================= */
 
-const dessertWrap =
-  document.getElementById("dessertWrap");
+const dessertWrap = document.getElementById("dessertWrap");
+const dessertBtn = document.getElementById("dessertBtn");
 
-const dessertBtn =
-  document.getElementById("dessertBtn");
+const seasonalWrap = document.getElementById("seasonalWrap");
+const seasonalBtn = document.getElementById("seasonalBtn");
 
-const seasonalWrap =
-  document.getElementById("seasonalWrap");
+const allergenWrap = document.getElementById("allergenWrap");
+const allergenBtn = document.getElementById("allergenBtn");
 
-const seasonalBtn =
-  document.getElementById("seasonalBtn");
-
-const allergenWrap =
-  document.getElementById("allergenWrap");
-
-const allergenBtn =
-  document.getElementById("allergenBtn");
-
-const allergenSearch =
-  document.getElementById("allergenSearch");
-
-const allergenWarning =
-  document.getElementById("allergenWarning");
-
-const allergenResults =
-  document.getElementById("allergenResults");
-
-const searchClear =
-  document.getElementById("searchClear");
+const allergenSearch = document.getElementById("allergenSearch");
+const allergenWarning = document.getElementById("allergenWarning");
+const allergenResults = document.getElementById("allergenResults");
+const searchClear = document.getElementById("searchClear");
 
 
-/* =========================
-   APERTURA SEZIONI
-   ========================= */
+/* =========================================================
+   APERTURA / CHIUSURA SEZIONI
+   ========================================================= */
 
 function closeAllExcept(section) {
 
@@ -1222,8 +1243,7 @@ function closeAllExcept(section) {
 
 dessertBtn.addEventListener("click", function () {
 
-  const isOpen =
-    dessertWrap.classList.toggle("open");
+  const isOpen = dessertWrap.classList.toggle("open");
 
   dessertBtn.setAttribute(
     "aria-expanded",
@@ -1239,8 +1259,7 @@ dessertBtn.addEventListener("click", function () {
 
 seasonalBtn.addEventListener("click", function () {
 
-  const isOpen =
-    seasonalWrap.classList.toggle("open");
+  const isOpen = seasonalWrap.classList.toggle("open");
 
   seasonalBtn.setAttribute(
     "aria-expanded",
@@ -1256,8 +1275,7 @@ seasonalBtn.addEventListener("click", function () {
 
 allergenBtn.addEventListener("click", function () {
 
-  const isOpen =
-    allergenWrap.classList.toggle("open");
+  const isOpen = allergenWrap.classList.toggle("open");
 
   allergenBtn.setAttribute(
     "aria-expanded",
@@ -1277,776 +1295,9 @@ allergenBtn.addEventListener("click", function () {
 });
 
 
-/* =========================
-   DATABASE ALLERGENI
-   ========================= */
-
-const allergens = {
-
-
-  gluten: {
-
-    names: {
-      it: "Cereali contenenti glutine",
-      en: "Cereals containing gluten",
-      de: "Glutenhaltiges Getreide",
-      es: "Cereales con gluten"
-    },
-
-    aliases: {
-
-      it: [
-        "glutine",
-        "cereali",
-        "cereali e derivati"
-      ],
-
-      en: [
-        "gluten",
-        "cereals",
-        "cereals containing gluten"
-      ],
-
-      de: [
-        "gluten",
-        "getreide",
-        "glutenhaltiges getreide"
-      ],
-
-      es: [
-        "gluten",
-        "cereales",
-        "cereales con gluten"
-      ]
-
-    },
-
-    products: {
-
-      it: [
-        "Tutti gli hamburger",
-        "Tutti i sandwich",
-        "Tutte le pizze",
-        "Tutti gli hot dog",
-        "Alette di pollo",
-        "Verdure pastellate",
-        "Anelli di cipolla",
-        "Mozzarelline impanate",
-        "Olive all’ascolana",
-        "Jalapeños",
-        "Nuggets",
-        "Cheesecake Lotus",
-        "Cheesecake ai frutti di bosco",
-        "Tiramisù",
-        "Tortino al cioccolato",
-        "Tutte le birre, tranne Casamatta"
-      ],
-
-      en: [
-        "All burgers",
-        "All sandwiches",
-        "All pizzas",
-        "All hot dogs",
-        "Chicken wings",
-        "Battered vegetables",
-        "Onion rings",
-        "Breaded mozzarella bites",
-        "Stuffed olives (ascolane)",
-        "Jalapeños",
-        "Chicken nuggets",
-        "Lotus Cheesecake",
-        "Berry Cheesecake",
-        "Tiramisu",
-        "Chocolate Cake",
-        "All beers, except Casamatta"
-      ],
-
-      de: [
-        "Alle Burger",
-        "Alle Sandwiches",
-        "Alle Pizzen",
-        "Alle Hot Dogs",
-        "Chicken Wings",
-        "Gemüse im Backteig",
-        "Zwiebelringe",
-        "Panierte Mozzarella-Bällchen",
-        "Gefüllte Oliven (Ascolane)",
-        "Jalapeños",
-        "Chicken Nuggets",
-        "Lotus Cheesecake",
-        "Waldfrucht-Cheesecake",
-        "Tiramisu",
-        "Schokoladenküchlein",
-        "Alle Biere außer Casamatta"
-      ],
-
-      es: [
-        "Todas las hamburguesas",
-        "Todos los sándwiches",
-        "Todas las pizzas",
-        "Todos los hot dogs",
-        "Alitas de pollo",
-        "Verduras rebozadas",
-        "Aros de cebolla",
-        "Bolitas de mozzarella empanadas",
-        "Aceitunas rellenas estilo Ascoli",
-        "Jalapeños",
-        "Nuggets de pollo",
-        "Cheesecake Lotus",
-        "Cheesecake de frutos del bosque",
-        "Tiramisú",
-        "Pastel de chocolate",
-        "Todas las cervezas, excepto Casamatta"
-      ]
-
-    }
-
-  },
-
-
-  crustaceans: {
-
-    names: {
-      it: "Crostacei",
-      en: "Crustaceans",
-      de: "Krebstiere",
-      es: "Crustáceos"
-    },
-
-    aliases: {
-      it: ["crostacei", "crostaceo"],
-      en: ["crustaceans", "crustacean"],
-      de: ["krebstiere", "krebstier"],
-      es: ["crustaceos", "crustaceo"]
-    },
-
-    products: {
-      it: [],
-      en: [],
-      de: [],
-      es: []
-    }
-
-  },
-
-
-  eggs: {
-
-    names: {
-      it: "Uova",
-      en: "Eggs",
-      de: "Eier",
-      es: "Huevos"
-    },
-
-    aliases: {
-      it: ["uova", "uovo"],
-      en: ["eggs", "egg"],
-      de: ["eier", "ei"],
-      es: ["huevos", "huevo"]
-    },
-
-    products: {
-
-      it: [
-        "Eggburger",
-        "Connemara",
-        "Dublin",
-        "Irish",
-        "Salzburger",
-        "Diablo",
-        "Toast",
-        "Toast farcito"
-      ],
-
-      en: [
-        "Egg Burger",
-        "Connemara",
-        "Dublin",
-        "Irish Ciabatta",
-        "Salzburger",
-        "Diablo Ciabatta",
-        "Classic Toast",
-        "Stuffed Toast"
-      ],
-
-      de: [
-        "Eggburger",
-        "Connemara",
-        "Dublin",
-        "Irish Ciabatta",
-        "Salzburger",
-        "Diablo",
-        "Toast",
-        "Gefüllter Toast"
-      ],
-
-      es: [
-        "Eggburger",
-        "Connemara",
-        "Dublin",
-        "Irish",
-        "Salzburger",
-        "Diablo",
-        "Toast",
-        "Toast especial"
-      ]
-
-    }
-
-  },
-
-
-  fish: {
-
-    names: {
-      it: "Pesce",
-      en: "Fish",
-      de: "Fisch",
-      es: "Pescado"
-    },
-
-    aliases: {
-      it: ["pesce"],
-      en: ["fish"],
-      de: ["fisch"],
-      es: ["pescado"]
-    },
-
-    products: {
-      it: [],
-      en: [],
-      de: [],
-      es: []
-    }
-
-  },
-
-
-  peanuts: {
-
-    names: {
-      it: "Arachidi",
-      en: "Peanuts",
-      de: "Erdnüsse",
-      es: "Cacahuetes"
-    },
-
-    aliases: {
-      it: ["arachidi", "arachide"],
-      en: ["peanuts", "peanut"],
-      de: ["erdnusse", "erdnüsse", "erdnuss"],
-      es: ["cacahuetes", "cacahuete"]
-    },
-
-    products: {
-      it: [],
-      en: [],
-      de: [],
-      es: []
-    }
-
-  },
-
-
-  soy: {
-
-    names: {
-      it: "Soia",
-      en: "Soy",
-      de: "Soja",
-      es: "Soja"
-    },
-
-    aliases: {
-      it: ["soia"],
-      en: ["soy", "soya"],
-      de: ["soja"],
-      es: ["soja"]
-    },
-
-    products: {
-
-      it: [
-        "Veggyburger",
-        "Olive all’ascolana"
-      ],
-
-      en: [
-        "Veggy Burger",
-        "Stuffed olives (ascolane)"
-      ],
-
-      de: [
-        "Veggyburger",
-        "Gefüllte Oliven (Ascolane)"
-      ],
-
-      es: [
-        "Veggyburger",
-        "Aceitunas rellenas estilo Ascoli"
-      ]
-
-    }
-
-  },
-
-
-  milk: {
-
-    names: {
-      it: "Latte e derivati",
-      en: "Milk and dairy products",
-      de: "Milch und Milchprodukte",
-      es: "Leche y productos lácteos"
-    },
-
-    aliases: {
-
-      it: [
-        "latte",
-        "latticini"
-      ],
-
-      en: [
-        "milk",
-        "dairy"
-      ],
-
-      de: [
-        "milch",
-        "milchprodukte"
-      ],
-
-      es: [
-        "leche",
-        "lacteos",
-        "lácteos"
-      ]
-
-    },
-
-    products: {
-
-      it: [
-        "Pane per hot dog",
-        "Pizze",
-        "Cheeseburger",
-        "Bacon Burger",
-        "Crocchette di patate",
-        "Verdure pastellate",
-        "Mozzarelline impanate",
-        "Jalapeños",
-        "Olive all’ascolana",
-        "Diablo",
-        "Connemara",
-        "Irish",
-        "Dublin",
-        "Insalata Mediterranea",
-        "Tartufo",
-        "Panna cotta",
-        "Cheesecake Lotus",
-        "Cheesecake ai frutti di bosco",
-        "Tortino al cioccolato",
-        "Irish Coffee"
-      ],
-
-      en: [
-        "Hot dog bun",
-        "Pizzas",
-        "Cheeseburger",
-        "Bacon Burger",
-        "Potato croquettes",
-        "Battered vegetables",
-        "Breaded mozzarella bites",
-        "Jalapeños",
-        "Stuffed olives (ascolane)",
-        "Diablo Ciabatta",
-        "Connemara",
-        "Irish Ciabatta",
-        "Dublin Ciabatta",
-        "Mediterranean Salad",
-        "Tartufo",
-        "Panna cotta",
-        "Lotus Cheesecake",
-        "Berry Cheesecake",
-        "Chocolate Cake",
-        "Irish Coffee"
-      ],
-
-      de: [
-        "Hot Dog Bun",
-        "Pizzen",
-        "Cheeseburger",
-        "Bacon Burger",
-        "Kartoffelkroketten",
-        "Gemüse im Backteig",
-        "Panierte Mozzarella-Bällchen",
-        "Jalapeños",
-        "Gefüllte Oliven (Ascolane)",
-        "Diablo",
-        "Connemara",
-        "Irish Ciabatta",
-        "Dublin Ciabatta",
-        "Mediterraner Salat",
-        "Tartufo",
-        "Panna Cotta",
-        "Lotus Cheesecake",
-        "Waldfrucht-Cheesecake",
-        "Schokoladenküchlein",
-        "Irish Coffee"
-      ],
-
-      es: [
-        "Pan de hot dog",
-        "Pizzas",
-        "Cheeseburger",
-        "Bacon Burger",
-        "Croquetas de patata",
-        "Verduras rebozadas",
-        "Bolitas de mozzarella empanadas",
-        "Jalapeños",
-        "Aceitunas rellenas estilo Ascoli",
-        "Diablo",
-        "Connemara",
-        "Irish",
-        "Dublin",
-        "Ensalada Mediterránea",
-        "Tartufo",
-        "Panna cotta",
-        "Cheesecake Lotus",
-        "Cheesecake de frutos del bosque",
-        "Pastel de chocolate",
-        "Irish Coffee"
-      ]
-
-    }
-
-  },
-
-
-  nuts: {
-
-    names: {
-      it: "Frutta a guscio",
-      en: "Nuts",
-      de: "Schalenfrüchte",
-      es: "Frutos de cáscara"
-    },
-
-    aliases: {
-
-      it: [
-        "frutta a guscio",
-        "frutta secca"
-      ],
-
-      en: [
-        "nuts",
-        "tree nuts"
-      ],
-
-      de: [
-        "schalenfruchte",
-        "schalenfrüchte",
-        "nusse",
-        "nüsse"
-      ],
-
-      es: [
-        "frutos de cascara",
-        "frutos secos"
-      ]
-
-    },
-
-    products: {
-
-      it: [
-        "Diablo",
-        "Dublin",
-        "Connemara",
-        "Irish"
-      ],
-
-      en: [
-        "Diablo Ciabatta",
-        "Dublin Ciabatta",
-        "Connemara",
-        "Irish Ciabatta"
-      ],
-
-      de: [
-        "Diablo",
-        "Dublin",
-        "Connemara",
-        "Irish Ciabatta"
-      ],
-
-      es: [
-        "Diablo",
-        "Dublin",
-        "Connemara",
-        "Irish"
-      ]
-
-    }
-
-  },
-
-
-  celery: {
-
-    names: {
-      it: "Sedano",
-      en: "Celery",
-      de: "Sellerie",
-      es: "Apio"
-    },
-
-    aliases: {
-      it: ["sedano"],
-      en: ["celery"],
-      de: ["sellerie"],
-      es: ["apio"]
-    },
-
-    products: {
-
-      it: [
-        "Olive all’ascolana",
-        "Alette di pollo"
-      ],
-
-      en: [
-        "Stuffed olives (ascolane)",
-        "Chicken wings"
-      ],
-
-      de: [
-        "Gefüllte Oliven (Ascolane)",
-        "Chicken Wings"
-      ],
-
-      es: [
-        "Aceitunas rellenas estilo Ascoli",
-        "Alitas de pollo"
-      ]
-
-    }
-
-  },
-
-
-  mustard: {
-
-    names: {
-      it: "Senape",
-      en: "Mustard",
-      de: "Senf",
-      es: "Mostaza"
-    },
-
-    aliases: {
-      it: ["senape"],
-      en: ["mustard"],
-      de: ["senf"],
-      es: ["mostaza"]
-    },
-
-    products: {
-
-      it: [
-        "Coney Dog",
-        "Frisburger",
-        "Pulled Pork"
-      ],
-
-      en: [
-        "Coney Dog",
-        "Fries Burger",
-        "Pulled Pork"
-      ],
-
-      de: [
-        "Coney Dog",
-        "Frisburger",
-        "Pulled Pork"
-      ],
-
-      es: [
-        "Coney Dog",
-        "Frisburger",
-        "Pulled Pork"
-      ]
-
-    }
-
-  },
-
-
-  sesame: {
-
-    names: {
-      it: "Sesamo",
-      en: "Sesame",
-      de: "Sesam",
-      es: "Sésamo"
-    },
-
-    aliases: {
-      it: ["sesamo"],
-      en: ["sesame"],
-      de: ["sesam"],
-      es: ["sesamo", "sésamo"]
-    },
-
-    products: {
-
-      it: [
-        "Tutti gli hamburger, a parte l’Hamburger Light"
-      ],
-
-      en: [
-        "All burgers, except the Light Burger"
-      ],
-
-      de: [
-        "Alle Burger, außer Light Burger"
-      ],
-
-      es: [
-        "Todas las hamburguesas, excepto la Hamburguesa Light"
-      ]
-
-    }
-
-  },
-
-
-  sulphites: {
-
-    names: {
-      it: "Anidride solforosa e solfiti",
-      en: "Sulphur dioxide and sulphites",
-      de: "Schwefeldioxid und Sulfite",
-      es: "Dióxido de azufre y sulfitos"
-    },
-
-    aliases: {
-
-      it: [
-        "solfiti",
-        "anidride solforosa"
-      ],
-
-      en: [
-        "sulphites",
-        "sulfites",
-        "sulphur dioxide",
-        "sulfur dioxide"
-      ],
-
-      de: [
-        "sulfite",
-        "schwefeldioxid"
-      ],
-
-      es: [
-        "sulfitos",
-        "dioxido de azufre",
-        "dióxido de azufre"
-      ]
-
-    },
-
-    products: {
-      it: [],
-      en: [],
-      de: [],
-      es: []
-    }
-
-  },
-
-
-  lupin: {
-
-    names: {
-      it: "Lupini",
-      en: "Lupin",
-      de: "Lupinen",
-      es: "Altramuces"
-    },
-
-    aliases: {
-      it: ["lupini", "lupino"],
-      en: ["lupin", "lupins"],
-      de: ["lupinen", "lupine"],
-      es: ["altramuces", "altramuz"]
-    },
-
-    products: {
-      it: [],
-      en: [],
-      de: [],
-      es: []
-    }
-
-  },
-
-
-  molluscs: {
-
-    names: {
-      it: "Molluschi",
-      en: "Molluscs",
-      de: "Weichtiere",
-      es: "Moluscos"
-    },
-
-    aliases: {
-
-      it: [
-        "molluschi",
-        "mollusco"
-      ],
-
-      en: [
-        "molluscs",
-        "mollusks",
-        "mollusc",
-        "mollusk"
-      ],
-
-      de: [
-        "weichtiere",
-        "schalentiere",
-        "weich und schalentiere"
-      ],
-
-      es: [
-        "moluscos",
-        "molusco"
-      ]
-
-    },
-
-    products: {
-      it: [],
-      en: [],
-      de: [],
-      es: []
-    }
-
-  }
-
-};
-
-
-/* =========================
+/* =========================================================
    TESTI INTERFACCIA
-   ========================= */
+   ========================================================= */
 
 const ui = {
 
@@ -2058,14 +1309,23 @@ const ui = {
     compactWarning:
       "⚠️ Possibili contaminazioni crociate · verifica sempre con il personale.",
 
-    contains:
+    containsAllergen:
       "Prodotti indicati come contenenti",
 
+    containsIngredient:
+      "Prodotti che contengono o utilizzano",
+
+    allergenLabel:
+      "allergene",
+
+    ingredientLabel:
+      "ingrediente",
+
     source:
-      "Risultati basati sulle informazioni allergeni del menu.",
+      "Risultati basati sugli allergeni e sugli ingredienti dichiarati nei nostri menu e nelle preparazioni.",
 
     noneForAllergen:
-      "Nel menu attuale non sono indicati prodotti specifici per questo allergene. Per sicurezza, chiedi sempre conferma al personale.",
+      "Non risultano prodotti specificamente indicati per questa voce. Per sicurezza, chiedi sempre conferma al personale.",
 
     unknownTitle:
       "Non trovi quello che stai cercando?",
@@ -2084,14 +1344,23 @@ const ui = {
     compactWarning:
       "⚠️ Cross-contamination may occur · always check with our staff.",
 
-    contains:
+    containsAllergen:
       "Products listed as containing",
 
+    containsIngredient:
+      "Products containing or using",
+
+    allergenLabel:
+      "allergen",
+
+    ingredientLabel:
+      "ingredient",
+
     source:
-      "Results are based on the allergen information in our menu.",
+      "Results are based on the allergens and ingredients declared in our menus and preparations.",
 
     noneForAllergen:
-      "The current menu does not list specific products for this allergen. For your safety, please always check with our staff.",
+      "No specific products are currently listed for this item. For your safety, always check with our staff.",
 
     unknownTitle:
       "Can't find what you're looking for?",
@@ -2110,14 +1379,23 @@ const ui = {
     compactWarning:
       "⚠️ Kreuzkontaminationen sind möglich · bitte immer beim Personal nachfragen.",
 
-    contains:
+    containsAllergen:
       "Als allergenhaltig aufgeführte Produkte",
 
+    containsIngredient:
+      "Produkte, die diese Zutat enthalten oder verwenden",
+
+    allergenLabel:
+      "Allergen",
+
+    ingredientLabel:
+      "Zutat",
+
     source:
-      "Die Ergebnisse basieren auf den Allergenangaben unserer Speisekarte.",
+      "Die Ergebnisse basieren auf den in unseren Speisekarten und Zubereitungen angegebenen Allergenen und Zutaten.",
 
     noneForAllergen:
-      "In der aktuellen Speisekarte sind für dieses Allergen keine bestimmten Produkte aufgeführt. Bitte fragen Sie zur Sicherheit immer unser Personal.",
+      "Für diesen Eintrag sind derzeit keine bestimmten Produkte aufgeführt. Bitte fragen Sie zur Sicherheit immer unser Personal.",
 
     unknownTitle:
       "Nicht gefunden, wonach Sie suchen?",
@@ -2136,14 +1414,23 @@ const ui = {
     compactWarning:
       "⚠️ Puede producirse contaminación cruzada · consulta siempre con el personal.",
 
-    contains:
+    containsAllergen:
       "Productos indicados como que contienen",
 
+    containsIngredient:
+      "Productos que contienen o utilizan",
+
+    allergenLabel:
+      "alérgeno",
+
+    ingredientLabel:
+      "ingrediente",
+
     source:
-      "Los resultados se basan en la información sobre alérgenos del menú.",
+      "Los resultados se basan en los alérgenos e ingredientes declarados en nuestros menús y preparaciones.",
 
     noneForAllergen:
-      "El menú actual no indica productos específicos para este alérgeno. Por seguridad, consulta siempre con el personal.",
+      "Actualmente no hay productos específicos indicados para esta búsqueda. Por seguridad, consulta siempre con el personal.",
 
     unknownTitle:
       "¿No encuentras lo que buscas?",
@@ -2156,24 +1443,1342 @@ const ui = {
 };
 
 
-/* =========================
+/* =========================================================
+   CATALOGO NOMI PRODOTTI
+   ========================================================= */
+
+const productNames = {
+
+  allBurgers: {
+    it: "Tutti gli hamburger",
+    en: "All burgers",
+    de: "Alle Burger",
+    es: "Todas las hamburguesas"
+  },
+
+  allBurgersExceptLight: {
+    it: "Tutti gli hamburger, tranne Hamburger Light",
+    en: "All burgers, except the Light Burger",
+    de: "Alle Burger, außer dem Light Burger",
+    es: "Todas las hamburguesas, excepto la Hamburguesa Light"
+  },
+
+  allSandwiches: {
+    it: "Tutti i sandwich",
+    en: "All sandwiches",
+    de: "Alle Sandwiches",
+    es: "Todos los sándwiches"
+  },
+
+  allPizzas: {
+    it: "Tutte le pizze",
+    en: "All pizzas",
+    de: "Alle Pizzen",
+    es: "Todas las pizzas"
+  },
+
+  allHotDogs: {
+    it: "Tutti gli hot dog",
+    en: "All hot dogs",
+    de: "Alle Hot Dogs",
+    es: "Todos los hot dogs"
+  },
+
+  allBeersExceptCasamatta: {
+    it: "Tutte le birre, tranne Casamatta",
+    en: "All beers, except Casamatta",
+    de: "Alle Biere, außer Casamatta",
+    es: "Todas las cervezas, excepto Casamatta"
+  },
+
+  cheeseburger: {
+    it: "Cheeseburger",
+    en: "Cheeseburger",
+    de: "Cheeseburger",
+    es: "Cheeseburger"
+  },
+
+  baconburger: {
+    it: "Baconburger",
+    en: "Bacon Burger",
+    de: "Baconburger",
+    es: "Baconburger"
+  },
+
+  hamburger: {
+    it: "Hamburger",
+    en: "Hamburger",
+    de: "Hamburger",
+    es: "Hamburger"
+  },
+
+  summerburger: {
+    it: "Summerburger",
+    en: "Summer Burger",
+    de: "Summerburger",
+    es: "Summerburger"
+  },
+
+  frisburger: {
+    it: "Frisburger",
+    en: "Fries Burger",
+    de: "Frisburger",
+    es: "Frisburger"
+  },
+
+  eggburger: {
+    it: "Eggburger",
+    en: "Egg Burger",
+    de: "Eggburger",
+    es: "Eggburger"
+  },
+
+  devilburger: {
+    it: "Devilburger",
+    en: "Devil Burger",
+    de: "Devilburger",
+    es: "Devilburger"
+  },
+
+  veggyburger: {
+    it: "Veggyburger",
+    en: "Veggy Burger",
+    de: "Veggyburger",
+    es: "Veggyburger"
+  },
+
+  salzburger: {
+    it: "Salzburger",
+    en: "Salzburger",
+    de: "Salzburger",
+    es: "Salzburger"
+  },
+
+  galway: {
+    it: "Galway Burger",
+    en: "Galway Burger",
+    de: "Galway Burger",
+    es: "Galway Burger"
+  },
+
+  irish: {
+    it: "Irish",
+    en: "Irish Ciabatta",
+    de: "Irish Ciabatta",
+    es: "Irish"
+  },
+
+  dublin: {
+    it: "Dublin",
+    en: "Dublin Ciabatta",
+    de: "Dublin Ciabatta",
+    es: "Dublin"
+  },
+
+  diablo: {
+    it: "Diablo",
+    en: "Diablo Ciabatta",
+    de: "Diablo",
+    es: "Diablo"
+  },
+
+  connemara: {
+    it: "Connemara",
+    en: "Connemara",
+    de: "Connemara",
+    es: "Connemara"
+  },
+
+  toast: {
+    it: "Toast",
+    en: "Classic Toast",
+    de: "Toast",
+    es: "Toast"
+  },
+
+  stuffedToast: {
+    it: "Toast farcito",
+    en: "Stuffed Toast",
+    de: "Gefüllter Toast",
+    es: "Toast especial"
+  },
+
+  hotDogBun: {
+    it: "Pane per hot dog",
+    en: "Hot dog bun",
+    de: "Hot-Dog-Brötchen",
+    es: "Pan de hot dog"
+  },
+
+  coneyDog: {
+    it: "Coney Dog",
+    en: "Coney Dog",
+    de: "Coney Dog",
+    es: "Coney Dog"
+  },
+
+  pulledPork: {
+    it: "Pulled Pork",
+    en: "Pulled Pork",
+    de: "Pulled Pork",
+    es: "Pulled Pork"
+  },
+
+  pulledSalad: {
+    it: "Pulled Salad",
+    en: "Pulled Salad",
+    de: "Pulled Salad",
+    es: "Pulled Salad"
+  },
+
+  caesarSalad: {
+    it: "Cesar Salad",
+    en: "Caesar Salad",
+    de: "Caesar Salat",
+    es: "Ensalada César"
+  },
+
+  wiclowSalad: {
+    it: "Wiclow Salad",
+    en: "Wiclow Salad",
+    de: "Wiclow Salat",
+    es: "Wiclow Salad"
+  },
+
+  mediterraneanSalad: {
+    it: "Insalata Mediterranea",
+    en: "Mediterranean Salad",
+    de: "Mediterraner Salat",
+    es: "Ensalada Mediterránea"
+  },
+
+  bresaolaWrap: {
+    it: "Bresaola Wrap",
+    en: "Bresaola Wrap",
+    de: "Bresaola Wrap",
+    es: "Bresaola Wrap"
+  },
+
+  chickenWrap: {
+    it: "Chicken Wrap",
+    en: "Chicken Wrap",
+    de: "Chicken Wrap",
+    es: "Chicken Wrap"
+  },
+
+  rocketSide: {
+    it: "Contorno con rucola, pomodorini e grana",
+    en: "Rocket, cherry tomato and Parmesan side",
+    de: "Beilage mit Rucola, Cherrytomaten und Parmesan",
+    es: "Guarnición de rúcula, tomates cherry y parmesano"
+  },
+
+  tunaOnionPizza: {
+    it: "Trancio Tonno & Cipolla",
+    en: "Tuna & Onion Pizza Slice",
+    de: "Pizzastück Thunfisch & Zwiebel",
+    es: "Porción de pizza de atún y cebolla"
+  },
+
+  mushroomArtichokePizza: {
+    it: "Trancio Funghi & Carciofini",
+    en: "Mushroom & Artichoke Pizza Slice",
+    de: "Pizzastück Pilze & Artischocken",
+    es: "Porción de pizza de champiñones y alcachofas"
+  },
+
+  speckMushroomPizza: {
+    it: "Trancio Speck & Funghi",
+    en: "Speck & Mushroom Pizza Slice",
+    de: "Pizzastück Speck & Pilze",
+    es: "Porción de pizza de speck y champiñones"
+  },
+
+  diavolaPizza: {
+    it: "Trancio Diavola",
+    en: "Diavola Pizza Slice",
+    de: "Pizzastück Diavola",
+    es: "Porción de pizza Diavola"
+  },
+
+  chickenWings: {
+    it: "Alette di pollo",
+    en: "Chicken wings",
+    de: "Chicken Wings",
+    es: "Alitas de pollo"
+  },
+
+  chickenNuggets: {
+    it: "Nuggets di pollo",
+    en: "Chicken nuggets",
+    de: "Chicken Nuggets",
+    es: "Nuggets de pollo"
+  },
+
+  batteredVegetables: {
+    it: "Verdure pastellate",
+    en: "Battered vegetables",
+    de: "Gemüse im Backteig",
+    es: "Verduras rebozadas"
+  },
+
+  onionRings: {
+    it: "Anelli di cipolla",
+    en: "Onion rings",
+    de: "Zwiebelringe",
+    es: "Aros de cebolla"
+  },
+
+  mozzarellaBites: {
+    it: "Mozzarelline impanate",
+    en: "Breaded mozzarella bites",
+    de: "Panierte Mozzarella-Bällchen",
+    es: "Bolitas de mozzarella empanadas"
+  },
+
+  ascolane: {
+    it: "Olive all’ascolana",
+    en: "Stuffed olives (Ascolane)",
+    de: "Gefüllte Oliven (Ascolane)",
+    es: "Aceitunas rellenas estilo Ascoli"
+  },
+
+  jalapenos: {
+    it: "Jalapeños",
+    en: "Jalapeños",
+    de: "Jalapeños",
+    es: "Jalapeños"
+  },
+
+  fries: {
+    it: "Patate fritte",
+    en: "French fries",
+    de: "Pommes Frites",
+    es: "Patatas fritas"
+  },
+
+  potatoCroquettes: {
+    it: "Crocchette di patate",
+    en: "Potato croquettes",
+    de: "Kartoffelkroketten",
+    es: "Croquetas de patata"
+  },
+
+  crazyFries: {
+    it: "Patate Impazzite",
+    en: "Loaded Fries",
+    de: "Loaded Fries",
+    es: "Patatas Locas"
+  },
+
+  pannaCotta: {
+    it: "Panna cotta",
+    en: "Panna cotta",
+    de: "Panna cotta",
+    es: "Panna cotta"
+  },
+
+  cheesecakeLotus: {
+    it: "Cheesecake Lotus",
+    en: "Lotus Cheesecake",
+    de: "Lotus Cheesecake",
+    es: "Cheesecake Lotus"
+  },
+
+  cheesecakeBerry: {
+    it: "Cheesecake ai frutti di bosco",
+    en: "Mixed Berry Cheesecake",
+    de: "Waldfrucht-Cheesecake",
+    es: "Cheesecake de frutos del bosque"
+  },
+
+  tiramisu: {
+    it: "Tiramisù",
+    en: "Tiramisu",
+    de: "Tiramisu",
+    es: "Tiramisú"
+  },
+
+  whiteTruffle: {
+    it: "Tartufo bianco",
+    en: "White truffle dessert",
+    de: "Weißer Tartufo",
+    es: "Tartufo blanco"
+  },
+
+  darkTruffle: {
+    it: "Tartufo nero",
+    en: "Dark truffle dessert",
+    de: "Dunkler Tartufo",
+    es: "Tartufo negro"
+  },
+
+  chocolateCake: {
+    it: "Tortino al cioccolato",
+    en: "Chocolate cake",
+    de: "Schokoladenküchlein",
+    es: "Tarta de chocolate"
+  },
+
+  irishCoffee: {
+    it: "Irish Coffee",
+    en: "Irish Coffee",
+    de: "Irish Coffee",
+    es: "Irish Coffee"
+  }
+
+};
+
+
+/* =========================================================
+   DATABASE
+   ========================================================= */
+
+const entries = [
+
+  /* ---------- 14 ALLERGENI ---------- */
+
+  {
+    type: "allergen",
+    names: {
+      it: "Cereali contenenti glutine",
+      en: "Cereals containing gluten",
+      de: "Glutenhaltiges Getreide",
+      es: "Cereales con gluten"
+    },
+    aliases: {
+      it: ["glutine", "cereali", "cereali e derivati"],
+      en: ["gluten", "cereals", "cereals containing gluten"],
+      de: ["gluten", "getreide", "glutenhaltiges getreide"],
+      es: ["gluten", "cereales", "cereales con gluten"]
+    },
+    products: [
+      "allBurgers",
+      "allSandwiches",
+      "allPizzas",
+      "allHotDogs",
+      "chickenWings",
+      "batteredVegetables",
+      "onionRings",
+      "mozzarellaBites",
+      "ascolane",
+      "jalapenos",
+      "chickenNuggets",
+      "cheesecakeLotus",
+      "cheesecakeBerry",
+      "tiramisu",
+      "chocolateCake",
+      "allBeersExceptCasamatta"
+    ]
+  },
+
+
+  {
+    type: "allergen",
+    names: {
+      it: "Crostacei",
+      en: "Crustaceans",
+      de: "Krebstiere",
+      es: "Crustáceos"
+    },
+    aliases: {
+      it: ["crostacei", "crostaceo"],
+      en: ["crustaceans", "crustacean"],
+      de: ["krebstiere", "krebstier"],
+      es: ["crustaceos", "crustaceo"]
+    },
+    products: []
+  },
+
+
+  {
+    type: "allergen",
+    names: {
+      it: "Uova",
+      en: "Eggs",
+      de: "Eier",
+      es: "Huevos"
+    },
+    aliases: {
+      it: ["uova", "uovo"],
+      en: ["eggs", "egg"],
+      de: ["eier", "ei"],
+      es: ["huevos", "huevo"]
+    },
+    products: [
+      "eggburger",
+      "connemara",
+      "dublin",
+      "irish",
+      "salzburger",
+      "diablo",
+      "toast",
+      "stuffedToast"
+    ]
+  },
+
+
+  {
+    type: "allergen",
+    names: {
+      it: "Pesce",
+      en: "Fish",
+      de: "Fisch",
+      es: "Pescado"
+    },
+    aliases: {
+      it: ["pesce"],
+      en: ["fish"],
+      de: ["fisch"],
+      es: ["pescado"]
+    },
+    products: [
+      "tunaOnionPizza",
+      "wiclowSalad",
+      "mediterraneanSalad"
+    ]
+  },
+
+
+  {
+    type: "allergen",
+    names: {
+      it: "Arachidi",
+      en: "Peanuts",
+      de: "Erdnüsse",
+      es: "Cacahuetes"
+    },
+    aliases: {
+      it: ["arachidi", "arachide"],
+      en: ["peanuts", "peanut"],
+      de: ["erdnusse", "erdnüsse", "erdnuss"],
+      es: ["cacahuetes", "cacahuete"]
+    },
+    products: []
+  },
+
+
+  {
+    type: "allergen",
+    names: {
+      it: "Soia",
+      en: "Soy",
+      de: "Soja",
+      es: "Soja"
+    },
+    aliases: {
+      it: ["soia"],
+      en: ["soy", "soya"],
+      de: ["soja"],
+      es: ["soja"]
+    },
+    products: [
+      "veggyburger",
+      "ascolane"
+    ]
+  },
+
+
+  {
+    type: "allergen",
+    names: {
+      it: "Latte e derivati",
+      en: "Milk and dairy products",
+      de: "Milch und Milchprodukte",
+      es: "Leche y productos lácteos"
+    },
+    aliases: {
+      it: ["latte", "latticini", "derivati del latte"],
+      en: ["milk", "dairy", "dairy products"],
+      de: ["milch", "milchprodukte"],
+      es: ["leche", "lacteos", "lácteos"]
+    },
+    products: [
+      "hotDogBun",
+      "allPizzas",
+      "potatoCroquettes",
+      "batteredVegetables",
+      "mozzarellaBites",
+      "jalapenos",
+      "ascolane",
+      "diablo",
+      "connemara",
+      "irish",
+      "dublin",
+      "cheeseburger",
+      "baconburger",
+      "summerburger",
+      "devilburger",
+      "salzburger",
+      "caesarSalad",
+      "wiclowSalad",
+      "mediterraneanSalad",
+      "bresaolaWrap",
+      "galway",
+      "pannaCotta",
+      "cheesecakeLotus",
+      "cheesecakeBerry",
+      "tiramisu",
+      "whiteTruffle",
+      "darkTruffle",
+      "chocolateCake",
+      "irishCoffee"
+    ]
+  },
+
+
+  {
+    type: "allergen",
+    names: {
+      it: "Frutta a guscio",
+      en: "Tree nuts",
+      de: "Schalenfrüchte",
+      es: "Frutos de cáscara"
+    },
+    aliases: {
+      it: ["frutta a guscio", "frutta secca", "noci", "nocciole", "mandorle"],
+      en: ["nuts", "tree nuts"],
+      de: ["schalenfruchte", "schalenfrüchte", "nusse", "nüsse"],
+      es: ["frutos de cascara", "frutos secos", "nueces"]
+    },
+    products: [
+      "diablo",
+      "dublin",
+      "connemara",
+      "irish"
+    ]
+  },
+
+
+  {
+    type: "allergen",
+    names: {
+      it: "Sedano",
+      en: "Celery",
+      de: "Sellerie",
+      es: "Apio"
+    },
+    aliases: {
+      it: ["sedano"],
+      en: ["celery"],
+      de: ["sellerie"],
+      es: ["apio"]
+    },
+    products: [
+      "ascolane",
+      "chickenWings"
+    ]
+  },
+
+
+  {
+    type: "allergen",
+    names: {
+      it: "Senape",
+      en: "Mustard",
+      de: "Senf",
+      es: "Mostaza"
+    },
+    aliases: {
+      it: ["senape"],
+      en: ["mustard"],
+      de: ["senf"],
+      es: ["mostaza"]
+    },
+    products: [
+      "coneyDog",
+      "pulledPork",
+      "frisburger"
+    ]
+  },
+
+
+  {
+    type: "allergen",
+    names: {
+      it: "Sesamo",
+      en: "Sesame",
+      de: "Sesam",
+      es: "Sésamo"
+    },
+    aliases: {
+      it: ["sesamo"],
+      en: ["sesame"],
+      de: ["sesam"],
+      es: ["sesamo", "sésamo"]
+    },
+    products: [
+      "allBurgersExceptLight"
+    ]
+  },
+
+
+  {
+    type: "allergen",
+    names: {
+      it: "Anidride solforosa e solfiti",
+      en: "Sulphur dioxide and sulphites",
+      de: "Schwefeldioxid und Sulfite",
+      es: "Dióxido de azufre y sulfitos"
+    },
+    aliases: {
+      it: ["solfiti", "anidride solforosa"],
+      en: ["sulphites", "sulfites", "sulphur dioxide", "sulfur dioxide"],
+      de: ["sulfite", "schwefeldioxid"],
+      es: ["sulfitos", "dioxido di azufre", "dióxido de azufre"]
+    },
+    products: []
+  },
+
+
+  {
+    type: "allergen",
+    names: {
+      it: "Lupini",
+      en: "Lupin",
+      de: "Lupinen",
+      es: "Altramuces"
+    },
+    aliases: {
+      it: ["lupini", "lupino"],
+      en: ["lupin", "lupins"],
+      de: ["lupinen", "lupine"],
+      es: ["altramuces", "altramuz"]
+    },
+    products: []
+  },
+
+
+  {
+    type: "allergen",
+    names: {
+      it: "Molluschi",
+      en: "Molluscs",
+      de: "Weichtiere",
+      es: "Moluscos"
+    },
+    aliases: {
+      it: ["molluschi", "mollusco"],
+      en: ["molluscs", "mollusks", "mollusc", "mollusk"],
+      de: ["weichtiere", "schalentiere"],
+      es: ["moluscos", "molusco"]
+    },
+    products: []
+  },
+
+
+  /* ---------- LATTOSIO SEPARATO ---------- */
+
+  {
+    type: "ingredient",
+    names: {
+      it: "Lattosio",
+      en: "Lactose",
+      de: "Laktose",
+      es: "Lactosa"
+    },
+    aliases: {
+      it: ["lattosio"],
+      en: ["lactose"],
+      de: ["laktose"],
+      es: ["lactosa"]
+    },
+    products: [
+      "cheeseburger",
+      "baconburger",
+      "summerburger",
+      "devilburger",
+      "salzburger",
+      "irish",
+      "dublin",
+      "caesarSalad",
+      "wiclowSalad",
+      "mediterraneanSalad",
+      "pannaCotta",
+      "cheesecakeLotus",
+      "cheesecakeBerry",
+      "tiramisu",
+      "whiteTruffle",
+      "darkTruffle",
+      "chocolateCake",
+      "irishCoffee"
+    ]
+  },
+
+
+  /* =========================================================
+     VERDURE / INGREDIENTI VEGETALI
+     ========================================================= */
+
+  {
+    type: "ingredient",
+    names: {
+      it: "Pomodoro",
+      en: "Tomato",
+      de: "Tomate",
+      es: "Tomate"
+    },
+    aliases: {
+      it: ["pomodoro", "pomodori", "pomodorino", "pomodorini"],
+      en: ["tomato", "tomatoes", "cherry tomato", "cherry tomatoes"],
+      de: ["tomate", "tomaten", "cherrytomate", "cherrytomaten"],
+      es: ["tomate", "tomates", "tomate cherry", "tomates cherry"]
+    },
+    products: [
+      "cheeseburger",
+      "baconburger",
+      "hamburger",
+      "summerburger",
+      "veggyburger",
+      "salzburger",
+      "irish",
+      "dublin",
+      "rocketSide",
+      "wiclowSalad",
+      "mediterraneanSalad",
+      "bresaolaWrap",
+      "chickenWrap",
+      "galway"
+    ]
+  },
+
+
+  {
+    type: "ingredient",
+    names: {
+      it: "Lattuga",
+      en: "Lettuce",
+      de: "Blattsalat",
+      es: "Lechuga"
+    },
+    aliases: {
+      it: ["lattuga", "insalata verde"],
+      en: ["lettuce"],
+      de: ["blattsalat"],
+      es: ["lechuga"]
+    },
+    products: [
+      "cheeseburger",
+      "baconburger",
+      "hamburger",
+      "frisburger",
+      "eggburger",
+      "devilburger",
+      "veggyburger",
+      "salzburger",
+      "irish",
+      "dublin",
+      "caesarSalad",
+      "wiclowSalad",
+      "pulledSalad",
+      "mediterraneanSalad",
+      "chickenWrap"
+    ]
+  },
+
+
+  {
+    type: "ingredient",
+    names: {
+      it: "Cipolla",
+      en: "Onion",
+      de: "Zwiebel",
+      es: "Cebolla"
+    },
+    aliases: {
+      it: ["cipolla", "cipolle", "cipolla cruda", "cipolla caramellata"],
+      en: ["onion", "onions", "raw onion", "caramelised onion", "caramelized onion"],
+      de: ["zwiebel", "zwiebeln", "rohe zwiebel", "karamellisierte zwiebel"],
+      es: ["cebolla", "cebollas", "cebolla cruda", "cebolla caramelizada"]
+    },
+    products: [
+      "cheeseburger",
+      "baconburger",
+      "hamburger",
+      "eggburger",
+      "devilburger",
+      "veggyburger",
+      "tunaOnionPizza",
+      "onionRings",
+      "coneyDog",
+      "pulledPork",
+      "wiclowSalad",
+      "pulledSalad",
+      "mediterraneanSalad"
+    ]
+  },
+
+
+  {
+    type: "ingredient",
+    names: {
+      it: "Cetriolo",
+      en: "Cucumber",
+      de: "Gurke",
+      es: "Pepino"
+    },
+    aliases: {
+      it: ["cetriolo", "cetrioli"],
+      en: ["cucumber", "cucumbers"],
+      de: ["gurke", "gurken"],
+      es: ["pepino", "pepinos"]
+    },
+    products: [
+      "hamburger",
+      "wiclowSalad",
+      "pulledSalad",
+      "mediterraneanSalad"
+    ]
+  },
+
+
+  {
+    type: "ingredient",
+    names: {
+      it: "Rucola",
+      en: "Rocket / Arugula",
+      de: "Rucola",
+      es: "Rúcula"
+    },
+    aliases: {
+      it: ["rucola"],
+      en: ["rocket", "arugula"],
+      de: ["rucola"],
+      es: ["rucula", "rúcula"]
+    },
+    products: [
+      "rocketSide",
+      "wiclowSalad",
+      "mediterraneanSalad",
+      "bresaolaWrap",
+      "galway"
+    ]
+  },
+
+
+  {
+    type: "ingredient",
+    names: {
+      it: "Funghi",
+      en: "Mushrooms",
+      de: "Pilze",
+      es: "Champiñones"
+    },
+    aliases: {
+      it: ["fungo", "funghi"],
+      en: ["mushroom", "mushrooms"],
+      de: ["pilz", "pilze"],
+      es: ["champinon", "champinones", "champiñon", "champiñones"]
+    },
+    products: [
+      "mushroomArtichokePizza",
+      "speckMushroomPizza",
+      "connemara",
+      "stuffedToast"
+    ]
+  },
+
+
+  {
+    type: "ingredient",
+    names: {
+      it: "Carciofi",
+      en: "Artichokes",
+      de: "Artischocken",
+      es: "Alcachofas"
+    },
+    aliases: {
+      it: ["carciofo", "carciofi", "carciofino", "carciofini"],
+      en: ["artichoke", "artichokes"],
+      de: ["artischocke", "artischocken"],
+      es: ["alcachofa", "alcachofas"]
+    },
+    products: [
+      "mushroomArtichokePizza",
+      "stuffedToast"
+    ]
+  },
+
+
+  {
+    type: "ingredient",
+    names: {
+      it: "Olive",
+      en: "Olives",
+      de: "Oliven",
+      es: "Aceitunas"
+    },
+    aliases: {
+      it: ["oliva", "olive", "olive verdi"],
+      en: ["olive", "olives", "green olives"],
+      de: ["olive", "oliven", "grune oliven", "grüne oliven"],
+      es: ["aceituna", "aceitunas", "aceitunas verdes"]
+    },
+    products: [
+      "ascolane",
+      "wiclowSalad",
+      "mediterraneanSalad"
+    ]
+  },
+
+
+  {
+    type: "ingredient",
+    names: {
+      it: "Jalapeños",
+      en: "Jalapeños",
+      de: "Jalapeños",
+      es: "Jalapeños"
+    },
+    aliases: {
+      it: ["jalapeno", "jalapenos", "jalapeño", "jalapeños"],
+      en: ["jalapeno", "jalapenos", "jalapeño", "jalapeños"],
+      de: ["jalapeno", "jalapenos", "jalapeño", "jalapeños"],
+      es: ["jalapeno", "jalapenos", "jalapeño", "jalapeños"]
+    },
+    products: [
+      "jalapenos"
+    ]
+  },
+
+
+  {
+    type: "ingredient",
+    names: {
+      it: "Chili / peperoncino",
+      en: "Chili",
+      de: "Chili",
+      es: "Chile"
+    },
+    aliases: {
+      it: ["chili", "chili fresco", "peperoncino", "piccante"],
+      en: ["chili", "chilli", "fresh chili", "fresh chilli", "hot sauce"],
+      de: ["chili", "frische chili", "scharf"],
+      es: ["chili", "chile", "chile fresco", "picante"]
+    },
+    products: [
+      "coneyDog",
+      "diablo",
+      "devilburger"
+    ]
+  },
+
+
+  {
+    type: "ingredient",
+    names: {
+      it: "Patata",
+      en: "Potato",
+      de: "Kartoffel",
+      es: "Patata"
+    },
+    aliases: {
+      it: ["patata", "patate"],
+      en: ["potato", "potatoes", "fries", "french fries"],
+      de: ["kartoffel", "kartoffeln", "pommes", "pommes frites"],
+      es: ["patata", "patatas"]
+    },
+    products: [
+      "fries",
+      "potatoCroquettes",
+      "crazyFries"
+    ]
+  },
+
+
+  {
+    type: "ingredient",
+    names: {
+      it: "Cavolo / Coleslaw",
+      en: "Cabbage / Coleslaw",
+      de: "Kohl / Coleslaw",
+      es: "Col / Coleslaw"
+    },
+    aliases: {
+      it: ["cavolo", "cavolo cappuccio", "coleslaw", "salsa coleslaw"],
+      en: ["cabbage", "coleslaw"],
+      de: ["kohl", "kraut", "coleslaw"],
+      es: ["col", "repollo", "coleslaw"]
+    },
+    products: [
+      "pulledPork",
+      "pulledSalad"
+    ]
+  },
+
+
+  {
+    type: "ingredient",
+    names: {
+      it: "Verdure",
+      en: "Vegetables",
+      de: "Gemüse",
+      es: "Verduras"
+    },
+    aliases: {
+      it: ["verdura", "verdure", "verdure grigliate", "verdure pastellate"],
+      en: ["vegetable", "vegetables", "grilled vegetables", "battered vegetables"],
+      de: ["gemuse", "gemüse", "gegrilltes gemuse", "gegrilltes gemüse"],
+      es: ["verdura", "verduras", "verduras a la parrilla", "verduras rebozadas"]
+    },
+    products: [
+      "dublin",
+      "batteredVegetables"
+    ]
+  },
+
+
+  /* =========================================================
+     ALTRI INGREDIENTI UTILI ALLA RICERCA
+     ========================================================= */
+
+  {
+    type: "ingredient",
+    names: {
+      it: "Tonno",
+      en: "Tuna",
+      de: "Thunfisch",
+      es: "Atún"
+    },
+    aliases: {
+      it: ["tonno"],
+      en: ["tuna"],
+      de: ["thunfisch"],
+      es: ["atun", "atún"]
+    },
+    products: [
+      "tunaOnionPizza",
+      "wiclowSalad",
+      "mediterraneanSalad"
+    ]
+  },
+
+
+  {
+    type: "ingredient",
+    names: {
+      it: "Formaggio",
+      en: "Cheese",
+      de: "Käse",
+      es: "Queso"
+    },
+    aliases: {
+      it: [
+        "formaggio",
+        "formaggi",
+        "cheddar",
+        "scamorza",
+        "mozzarella",
+        "edamer",
+        "feta",
+        "grana",
+        "parmigiano"
+      ],
+      en: [
+        "cheese",
+        "cheddar",
+        "scamorza",
+        "mozzarella",
+        "edam",
+        "feta",
+        "parmesan"
+      ],
+      de: [
+        "kase",
+        "käse",
+        "cheddar",
+        "scamorza",
+        "mozzarella",
+        "edamer",
+        "feta",
+        "parmesan"
+      ],
+      es: [
+        "queso",
+        "cheddar",
+        "scamorza",
+        "mozzarella",
+        "edam",
+        "feta",
+        "parmesano"
+      ]
+    },
+    products: [
+      "cheeseburger",
+      "baconburger",
+      "summerburger",
+      "devilburger",
+      "salzburger",
+      "irish",
+      "diablo",
+      "connemara",
+      "dublin",
+      "toast",
+      "stuffedToast",
+      "caesarSalad",
+      "wiclowSalad",
+      "mediterraneanSalad",
+      "bresaolaWrap",
+      "galway"
+    ]
+  },
+
+
+  {
+    type: "ingredient",
+    names: {
+      it: "Bacon",
+      en: "Bacon",
+      de: "Bacon",
+      es: "Bacon"
+    },
+    aliases: {
+      it: ["bacon"],
+      en: ["bacon"],
+      de: ["bacon"],
+      es: ["bacon"]
+    },
+    products: [
+      "baconburger",
+      "frisburger"
+    ]
+  },
+
+
+  {
+    type: "ingredient",
+    names: {
+      it: "Maiale / suino",
+      en: "Pork",
+      de: "Schweinefleisch",
+      es: "Cerdo"
+    },
+    aliases: {
+      it: [
+        "maiale",
+        "suino",
+        "prosciutto",
+        "speck",
+        "salame",
+        "salamino",
+        "wurstel",
+        "würstel",
+        "pulled pork",
+        "bacon"
+      ],
+      en: [
+        "pork",
+        "ham",
+        "speck",
+        "salami",
+        "sausage",
+        "pulled pork",
+        "bacon"
+      ],
+      de: [
+        "schwein",
+        "schweinefleisch",
+        "schinken",
+        "speck",
+        "salami",
+        "wurst",
+        "pulled pork",
+        "bacon"
+      ],
+      es: [
+        "cerdo",
+        "jamon",
+        "jamón",
+        "speck",
+        "salami",
+        "salchicha",
+        "pulled pork",
+        "bacon"
+      ]
+    },
+    products: [
+      "baconburger",
+      "frisburger",
+      "irish",
+      "diablo",
+      "connemara",
+      "toast",
+      "stuffedToast",
+      "speckMushroomPizza",
+      "diavolaPizza",
+      "coneyDog",
+      "pulledPork",
+      "pulledSalad"
+    ]
+  },
+
+
+  {
+    type: "ingredient",
+    names: {
+      it: "Pollo",
+      en: "Chicken",
+      de: "Hähnchen",
+      es: "Pollo"
+    },
+    aliases: {
+      it: ["pollo", "alette di pollo", "nuggets di pollo"],
+      en: ["chicken", "chicken wings", "chicken nuggets"],
+      de: ["hahnchen", "hähnchen", "huhn"],
+      es: ["pollo", "alitas de pollo", "nuggets de pollo"]
+    },
+    products: [
+      "salzburger",
+      "chickenWings",
+      "chickenNuggets",
+      "caesarSalad",
+      "chickenWrap"
+    ]
+  },
+
+
+  {
+    type: "ingredient",
+    names: {
+      it: "Coleslaw",
+      en: "Coleslaw",
+      de: "Coleslaw",
+      es: "Coleslaw"
+    },
+    aliases: {
+      it: ["coleslaw", "salsa coleslaw"],
+      en: ["coleslaw"],
+      de: ["coleslaw"],
+      es: ["coleslaw"]
+    },
+    products: [
+      "pulledPork",
+      "pulledSalad"
+    ]
+  }
+
+];
+
+
+/* =========================================================
    NORMALIZZAZIONE
-   ========================= */
+   ========================================================= */
 
 function normalizeText(text) {
 
-  return text
+  return String(text || "")
     .toLowerCase()
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[’']/g, "")
     .trim();
 
 }
 
 
-/* =========================
-   LINGUA BROWSER
-   ========================= */
+/* =========================================================
+   LINGUA TELEFONO
+   ========================================================= */
 
 function browserLanguage() {
 
@@ -2198,14 +2803,13 @@ function browserLanguage() {
 }
 
 
-/* =========================
-   TROVA ALLERGENE
-   ========================= */
+/* =========================================================
+   RICERCA
+   ========================================================= */
 
-function findAllergen(query) {
+function findEntry(query) {
 
-  const normalized =
-    normalizeText(query);
+  const normalized = normalizeText(query);
 
   if (!normalized) {
     return null;
@@ -2214,37 +2818,52 @@ function findAllergen(query) {
   const matches = [];
 
 
-  Object.entries(allergens)
-    .forEach(function ([key, allergen]) {
+  entries.forEach(function (entry) {
 
-      Object.entries(allergen.aliases)
-        .forEach(function ([lang, aliases]) {
+    Object.entries(entry.aliases)
+      .forEach(function ([lang, aliases]) {
 
-          aliases.forEach(function (alias) {
+        aliases.forEach(function (alias) {
 
-            const normalizedAlias =
-              normalizeText(alias);
+          const normalizedAlias =
+            normalizeText(alias);
 
-            if (
-              normalized === normalizedAlias ||
-              normalizedAlias.startsWith(normalized) ||
-              normalized.startsWith(normalizedAlias)
-            ) {
+          let score = 0;
 
-              matches.push({
-                key: key,
-                lang: lang,
-                allergen: allergen,
-                aliasLength: normalizedAlias.length
-              });
+          if (normalized === normalizedAlias) {
+            score = 100;
+          }
 
-            }
+          else if (
+            normalizedAlias.startsWith(normalized) &&
+            normalized.length >= 2
+          ) {
+            score = 70;
+          }
 
-          });
+          else if (
+            normalized.startsWith(normalizedAlias) &&
+            normalizedAlias.length >= 3
+          ) {
+            score = 60;
+          }
+
+          if (score > 0) {
+
+            matches.push({
+              entry: entry,
+              lang: lang,
+              score: score,
+              aliasLength: normalizedAlias.length
+            });
+
+          }
 
         });
 
-    });
+      });
+
+  });
 
 
   if (!matches.length) {
@@ -2256,46 +2875,28 @@ function findAllergen(query) {
     browserLanguage();
 
 
-  const exactBrowserMatch =
-    matches.find(function (match) {
-
-      return (
-        match.lang === preferredLanguage &&
-        match.aliasLength === normalized.length
-      );
-
-    });
-
-
-  if (exactBrowserMatch) {
-    return exactBrowserMatch;
-  }
-
-
-  const exactMatch =
-    matches.find(function (match) {
-      return match.aliasLength === normalized.length;
-    });
-
-
-  if (exactMatch) {
-    return exactMatch;
-  }
-
-
-  const browserMatch =
-    matches.find(function (match) {
-      return match.lang === preferredLanguage;
-    });
-
-
-  if (browserMatch) {
-    return browserMatch;
-  }
-
-
   matches.sort(function (a, b) {
+
+    if (b.score !== a.score) {
+      return b.score - a.score;
+    }
+
+    if (
+      a.lang === preferredLanguage &&
+      b.lang !== preferredLanguage
+    ) {
+      return -1;
+    }
+
+    if (
+      b.lang === preferredLanguage &&
+      a.lang !== preferredLanguage
+    ) {
+      return 1;
+    }
+
     return a.aliasLength - b.aliasLength;
+
   });
 
 
@@ -2304,33 +2905,39 @@ function findAllergen(query) {
 }
 
 
-/* =========================
-   LINGUA RICERCA NON TROVATA
-   ========================= */
+/* =========================================================
+   STIMA LINGUA PER PAROLE NON TROVATE
+   ========================================================= */
 
 function guessLanguage(query) {
 
-  const q =
-    normalizeText(query);
+  const q = normalizeText(query);
 
 
   const germanHints = [
     "milch",
+    "laktose",
     "eier",
     "senf",
     "sellerie",
     "erdnuss",
-    "lupin",
     "getreide",
     "sulfite",
     "schalen",
-    "krebs",
-    "weich"
+    "tomate",
+    "zwiebel",
+    "gurke",
+    "pilz",
+    "artisch",
+    "kartoffel",
+    "gemuse",
+    "kohl"
   ];
 
 
   const spanishHints = [
     "leche",
+    "lactosa",
     "huevo",
     "mostaza",
     "apio",
@@ -2339,12 +2946,19 @@ function guessLanguage(query) {
     "altram",
     "molus",
     "cereales",
-    "crustace"
+    "tomate",
+    "cebolla",
+    "pepino",
+    "champ",
+    "alcach",
+    "patata",
+    "verdura"
   ];
 
 
   const englishHints = [
     "milk",
+    "lactose",
     "egg",
     "mustard",
     "celery",
@@ -2354,8 +2968,14 @@ function guessLanguage(query) {
     "soy",
     "mollusc",
     "lupin",
-    "gluten",
-    "crustacean"
+    "tomato",
+    "onion",
+    "cucumber",
+    "mushroom",
+    "artichoke",
+    "potato",
+    "vegetable",
+    "cabbage"
   ];
 
 
@@ -2391,26 +3011,51 @@ function guessLanguage(query) {
 }
 
 
-/* =========================
-   MOSTRA RISULTATI
-   ========================= */
+/* =========================================================
+   NOME PRODOTTO NELLA LINGUA GIUSTA
+   ========================================================= */
+
+function translatedProduct(productKey, lang) {
+
+  const product =
+    productNames[productKey];
+
+  if (!product) {
+    return productKey;
+  }
+
+  return (
+    product[lang] ||
+    product.it ||
+    productKey
+  );
+
+}
+
+
+/* =========================================================
+   MOSTRA RISULTATO
+   ========================================================= */
 
 function renderResult(match) {
 
-  const lang =
-    match.lang;
+  const entry = match.entry;
+  const lang = match.lang;
+  const texts = ui[lang];
 
-  const allergen =
-    match.allergen;
+  const name =
+    entry.names[lang] ||
+    entry.names.it;
 
-  const texts =
-    ui[lang];
+  const typeText =
+    entry.type === "allergen"
+      ? texts.allergenLabel
+      : texts.ingredientLabel;
 
-  const products =
-    allergen.products[lang];
-
-  const allergenName =
-    allergen.names[lang];
+  const heading =
+    entry.type === "allergen"
+      ? texts.containsAllergen
+      : texts.containsIngredient;
 
 
   allergenWarning.textContent =
@@ -2421,12 +3066,15 @@ function renderResult(match) {
     .add("compact");
 
 
-  if (!products.length) {
+  if (!entry.products.length) {
 
     allergenResults.innerHTML =
 
       '<div class="result-heading">' +
-        allergenName +
+        name +
+        '<span class="result-type">' +
+          typeText +
+        '</span>' +
       '</div>' +
 
       '<div class="no-specific-products">' +
@@ -2439,12 +3087,12 @@ function renderResult(match) {
 
 
   const productHtml =
-    products
-      .map(function (product) {
+    entry.products
+      .map(function (productKey) {
 
         return (
           '<div class="product-item">' +
-            product +
+            translatedProduct(productKey, lang) +
           '</div>'
         );
 
@@ -2455,10 +3103,16 @@ function renderResult(match) {
   allergenResults.innerHTML =
 
     '<div class="result-heading">' +
-      texts.contains +
+
+      heading +
       ' <strong>' +
-        allergenName +
+        name +
       '</strong>' +
+
+      '<span class="result-type">' +
+        typeText +
+      '</span>' +
+
     '</div>' +
 
     '<div class="result-subheading">' +
@@ -2472,9 +3126,9 @@ function renderResult(match) {
 }
 
 
-/* =========================
+/* =========================================================
    NESSUN RISULTATO
-   ========================= */
+   ========================================================= */
 
 function renderUnknown(query) {
 
@@ -2508,33 +3162,39 @@ function renderUnknown(query) {
 }
 
 
-/* =========================
+/* =========================================================
    RESET
-   ========================= */
+   ========================================================= */
 
 function resetSearch() {
 
   allergenResults.innerHTML = "";
 
-  allergenWarning.classList.remove("compact");
+  allergenWarning
+    .classList
+    .remove("compact");
 
   allergenWarning.textContent =
     ui[browserLanguage()].warning;
 
-  searchClear.classList.remove("visible");
+  searchClear
+    .classList
+    .remove("visible");
 
 }
 
 
-/* =========================
-   RICERCA
-   ========================= */
+/* =========================================================
+   FOCUS
+   ========================================================= */
 
 allergenSearch.addEventListener(
   "focus",
   function () {
 
-    allergenWarning.classList.add("compact");
+    allergenWarning
+      .classList
+      .add("compact");
 
     allergenWarning.textContent =
       ui[browserLanguage()]
@@ -2543,6 +3203,10 @@ allergenSearch.addEventListener(
   }
 );
 
+
+/* =========================================================
+   DIGITAZIONE
+   ========================================================= */
 
 allergenSearch.addEventListener(
   "input",
@@ -2566,7 +3230,7 @@ allergenSearch.addEventListener(
 
 
     const match =
-      findAllergen(query);
+      findEntry(query);
 
 
     if (!match && query.length < 2) {
@@ -2581,7 +3245,9 @@ allergenSearch.addEventListener(
 
       renderResult(match);
 
-    } else {
+    }
+
+    else {
 
       renderUnknown(query);
 
@@ -2591,9 +3257,9 @@ allergenSearch.addEventListener(
 );
 
 
-/* =========================
-   CANCELLA RICERCA
-   ========================= */
+/* =========================================================
+   CANCELLA
+   ========================================================= */
 
 searchClear.addEventListener(
   "click",
@@ -2609,7 +3275,9 @@ searchClear.addEventListener(
 );
 
 
-/* AVVISO INIZIALE */
+/* =========================================================
+   AVVISO INIZIALE NELLA LINGUA DEL TELEFONO
+   ========================================================= */
 
 allergenWarning.textContent =
   ui[browserLanguage()].warning;
