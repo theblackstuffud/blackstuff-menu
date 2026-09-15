@@ -28,6 +28,7 @@ body {
   padding: 42px 0 35px;
 }
 
+
 /* TESTATA */
 
 .hero {
@@ -61,6 +62,7 @@ h1 {
   color: #9da79c;
   font-size: 14px;
 }
+
 
 /* MENU PRINCIPALE */
 
@@ -104,6 +106,7 @@ h1 {
   font-size: 23px;
 }
 
+
 /* MENU STAGIONALE */
 
 .seasonal-wrap {
@@ -127,7 +130,8 @@ h1 {
   box-shadow: 0 0 22px rgba(190,159,91,.07);
 }
 
-/* FINESTRA DELLA SCRITTA */
+
+/* FINESTRA SCRITTA */
 
 .seasonal-label-window {
   position: relative;
@@ -155,7 +159,8 @@ h1 {
     );
 }
 
-/* SCRITTA CONTINUA */
+
+/* SCRITTA A SCORRIMENTO CONTINUO */
 
 .seasonal-marquee {
   position: absolute;
@@ -167,16 +172,21 @@ h1 {
   white-space: nowrap;
 
   animation: seasonalScroll 20s linear infinite;
+
   will-change: transform;
 }
 
 .seasonal-marquee span {
   display: block;
   flex-shrink: 0;
-  padding-right: 32px;
+  padding-right: 28px;
 }
 
+
+/* ANIMAZIONE */
+
 @keyframes seasonalScroll {
+
   from {
     transform: translateX(0);
   }
@@ -184,13 +194,16 @@ h1 {
   to {
     transform: translateX(-50%);
   }
+
 }
+
 
 /* FRECCIA */
 
 .seasonal-arrow {
   flex-shrink: 0;
   margin-left: 5px;
+
   font-size: 22px;
   color: #c8a967;
 
@@ -201,11 +214,13 @@ h1 {
   transform: rotate(180deg);
 }
 
+
 /* TENDINA */
 
 .seasonal-dropdown {
   max-height: 0;
   overflow: hidden;
+
   opacity: 0;
   transform: translateY(-8px);
 
@@ -217,6 +232,7 @@ h1 {
 
 .seasonal-wrap.open .seasonal-dropdown {
   max-height: 310px;
+
   opacity: 1;
   transform: translateY(0);
 }
@@ -226,7 +242,10 @@ h1 {
   padding: 7px;
 
   background: rgba(0,0,0,.22);
-  border: 1px solid rgba(190,159,91,.25);
+
+  border:
+    1px solid rgba(190,159,91,.25);
+
   border-radius: 14px;
 }
 
@@ -241,7 +260,8 @@ h1 {
   text-decoration: none;
   font-size: 15px;
 
-  border-bottom: 1px solid rgba(255,255,255,.07);
+  border-bottom:
+    1px solid rgba(255,255,255,.07);
 }
 
 .seasonal-option:last-child {
@@ -251,6 +271,7 @@ h1 {
 .seasonal-option span:last-child {
   font-size: 21px;
 }
+
 
 /* SOCIAL */
 
@@ -264,8 +285,10 @@ h1 {
   margin-bottom: 12px;
 
   color: #899488;
+
   text-transform: uppercase;
   letter-spacing: 2px;
+
   font-size: 10px;
   font-weight: 700;
 }
@@ -277,16 +300,22 @@ h1 {
 
 .social-links a {
   flex: 1;
+
   padding: 12px 8px;
 
   color: #e8e8e2;
   text-decoration: none;
   font-size: 13px;
 
-  border: 1px solid rgba(255,255,255,.12);
+  border:
+    1px solid rgba(255,255,255,.12);
+
   border-radius: 12px;
-  background: rgba(255,255,255,.035);
+
+  background:
+    rgba(255,255,255,.035);
 }
+
 
 /* WIFI */
 
@@ -296,19 +325,26 @@ h1 {
 
   text-align: center;
 
-  background: rgba(255,255,255,.025);
-  border: 1px solid rgba(255,255,255,.09);
+  background:
+    rgba(255,255,255,.025);
+
+  border:
+    1px solid rgba(255,255,255,.09);
+
   border-radius: 14px;
 
   color: #aeb5ac;
+
   font-size: 12px;
   line-height: 1.7;
 }
 
 .wifi-title {
   color: #eeeeea;
+
   font-size: 14px;
   font-weight: 700;
+
   margin-bottom: 4px;
 }
 
@@ -316,24 +352,32 @@ h1 {
   color: #e5e5df;
 }
 
+
 /* FOOTER */
 
 footer {
   margin-top: 28px;
+
   text-align: center;
 
   color: #697168;
+
   font-size: 10px;
   letter-spacing: 1px;
+
   text-transform: uppercase;
 }
 
 </style>
 </head>
 
+
 <body>
 
 <main class="page">
+
+
+  <!-- TESTATA -->
 
   <section class="hero">
 
@@ -346,7 +390,9 @@ footer {
       The Black Stuff Irish Pub
     </div>
 
-    <h1>Digital Menu</h1>
+    <h1>
+      Digital Menu
+    </h1>
 
     <p class="subtitle">
       Choose your language
@@ -355,32 +401,59 @@ footer {
   </section>
 
 
+
+  <!-- MENU PRINCIPALE -->
+
   <section class="menu-card">
 
-    <a class="menu-btn" href="menu-it.pdf">
+
+    <a
+      class="menu-btn"
+      href="menu-it.pdf">
+
       <span>Italiano</span>
       <span class="flag">🇮🇹</span>
+
     </a>
 
-    <a class="menu-btn" href="menu-en.pdf">
+
+    <a
+      class="menu-btn"
+      href="menu-en.pdf">
+
       <span>English</span>
       <span class="flag">🇬🇧</span>
+
     </a>
 
-    <a class="menu-btn" href="menu-de.pdf">
+
+    <a
+      class="menu-btn"
+      href="menu-de.pdf">
+
       <span>Deutsch</span>
       <span class="flag">🇩🇪</span>
+
     </a>
 
-    <a class="menu-btn" href="menu-es.pdf">
+
+    <a
+      class="menu-btn"
+      href="menu-es.pdf">
+
       <span>Español</span>
       <span class="flag">🇪🇸</span>
+
     </a>
+
 
 
     <!-- MENU STAGIONALE -->
 
-    <div class="seasonal-wrap" id="seasonalWrap">
+    <div
+      class="seasonal-wrap"
+      id="seasonalWrap">
+
 
       <button
         class="menu-btn seasonal-btn"
@@ -388,77 +461,100 @@ footer {
         type="button"
         aria-expanded="false">
 
+
         <div class="seasonal-label-window">
+
 
           <div class="seasonal-marquee">
 
             <span>
-              🍂 Menu stagionale ❄️ ·
-              ❄️ Seasonal Menu 🌸 ·
-              🌸 Saisonkarte ☀️ ·
-              ☀️ Menú de temporada 🍂 ·
+              🍂 Menu stagionale ❄️ Seasonal Menu 🌸 Saisonkarte ☀️ Menú de temporada&nbsp;&nbsp;
             </span>
 
             <span aria-hidden="true">
-              🍂 Menu stagionale ❄️ ·
-              ❄️ Seasonal Menu 🌸 ·
-              🌸 Saisonkarte ☀️ ·
-              ☀️ Menú de temporada 🍂 ·
+              🍂 Menu stagionale ❄️ Seasonal Menu 🌸 Saisonkarte ☀️ Menú de temporada&nbsp;&nbsp;
             </span>
 
           </div>
 
+
         </div>
 
-        <span class="seasonal-arrow">⌄</span>
+
+        <span class="seasonal-arrow">
+          ⌄
+        </span>
+
 
       </button>
 
+
+
+      <!-- TENDINA LINGUE -->
 
       <div class="seasonal-dropdown">
 
         <div class="dropdown-inner">
 
+
           <a
             class="seasonal-option"
             href="stagionale-it.pdf">
+
             <span>Italiano</span>
             <span>🇮🇹</span>
+
           </a>
+
 
           <a
             class="seasonal-option"
             href="stagionale-en.pdf">
+
             <span>English</span>
             <span>🇬🇧</span>
+
           </a>
+
 
           <a
             class="seasonal-option"
             href="stagionale-de.pdf">
+
             <span>Deutsch</span>
             <span>🇩🇪</span>
+
           </a>
+
 
           <a
             class="seasonal-option"
             href="stagionale-es.pdf">
+
             <span>Español</span>
             <span>🇪🇸</span>
+
           </a>
+
 
         </div>
 
       </div>
+
 
     </div>
 
   </section>
 
 
+
+  <!-- SOCIAL -->
+
   <section class="social">
 
-    <span>Follow us</span>
+    <span>
+      Follow us
+    </span>
 
     <div class="social-links">
 
@@ -466,20 +562,27 @@ footer {
         href="https://www.instagram.com/theblackstuffud"
         target="_blank"
         rel="noopener">
+
         Instagram
+
       </a>
 
       <a
         href="https://www.facebook.com/TheBlackStuffUdine"
         target="_blank"
         rel="noopener">
+
         Facebook
+
       </a>
 
     </div>
 
   </section>
 
+
+
+  <!-- WIFI -->
 
   <section class="wifi">
 
@@ -488,24 +591,30 @@ footer {
     </div>
 
     <div>
-      Rete: <strong>TheBlackStuff</strong>
+      Rete:
+      <strong>TheBlackStuff</strong>
     </div>
 
     <div>
-      Password: <strong>theblackstuff</strong>
+      Password:
+      <strong>theblackstuff</strong>
     </div>
 
   </section>
+
 
 
   <footer>
     The Black Stuff Irish Pub · Udine
   </footer>
 
+
 </main>
 
 
 <script>
+
+/* APERTURA E CHIUSURA TENDINA */
 
 const seasonalWrap =
   document.getElementById("seasonalWrap");
@@ -513,19 +622,24 @@ const seasonalWrap =
 const seasonalBtn =
   document.getElementById("seasonalBtn");
 
-seasonalBtn.addEventListener("click", function () {
 
-  const open =
-    seasonalWrap.classList.toggle("open");
+seasonalBtn.addEventListener(
+  "click",
+  function () {
 
-  seasonalBtn.setAttribute(
-    "aria-expanded",
-    open ? "true" : "false"
-  );
+    const open =
+      seasonalWrap.classList.toggle("open");
 
-});
+    seasonalBtn.setAttribute(
+      "aria-expanded",
+      open ? "true" : "false"
+    );
+
+  }
+);
 
 </script>
+
 
 </body>
 </html>
