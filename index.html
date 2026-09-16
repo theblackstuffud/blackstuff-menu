@@ -1,29 +1,59 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
+
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#092a18">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+<!--
+  IMPORTANTE:
+  il colore del browser coincide con il colore terminale
+  dello sfondo della pagina.
+-->
+<meta name="theme-color" content="#020b06">
 
 <title>The Black Stuff - Digital Menu</title>
 
+
 <style>
 
-* {
+/* =========================================================
+   RESET
+   ========================================================= */
+
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
 html {
   margin: 0;
   padding: 0;
+
+  width: 100%;
   min-height: 100%;
-  background: #092a18;
+
+  /*
+    Questo è intenzionalmente lo stesso colore
+    con cui termina il gradiente della pagina.
+
+    Serve soprattutto quando il browser mostra aree
+    esterne al body, overscroll o safe-area.
+  */
+  background: #020b06;
+
+  color-scheme: dark;
 }
 
 body {
   margin: 0;
   padding: 0;
 
+  width: 100%;
   min-height: 100vh;
   min-height: 100dvh;
 
@@ -36,41 +66,113 @@ body {
     Arial,
     sans-serif;
 
-  background-color: #092a18;
+  /*
+    FALLBACK.
 
-  background-image:
+    Il vero fondale è creato più sotto tramite
+    .site-background.
+
+    Qui teniamo comunque lo stesso colore finale,
+    così non può comparire una fascia diversa.
+  */
+  background: #020b06;
+
+  position: relative;
+
+  overflow-x: hidden;
+}
+
+
+/* =========================================================
+   SFONDO GENERALE
+   =========================================================
+
+   NON usiamo più gradienti differenti tra html e body.
+
+   Il fondale è un unico elemento fisso:
+   - parte oltre il bordo superiore;
+   - continua oltre quello inferiore;
+   - non dipende dall'altezza del contenuto;
+   - non usa background-attachment: fixed;
+   - evita raccordi visibili fra più sezioni.
+
+   La sfumatura rimane volutamente:
+   VERDE PROFONDO -> VERDE SCURO -> QUASI NERO.
+   ========================================================= */
+
+.site-background {
+  position: fixed;
+
+  /*
+    L'estensione extra impedisce che durante
+    overscroll / variazioni della viewport mobile
+    si scopra un bordo del layer.
+  */
+  top: -160px;
+  right: 0;
+  bottom: -220px;
+  left: 0;
+
+  z-index: 0;
+
+  pointer-events: none;
+
+  overflow: hidden;
+
+  background:
     radial-gradient(
-      circle at 50% -10%,
-      rgba(23, 91, 53, .45) 0%,
-      rgba(9, 48, 27, .32) 28%,
-      transparent 58%
+      circle at 50% 70px,
+      rgba(23, 91, 53, .46) 0%,
+      rgba(9, 48, 27, .32) 27%,
+      rgba(5, 28, 16, .10) 49%,
+      transparent 64%
     ),
+
     linear-gradient(
       180deg,
       #092a18 0%,
-      #061c11 35%,
-      #04140c 68%,
+      #071f13 25%,
+      #061a10 42%,
+      #04140c 63%,
+      #030f09 78%,
+      #020b06 91%,
       #020b06 100%
     );
 
   background-repeat: no-repeat;
-  background-size: 100% 100%;
-  background-attachment: fixed;
 
-  position: relative;
+  /*
+    translateZ aiuta alcuni browser mobile
+    a mantenere il layer compositato in maniera unica.
+  */
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 
-/* =========================
+/* =========================================================
    PATTERN TRIFOGLI
-   ========================= */
+   =========================================================
 
-body::before {
+   È separato dal gradiente.
+
+   Quindi:
+   - non crea scalini;
+   - rimane continuo;
+   - si intravede anche sotto i pulsanti trasparenti.
+   ========================================================= */
+
+.site-background::before {
   content: "";
-  position: fixed;
+
+  position: absolute;
   inset: 0;
+
   pointer-events: none;
-  z-index: 0;
+
   opacity: .16;
 
   background-image:
@@ -86,25 +188,60 @@ body::before {
   background-position:
     0 0,
     45px 70px;
+
+  background-repeat:
+    repeat,
+    repeat;
+
+  /*
+    I trifogli diventano progressivamente
+    più discreti verso il fondo.
+  */
+  -webkit-mask-image:
+    linear-gradient(
+      to bottom,
+      rgba(0,0,0,1) 0%,
+      rgba(0,0,0,.96) 40%,
+      rgba(0,0,0,.78) 72%,
+      rgba(0,0,0,.45) 100%
+    );
+
+  mask-image:
+    linear-gradient(
+      to bottom,
+      rgba(0,0,0,1) 0%,
+      rgba(0,0,0,.96) 40%,
+      rgba(0,0,0,.78) 72%,
+      rgba(0,0,0,.45) 100%
+    );
 }
 
 
-body::after {
+/* =========================================================
+   VIGNETTATURA
+   ========================================================= */
+
+.site-background::after {
   content: "";
-  position: fixed;
+
+  position: absolute;
   inset: 0;
+
   pointer-events: none;
-  z-index: 0;
 
   background:
     radial-gradient(
       ellipse at center,
-      transparent 35%,
-      rgba(0,0,0,.13) 72%,
-      rgba(0,0,0,.30) 100%
+      transparent 32%,
+      rgba(0,0,0,.10) 68%,
+      rgba(0,0,0,.25) 100%
     );
 }
 
+
+/* =========================================================
+   ELEMENTI GENERALI
+   ========================================================= */
 
 button,
 a,
@@ -113,6 +250,14 @@ input {
   -webkit-tap-highlight-color: transparent;
 }
 
+button {
+  color: inherit;
+}
+
+
+/* =========================================================
+   CONTENITORE PAGINA
+   ========================================================= */
 
 .page {
   position: relative;
@@ -121,16 +266,25 @@ input {
   width: min(92%, 430px);
   margin: 0 auto;
 
-  padding:
-    max(22px, env(safe-area-inset-top))
-    0
-    max(35px, env(safe-area-inset-bottom));
+  /*
+    Safe area gestita direttamente dal contenuto.
+    Il fondale invece passa indisturbato dietro.
+  */
+  padding-top:
+    max(22px, env(safe-area-inset-top));
+
+  padding-right: 0;
+
+  padding-bottom:
+    max(42px, calc(env(safe-area-inset-bottom) + 18px));
+
+  padding-left: 0;
 }
 
 
-/* =========================
+/* =========================================================
    TESTATA
-   ========================= */
+   ========================================================= */
 
 .hero {
   text-align: center;
@@ -139,23 +293,29 @@ input {
 
 .logo {
   display: block;
+
   width: 142px;
   max-width: 48%;
   height: auto;
+
   margin: 0 auto 18px;
 }
 
 .kicker {
   color: #d5dbd3;
+
   text-transform: uppercase;
   letter-spacing: 3px;
+
   font-size: 11px;
   font-weight: 800;
 }
 
 h1 {
   margin: 8px 0 4px;
+
   color: #fffdf5;
+
   font-size: 31px;
   line-height: 1.08;
   letter-spacing: -.8px;
@@ -163,15 +323,17 @@ h1 {
 
 .subtitle {
   margin: 0;
+
   color: #adb8af;
+
   font-size: 14px;
   font-weight: 500;
 }
 
 
-/* =========================
+/* =========================================================
    PULSANTI GENERALI
-   ========================= */
+   ========================================================= */
 
 .menu-card {
   display: flex;
@@ -181,36 +343,48 @@ h1 {
 .languages {
   display: flex;
   flex-direction: column;
+
   gap: 11px;
 }
 
 .menu-btn {
   width: 100%;
   min-height: 58px;
+
   padding: 0 20px;
 
   display: flex;
   align-items: center;
   justify-content: space-between;
 
-  background: rgba(6, 20, 12, .72);
+  /*
+    PIÙ TRASPARENTE DI PRIMA.
+
+    Rimane apparentemente molto scuro,
+    ma guardando bene si intravedono
+    gradiente e trifogli sottostanti.
+  */
+  background:
+    rgba(3, 14, 8, .66);
 
   border:
     1px solid rgba(220,235,223,.17);
 
   border-radius: 16px;
 
-  backdrop-filter: blur(7px);
-  -webkit-backdrop-filter: blur(7px);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 
   color: #fffdf5;
+
   text-decoration: none;
 
   font-size: 17px;
   font-weight: 700;
 
   box-shadow:
-    0 8px 24px rgba(0,0,0,.08);
+    0 8px 24px rgba(0,0,0,.10),
+    inset 0 1px 0 rgba(255,255,255,.015);
 
   transition:
     transform .15s ease,
@@ -220,7 +394,12 @@ h1 {
 
 .menu-btn:active {
   transform: scale(.985);
-  background: rgba(20, 53, 33, .72);
+
+  background:
+    rgba(12, 39, 23, .68);
+
+  border-color:
+    rgba(220,235,223,.22);
 }
 
 .flag {
@@ -229,19 +408,22 @@ h1 {
 }
 
 
-/* =========================
+/* =========================================================
    DESSERT
-   ========================= */
+   ========================================================= */
 
 .dessert-wrap {
   width: 100%;
+
   margin-top: 28px;
 }
 
 .dessert-btn {
   cursor: pointer;
+
   appearance: none;
   -webkit-appearance: none;
+
   text-align: left;
 }
 
@@ -249,6 +431,7 @@ h1 {
 .allergen-right {
   display: flex;
   align-items: center;
+
   gap: 11px;
 }
 
@@ -259,8 +442,11 @@ h1 {
 .dessert-arrow,
 .allergen-arrow {
   color: #aeb9b0;
+
   font-size: 20px;
-  transition: transform .35s ease;
+
+  transition:
+    transform .35s ease;
 }
 
 .dessert-wrap.open .dessert-arrow,
@@ -271,8 +457,11 @@ h1 {
 .dessert-dropdown,
 .allergen-dropdown {
   max-height: 0;
+
   opacity: 0;
+
   overflow: hidden;
+
   transform: translateY(-7px);
 
   transition:
@@ -283,27 +472,32 @@ h1 {
 
 .dessert-wrap.open .dessert-dropdown {
   max-height: 300px;
+
   opacity: 1;
+
   transform: translateY(0);
 }
 
 .dessert-inner {
   margin-top: 8px;
+
   padding: 6px;
 
-  background: rgba(3,16,9,.84);
+  background:
+    rgba(2, 12, 7, .74);
 
   border:
     1px solid rgba(255,255,255,.10);
 
   border-radius: 14px;
 
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 .dessert-option {
   min-height: 49px;
+
   padding: 0 12px;
 
   display: flex;
@@ -311,6 +505,7 @@ h1 {
   justify-content: space-between;
 
   color: #f5f2e9;
+
   text-decoration: none;
 
   font-size: 14px;
@@ -329,21 +524,24 @@ h1 {
 }
 
 
-/* =========================
+/* =========================================================
    MENU STAGIONALE
-   ========================= */
+   ========================================================= */
 
 .seasonal-wrap {
   width: 100%;
+
   margin-top: 28px;
 }
 
 .seasonal-btn {
   cursor: pointer;
+
   appearance: none;
   -webkit-appearance: none;
 
   position: relative;
+
   overflow: hidden;
 
   border-color:
@@ -352,20 +550,27 @@ h1 {
   background:
     linear-gradient(
       135deg,
-      rgba(181,145,62,.13),
-      rgba(8,30,17,.75)
+      rgba(181,145,62,.12),
+      rgba(3,16,9,.64)
     );
 
   box-shadow:
     0 0 28px rgba(190,151,70,.06),
     inset 0 0 22px rgba(190,151,70,.035);
+
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 .seasonal-label-window {
   position: relative;
+
   flex: 1;
+
   height: 26px;
+
   overflow: hidden;
+
   margin-right: 11px;
 
   -webkit-mask-image:
@@ -389,11 +594,14 @@ h1 {
 
 .seasonal-marquee {
   position: absolute;
+
   left: 0;
   top: 1px;
 
   display: flex;
+
   width: max-content;
+
   white-space: nowrap;
 
   animation:
@@ -404,13 +612,17 @@ h1 {
 
 .seasonal-marquee span {
   display: block;
+
   flex-shrink: 0;
+
   padding-right: 0;
+
   font-size: 16px;
   font-weight: 700;
 }
 
 @keyframes seasonalScroll {
+
   from {
     transform: translateX(0);
   }
@@ -418,13 +630,18 @@ h1 {
   to {
     transform: translateX(-50%);
   }
+
 }
 
 .seasonal-arrow {
   flex-shrink: 0;
+
   color: #d2aa52;
+
   font-size: 20px;
-  transition: transform .35s ease;
+
+  transition:
+    transform .35s ease;
 }
 
 .seasonal-wrap.open .seasonal-arrow {
@@ -433,8 +650,11 @@ h1 {
 
 .seasonal-dropdown {
   max-height: 0;
+
   opacity: 0;
+
   overflow: hidden;
+
   transform: translateY(-7px);
 
   transition:
@@ -445,28 +665,32 @@ h1 {
 
 .seasonal-wrap.open .seasonal-dropdown {
   max-height: 300px;
+
   opacity: 1;
+
   transform: translateY(0);
 }
 
 .seasonal-inner {
   margin-top: 8px;
+
   padding: 6px;
 
   background:
-    rgba(3,16,9,.87);
+    rgba(2,12,7,.76);
 
   border:
     1px solid rgba(210,170,82,.25);
 
   border-radius: 14px;
 
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 .seasonal-option {
   min-height: 49px;
+
   padding: 0 12px;
 
   display: flex;
@@ -474,6 +698,7 @@ h1 {
   justify-content: space-between;
 
   color: #f5f2e9;
+
   text-decoration: none;
 
   font-size: 14px;
@@ -492,17 +717,19 @@ h1 {
 }
 
 
-/* =========================
-   ALLERGENI + INGREDIENTI
-   ========================= */
+/* =========================================================
+   ALLERGENI
+   ========================================================= */
 
 .allergen-wrap {
   width: 100%;
+
   margin-top: 28px;
 }
 
 .allergen-btn {
   cursor: pointer;
+
   appearance: none;
   -webkit-appearance: none;
 }
@@ -513,31 +740,37 @@ h1 {
 
 .allergen-wrap.open .allergen-dropdown {
   max-height: 5000px;
+
   opacity: 1;
+
   transform: translateY(0);
 }
 
 .allergen-panel {
   margin-top: 9px;
+
   padding: 15px;
 
   background:
-    rgba(3,16,9,.88);
+    rgba(2, 12, 7, .75);
 
   border:
     1px solid rgba(220,235,223,.14);
 
   border-radius: 16px;
 
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(11px);
+  -webkit-backdrop-filter: blur(11px);
 }
 
 
-/* AVVISO */
+/* =========================================================
+   AVVISO ALLERGENI
+   ========================================================= */
 
 .allergen-warning {
   margin-bottom: 13px;
+
   padding: 11px 12px;
 
   color: #d5dbd3;
@@ -561,12 +794,16 @@ h1 {
 
 .allergen-warning.compact {
   padding: 8px 10px;
+
   font-size: 10.5px;
+
   opacity: .78;
 }
 
 
-/* RICERCA */
+/* =========================================================
+   RICERCA
+   ========================================================= */
 
 .search-shell {
   position: relative;
@@ -574,13 +811,16 @@ h1 {
 
 .search-icon {
   position: absolute;
+
   left: 13px;
   top: 50%;
+
   transform: translateY(-50%);
 
   pointer-events: none;
 
   font-size: 15px;
+
   opacity: .65;
 }
 
@@ -628,6 +868,7 @@ h1 {
 
 .search-clear {
   position: absolute;
+
   right: 7px;
   top: 50%;
 
@@ -642,11 +883,13 @@ h1 {
   border-radius: 50%;
 
   color: #9eaaa1;
+
   background: transparent;
 
   cursor: pointer;
 
   opacity: 0;
+
   pointer-events: none;
 
   transition:
@@ -656,6 +899,7 @@ h1 {
 
 .search-clear.visible {
   opacity: 1;
+
   pointer-events: auto;
 
   transform:
@@ -664,7 +908,9 @@ h1 {
 }
 
 
-/* RISULTATI */
+/* =========================================================
+   RISULTATI RICERCA
+   ========================================================= */
 
 .allergen-results {
   margin-top: 13px;
@@ -690,7 +936,9 @@ h1 {
 
 .result-type {
   display: inline-block;
+
   margin-left: 5px;
+
   padding: 2px 6px;
 
   border:
@@ -712,6 +960,7 @@ h1 {
 .product-list {
   display: flex;
   flex-direction: column;
+
   gap: 6px;
 }
 
@@ -752,23 +1001,28 @@ h1 {
 
 .no-search-result strong {
   display: block;
+
   margin-bottom: 4px;
+
   color: #f0eee7;
+
   font-size: 12px;
 }
 
 
-/* =========================
+/* =========================================================
    SOCIAL
-   ========================= */
+   ========================================================= */
 
 .social {
   margin-top: 32px;
+
   text-align: center;
 }
 
 .social-title {
   display: block;
+
   margin-bottom: 12px;
 
   color: #929e94;
@@ -782,14 +1036,17 @@ h1 {
 
 .social-links {
   display: flex;
+
   gap: 10px;
 }
 
 .social-links a {
   flex: 1;
+
   padding: 13px 8px;
 
   color: #efeee8;
+
   text-decoration: none;
 
   font-size: 13px;
@@ -801,24 +1058,26 @@ h1 {
   border-radius: 13px;
 
   background:
-    rgba(4,18,10,.68);
+    rgba(2, 13, 7, .61);
 
-  backdrop-filter: blur(7px);
-  -webkit-backdrop-filter: blur(7px);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 
-/* =========================
+/* =========================================================
    WIFI
-   ========================= */
+   ========================================================= */
 
 .wifi {
   margin-top: 18px;
+
   padding: 17px;
+
   text-align: center;
 
   background:
-    rgba(4,18,10,.68);
+    rgba(2, 13, 7, .61);
 
   border:
     1px solid rgba(255,255,255,.12);
@@ -829,11 +1088,16 @@ h1 {
 
   font-size: 12px;
   line-height: 1.7;
+
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 .wifi-title {
   margin-bottom: 4px;
+
   color: #f1f0e9;
+
   font-size: 14px;
   font-weight: 800;
 }
@@ -843,12 +1107,19 @@ h1 {
 }
 
 
-/* =========================
+/* =========================================================
    FOOTER
-   ========================= */
+   ========================================================= */
 
 footer {
   margin-top: 28px;
+
+  /*
+    Un po' di respiro in basso fa sì che il passaggio
+    verso il colore terminale rimanga naturale.
+  */
+  padding-bottom: 10px;
+
   text-align: center;
 
   color: #778078;
@@ -860,9 +1131,9 @@ footer {
 }
 
 
-/* =========================
+/* =========================================================
    SCHERMI PICCOLI
-   ========================= */
+   ========================================================= */
 
 @media (max-width: 350px) {
 
@@ -876,7 +1147,9 @@ footer {
 
   .menu-btn {
     min-height: 55px;
+
     padding: 0 16px;
+
     font-size: 16px;
   }
 
@@ -885,6 +1158,28 @@ footer {
   }
 
 }
+
+
+/* =========================================================
+   SCHERMI GRANDI
+   ========================================================= */
+
+@media (min-width: 700px) {
+
+  .page {
+    padding-top:
+      max(30px, env(safe-area-inset-top));
+
+    padding-bottom:
+      max(52px, calc(env(safe-area-inset-bottom) + 22px));
+  }
+
+}
+
+
+/* =========================================================
+   RIDUZIONE MOVIMENTO
+   ========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
 
@@ -895,15 +1190,32 @@ footer {
 }
 
 </style>
+
 </head>
 
 
 <body>
 
+
+<!-- =======================================================
+     FONDALE UNICO
+
+     Questo elemento deve rimanere FUORI da .page.
+     È ciò che impedisce gli stacchi sopra e sotto.
+     ======================================================= -->
+
+<div
+  class="site-background"
+  aria-hidden="true">
+</div>
+
+
 <main class="page">
 
 
-<!-- TESTATA -->
+<!-- =======================================================
+     TESTATA
+     ======================================================= -->
 
 <section class="hero">
 
@@ -927,39 +1239,64 @@ footer {
 </section>
 
 
-<!-- MENU -->
+<!-- =======================================================
+     MENU PRINCIPALE
+     ======================================================= -->
 
 <section class="menu-card">
 
 
   <div class="languages">
 
-    <a class="menu-btn" href="menu-it.pdf">
+    <a
+      class="menu-btn"
+      href="menu-it.pdf">
+
       <span>Italiano</span>
       <span class="flag">🇮🇹</span>
+
     </a>
 
-    <a class="menu-btn" href="menu-en.pdf">
+
+    <a
+      class="menu-btn"
+      href="menu-en.pdf">
+
       <span>English</span>
       <span class="flag">🇬🇧</span>
+
     </a>
 
-    <a class="menu-btn" href="menu-de.pdf">
+
+    <a
+      class="menu-btn"
+      href="menu-de.pdf">
+
       <span>Deutsch</span>
       <span class="flag">🇩🇪</span>
+
     </a>
 
-    <a class="menu-btn" href="menu-es.pdf">
+
+    <a
+      class="menu-btn"
+      href="menu-es.pdf">
+
       <span>Español</span>
       <span class="flag">🇪🇸</span>
+
     </a>
 
   </div>
 
 
-  <!-- DESSERT -->
+  <!-- =====================================================
+       DESSERT
+       ===================================================== -->
 
-  <div class="dessert-wrap" id="dessertWrap">
+  <div
+    class="dessert-wrap"
+    id="dessertWrap">
 
     <button
       class="menu-btn dessert-btn"
@@ -967,11 +1304,20 @@ footer {
       type="button"
       aria-expanded="false">
 
-      <span>Dessert</span>
+      <span>
+        Dessert
+      </span>
 
       <span class="dessert-right">
-        <span class="dessert-icon">🍰</span>
-        <span class="dessert-arrow">⌄</span>
+
+        <span class="dessert-icon">
+          🍰
+        </span>
+
+        <span class="dessert-arrow">
+          ⌄
+        </span>
+
       </span>
 
     </button>
@@ -981,25 +1327,46 @@ footer {
 
       <div class="dessert-inner">
 
-        <a class="dessert-option" href="dessert-it.pdf">
+
+        <a
+          class="dessert-option"
+          href="dessert-it.pdf">
+
           <span>Italiano</span>
           <span>🇮🇹</span>
+
         </a>
 
-        <a class="dessert-option" href="dessert-en.pdf">
+
+        <a
+          class="dessert-option"
+          href="dessert-en.pdf">
+
           <span>English</span>
           <span>🇬🇧</span>
+
         </a>
 
-        <a class="dessert-option" href="dessert-de.pdf">
+
+        <a
+          class="dessert-option"
+          href="dessert-de.pdf">
+
           <span>Deutsch</span>
           <span>🇩🇪</span>
+
         </a>
 
-        <a class="dessert-option" href="dessert-es.pdf">
+
+        <a
+          class="dessert-option"
+          href="dessert-es.pdf">
+
           <span>Español</span>
           <span>🇪🇸</span>
+
         </a>
+
 
       </div>
 
@@ -1008,9 +1375,13 @@ footer {
   </div>
 
 
-  <!-- MENU STAGIONALE -->
+  <!-- =====================================================
+       MENU STAGIONALE
+       ===================================================== -->
 
-  <div class="seasonal-wrap" id="seasonalWrap">
+  <div
+    class="seasonal-wrap"
+    id="seasonalWrap">
 
     <button
       class="menu-btn seasonal-btn"
@@ -1018,25 +1389,31 @@ footer {
       type="button"
       aria-expanded="false">
 
+
       <div class="seasonal-label-window">
 
         <div class="seasonal-marquee">
+
 
           <span>
             🍂 Menu stagionale ❄️ Seasonal Menu 🌸 Saisonkarte ☀️ Menú de temporada&nbsp;
           </span>
 
+
           <span aria-hidden="true">
             🍂 Menu stagionale ❄️ Seasonal Menu 🌸 Saisonkarte ☀️ Menú de temporada&nbsp;
           </span>
+
 
         </div>
 
       </div>
 
+
       <span class="seasonal-arrow">
         ⌄
       </span>
+
 
     </button>
 
@@ -1045,25 +1422,46 @@ footer {
 
       <div class="seasonal-inner">
 
-        <a class="seasonal-option" href="stagionale-it.pdf">
+
+        <a
+          class="seasonal-option"
+          href="stagionale-it.pdf">
+
           <span>Italiano</span>
           <span>🇮🇹</span>
+
         </a>
 
-        <a class="seasonal-option" href="stagionale-en.pdf">
+
+        <a
+          class="seasonal-option"
+          href="stagionale-en.pdf">
+
           <span>English</span>
           <span>🇬🇧</span>
+
         </a>
 
-        <a class="seasonal-option" href="stagionale-de.pdf">
+
+        <a
+          class="seasonal-option"
+          href="stagionale-de.pdf">
+
           <span>Deutsch</span>
           <span>🇩🇪</span>
+
         </a>
 
-        <a class="seasonal-option" href="stagionale-es.pdf">
+
+        <a
+          class="seasonal-option"
+          href="stagionale-es.pdf">
+
           <span>Español</span>
           <span>🇪🇸</span>
+
         </a>
+
 
       </div>
 
@@ -1072,9 +1470,16 @@ footer {
   </div>
 
 
-  <!-- ALLERGENI -->
+  <!-- =====================================================
+       ALLERGENI
 
-  <div class="allergen-wrap" id="allergenWrap">
+       Come richiesto il pulsante ora dice SOLO:
+       "Allergeni"
+       ===================================================== -->
+
+  <div
+    class="allergen-wrap"
+    id="allergenWrap">
 
     <button
       class="menu-btn allergen-btn"
@@ -1082,11 +1487,20 @@ footer {
       type="button"
       aria-expanded="false">
 
-      <span>Allergeni</span>
+      <span>
+        Allergeni
+      </span>
 
       <span class="allergen-right">
-        <span class="allergen-icon">🔎</span>
-        <span class="allergen-arrow">⌄</span>
+
+        <span class="allergen-icon">
+          🔎
+        </span>
+
+        <span class="allergen-arrow">
+          ⌄
+        </span>
+
       </span>
 
     </button>
@@ -1109,9 +1523,11 @@ footer {
 
         <div class="search-shell">
 
+
           <span class="search-icon">
             🔍
           </span>
+
 
           <input
             id="allergenSearch"
@@ -1122,6 +1538,7 @@ footer {
             spellcheck="false"
             placeholder="Cerca allergene o ingrediente...">
 
+
           <button
             id="searchClear"
             class="search-clear"
@@ -1131,6 +1548,7 @@ footer {
             ✕
 
           </button>
+
 
         </div>
 
@@ -1151,7 +1569,9 @@ footer {
 </section>
 
 
-<!-- SOCIAL -->
+<!-- =======================================================
+     SOCIAL
+     ======================================================= -->
 
 <section class="social">
 
@@ -1159,28 +1579,38 @@ footer {
     Follow us
   </span>
 
+
   <div class="social-links">
+
 
     <a
       href="https://www.instagram.com/theblackstuffud?igsh=MW9tZWViMXBvdDFxNA%3D%3D&utm_source=qr"
       target="_blank"
       rel="noopener">
+
       Instagram
+
     </a>
+
 
     <a
       href="https://www.facebook.com/TheBlackStuffUdine"
       target="_blank"
       rel="noopener">
+
       Facebook
+
     </a>
+
 
   </div>
 
 </section>
 
 
-<!-- WIFI -->
+<!-- =======================================================
+     WIFI
+     ======================================================= -->
 
 <section class="wifi">
 
@@ -1211,23 +1641,43 @@ footer {
 
 <script>
 
+
 /* =========================================================
    ELEMENTI PAGINA
    ========================================================= */
 
-const dessertWrap = document.getElementById("dessertWrap");
-const dessertBtn = document.getElementById("dessertBtn");
+const dessertWrap =
+  document.getElementById("dessertWrap");
 
-const seasonalWrap = document.getElementById("seasonalWrap");
-const seasonalBtn = document.getElementById("seasonalBtn");
+const dessertBtn =
+  document.getElementById("dessertBtn");
 
-const allergenWrap = document.getElementById("allergenWrap");
-const allergenBtn = document.getElementById("allergenBtn");
 
-const allergenSearch = document.getElementById("allergenSearch");
-const allergenWarning = document.getElementById("allergenWarning");
-const allergenResults = document.getElementById("allergenResults");
-const searchClear = document.getElementById("searchClear");
+const seasonalWrap =
+  document.getElementById("seasonalWrap");
+
+const seasonalBtn =
+  document.getElementById("seasonalBtn");
+
+
+const allergenWrap =
+  document.getElementById("allergenWrap");
+
+const allergenBtn =
+  document.getElementById("allergenBtn");
+
+
+const allergenSearch =
+  document.getElementById("allergenSearch");
+
+const allergenWarning =
+  document.getElementById("allergenWarning");
+
+const allergenResults =
+  document.getElementById("allergenResults");
+
+const searchClear =
+  document.getElementById("searchClear");
 
 
 /* =========================================================
@@ -1237,75 +1687,146 @@ const searchClear = document.getElementById("searchClear");
 function closeAllExcept(section) {
 
   if (section !== "dessert") {
-    dessertWrap.classList.remove("open");
-    dessertBtn.setAttribute("aria-expanded", "false");
+
+    dessertWrap
+      .classList
+      .remove("open");
+
+    dessertBtn
+      .setAttribute(
+        "aria-expanded",
+        "false"
+      );
+
   }
+
 
   if (section !== "seasonal") {
-    seasonalWrap.classList.remove("open");
-    seasonalBtn.setAttribute("aria-expanded", "false");
+
+    seasonalWrap
+      .classList
+      .remove("open");
+
+    seasonalBtn
+      .setAttribute(
+        "aria-expanded",
+        "false"
+      );
+
   }
 
+
   if (section !== "allergen") {
-    allergenWrap.classList.remove("open");
-    allergenBtn.setAttribute("aria-expanded", "false");
+
+    allergenWrap
+      .classList
+      .remove("open");
+
+    allergenBtn
+      .setAttribute(
+        "aria-expanded",
+        "false"
+      );
+
   }
 
 }
 
 
-dessertBtn.addEventListener("click", function () {
+/* DESSERT */
 
-  const isOpen = dessertWrap.classList.toggle("open");
+dessertBtn.addEventListener(
+  "click",
+  function () {
 
-  dessertBtn.setAttribute(
-    "aria-expanded",
-    isOpen ? "true" : "false"
-  );
-
-  if (isOpen) {
-    closeAllExcept("dessert");
-  }
-
-});
+    const isOpen =
+      dessertWrap
+        .classList
+        .toggle("open");
 
 
-seasonalBtn.addEventListener("click", function () {
-
-  const isOpen = seasonalWrap.classList.toggle("open");
-
-  seasonalBtn.setAttribute(
-    "aria-expanded",
-    isOpen ? "true" : "false"
-  );
-
-  if (isOpen) {
-    closeAllExcept("seasonal");
-  }
-
-});
+    dessertBtn.setAttribute(
+      "aria-expanded",
+      isOpen
+        ? "true"
+        : "false"
+    );
 
 
-allergenBtn.addEventListener("click", function () {
-
-  const isOpen = allergenWrap.classList.toggle("open");
-
-  allergenBtn.setAttribute(
-    "aria-expanded",
-    isOpen ? "true" : "false"
-  );
-
-  if (isOpen) {
-
-    closeAllExcept("allergen");
-
-    setTimeout(function () {
-      allergenSearch.focus();
-    }, 420);
+    if (isOpen) {
+      closeAllExcept("dessert");
+    }
 
   }
+);
 
-});
+
+/* MENU STAGIONALE */
+
+seasonalBtn.addEventListener(
+  "click",
+  function () {
+
+    const isOpen =
+      seasonalWrap
+        .classList
+        .toggle("open");
+
+
+    seasonalBtn.setAttribute(
+      "aria-expanded",
+      isOpen
+        ? "true"
+        : "false"
+    );
+
+
+    if (isOpen) {
+      closeAllExcept("seasonal");
+    }
+
+  }
+);
+
+
+/* ALLERGENI */
+
+allergenBtn.addEventListener(
+  "click",
+  function () {
+
+    const isOpen =
+      allergenWrap
+        .classList
+        .toggle("open");
+
+
+    allergenBtn.setAttribute(
+      "aria-expanded",
+      isOpen
+        ? "true"
+        : "false"
+    );
+
+
+    if (isOpen) {
+
+      closeAllExcept("allergen");
+
+
+      setTimeout(
+        function () {
+
+          allergenSearch.focus();
+
+        },
+        420
+      );
+
+    }
+
+  }
+);
 
 
 /* =========================================================
@@ -1844,27 +2365,59 @@ const productNames = {
 
 
 /* =========================================================
+   FINE BLOCCO 1/2
+
+   INCOLLA IL BLOCCO 2 IMMEDIATAMENTE QUI SOTTO.
+   NON CHIUDERE SCRIPT, BODY O HTML.
+   ========================================================= */
+  /* =========================================================
    DATABASE
    ========================================================= */
 
 const entries = [
 
-  /* ---------- 14 ALLERGENI ---------- */
+  /* =======================================================
+     14 ALLERGENI
+     ======================================================= */
 
   {
     type: "allergen",
+
     names: {
       it: "Cereali contenenti glutine",
       en: "Cereals containing gluten",
       de: "Glutenhaltiges Getreide",
       es: "Cereales con gluten"
     },
+
     aliases: {
-      it: ["glutine", "cereali", "cereali e derivati"],
-      en: ["gluten", "cereals", "cereals containing gluten"],
-      de: ["gluten", "getreide", "glutenhaltiges getreide"],
-      es: ["gluten", "cereales", "cereales con gluten"]
+
+      it: [
+        "glutine",
+        "cereali",
+        "cereali e derivati"
+      ],
+
+      en: [
+        "gluten",
+        "cereals",
+        "cereals containing gluten"
+      ],
+
+      de: [
+        "gluten",
+        "getreide",
+        "glutenhaltiges getreide"
+      ],
+
+      es: [
+        "gluten",
+        "cereales",
+        "cereales con gluten"
+      ]
+
     },
+
     products: [
       "allBurgers",
       "allSandwiches",
@@ -1883,41 +2436,83 @@ const entries = [
       "chocolateCake",
       "allBeersExceptCasamatta"
     ]
+
   },
 
 
   {
     type: "allergen",
+
     names: {
       it: "Crostacei",
       en: "Crustaceans",
       de: "Krebstiere",
       es: "Crustáceos"
     },
+
     aliases: {
-      it: ["crostacei", "crostaceo"],
-      en: ["crustaceans", "crustacean"],
-      de: ["krebstiere", "krebstier"],
-      es: ["crustaceos", "crustaceo"]
+
+      it: [
+        "crostacei",
+        "crostaceo"
+      ],
+
+      en: [
+        "crustaceans",
+        "crustacean"
+      ],
+
+      de: [
+        "krebstiere",
+        "krebstier"
+      ],
+
+      es: [
+        "crustaceos",
+        "crustaceo"
+      ]
+
     },
+
     products: []
+
   },
 
 
   {
     type: "allergen",
+
     names: {
       it: "Uova",
       en: "Eggs",
       de: "Eier",
       es: "Huevos"
     },
+
     aliases: {
-      it: ["uova", "uovo"],
-      en: ["eggs", "egg"],
-      de: ["eier", "ei"],
-      es: ["huevos", "huevo"]
+
+      it: [
+        "uova",
+        "uovo"
+      ],
+
+      en: [
+        "eggs",
+        "egg"
+      ],
+
+      de: [
+        "eier",
+        "ei"
+      ],
+
+      es: [
+        "huevos",
+        "huevo"
+      ]
+
     },
+
     products: [
       "eggburger",
       "connemara",
@@ -1928,84 +2523,165 @@ const entries = [
       "toast",
       "stuffedToast"
     ]
+
   },
 
 
   {
     type: "allergen",
+
     names: {
       it: "Pesce",
       en: "Fish",
       de: "Fisch",
       es: "Pescado"
     },
+
     aliases: {
-      it: ["pesce"],
-      en: ["fish"],
-      de: ["fisch"],
-      es: ["pescado"]
+
+      it: [
+        "pesce"
+      ],
+
+      en: [
+        "fish"
+      ],
+
+      de: [
+        "fisch"
+      ],
+
+      es: [
+        "pescado"
+      ]
+
     },
+
     products: [
       "tunaOnionPizza",
       "wiclowSalad",
       "mediterraneanSalad"
     ]
+
   },
 
 
   {
     type: "allergen",
+
     names: {
       it: "Arachidi",
       en: "Peanuts",
       de: "Erdnüsse",
       es: "Cacahuetes"
     },
+
     aliases: {
-      it: ["arachidi", "arachide"],
-      en: ["peanuts", "peanut"],
-      de: ["erdnusse", "erdnüsse", "erdnuss"],
-      es: ["cacahuetes", "cacahuete"]
+
+      it: [
+        "arachidi",
+        "arachide"
+      ],
+
+      en: [
+        "peanuts",
+        "peanut"
+      ],
+
+      de: [
+        "erdnusse",
+        "erdnüsse",
+        "erdnuss"
+      ],
+
+      es: [
+        "cacahuetes",
+        "cacahuete"
+      ]
+
     },
+
     products: []
+
   },
 
 
   {
     type: "allergen",
+
     names: {
       it: "Soia",
       en: "Soy",
       de: "Soja",
       es: "Soja"
     },
+
     aliases: {
-      it: ["soia"],
-      en: ["soy", "soya"],
-      de: ["soja"],
-      es: ["soja"]
+
+      it: [
+        "soia"
+      ],
+
+      en: [
+        "soy",
+        "soya"
+      ],
+
+      de: [
+        "soja"
+      ],
+
+      es: [
+        "soja"
+      ]
+
     },
+
     products: [
       "veggyburger",
       "ascolane"
     ]
+
   },
 
 
   {
     type: "allergen",
+
     names: {
       it: "Latte e derivati",
       en: "Milk and dairy products",
       de: "Milch und Milchprodukte",
       es: "Leche y productos lácteos"
     },
+
     aliases: {
-      it: ["latte", "latticini", "derivati del latte"],
-      en: ["milk", "dairy", "dairy products"],
-      de: ["milch", "milchprodukte"],
-      es: ["leche", "lacteos", "lácteos"]
+
+      it: [
+        "latte",
+        "latticini",
+        "derivati del latte"
+      ],
+
+      en: [
+        "milk",
+        "dairy",
+        "dairy products"
+      ],
+
+      de: [
+        "milch",
+        "milchprodukte"
+      ],
+
+      es: [
+        "leche",
+        "lacteos",
+        "lácteos"
+      ]
+
     },
+
     products: [
       "hotDogBun",
       "allPizzas",
@@ -2028,6 +2704,8 @@ const entries = [
       "mediterraneanSalad",
       "bresaolaWrap",
       "galway",
+
+      /* DESSERT + IRISH COFFEE */
       "pannaCotta",
       "cheesecakeLotus",
       "cheesecakeBerry",
@@ -2037,165 +2715,337 @@ const entries = [
       "chocolateCake",
       "irishCoffee"
     ]
+
   },
 
 
   {
     type: "allergen",
+
     names: {
       it: "Frutta a guscio",
       en: "Tree nuts",
       de: "Schalenfrüchte",
       es: "Frutos de cáscara"
     },
+
     aliases: {
-      it: ["frutta a guscio", "frutta secca", "noci", "nocciole", "mandorle"],
-      en: ["nuts", "tree nuts"],
-      de: ["schalenfruchte", "schalenfrüchte", "nusse", "nüsse"],
-      es: ["frutos de cascara", "frutos secos", "nueces"]
+
+      it: [
+        "frutta a guscio",
+        "frutta secca",
+        "noci",
+        "nocciole",
+        "mandorle"
+      ],
+
+      en: [
+        "nuts",
+        "tree nuts"
+      ],
+
+      de: [
+        "schalenfruchte",
+        "schalenfrüchte",
+        "nusse",
+        "nüsse"
+      ],
+
+      es: [
+        "frutos de cascara",
+        "frutos secos",
+        "nueces"
+      ]
+
     },
+
     products: [
       "diablo",
       "dublin",
       "connemara",
       "irish"
     ]
+
   },
 
 
   {
     type: "allergen",
+
     names: {
       it: "Sedano",
       en: "Celery",
       de: "Sellerie",
       es: "Apio"
     },
+
     aliases: {
-      it: ["sedano"],
-      en: ["celery"],
-      de: ["sellerie"],
-      es: ["apio"]
+
+      it: [
+        "sedano"
+      ],
+
+      en: [
+        "celery"
+      ],
+
+      de: [
+        "sellerie"
+      ],
+
+      es: [
+        "apio"
+      ]
+
     },
+
     products: [
       "ascolane",
       "chickenWings"
     ]
+
   },
 
 
   {
     type: "allergen",
+
     names: {
       it: "Senape",
       en: "Mustard",
       de: "Senf",
       es: "Mostaza"
     },
+
     aliases: {
-      it: ["senape"],
-      en: ["mustard"],
-      de: ["senf"],
-      es: ["mostaza"]
+
+      it: [
+        "senape"
+      ],
+
+      en: [
+        "mustard"
+      ],
+
+      de: [
+        "senf"
+      ],
+
+      es: [
+        "mostaza"
+      ]
+
     },
+
+    /*
+      IMPORTANTE:
+      la coleslaw NON è qui.
+      Come stabilito, nella vostra salsa coleslaw
+      non viene usata senape.
+    */
     products: [
       "coneyDog",
       "pulledPork",
       "frisburger"
     ]
+
   },
 
 
   {
     type: "allergen",
+
     names: {
       it: "Sesamo",
       en: "Sesame",
       de: "Sesam",
       es: "Sésamo"
     },
+
     aliases: {
-      it: ["sesamo"],
-      en: ["sesame"],
-      de: ["sesam"],
-      es: ["sesamo", "sésamo"]
+
+      it: [
+        "sesamo"
+      ],
+
+      en: [
+        "sesame"
+      ],
+
+      de: [
+        "sesam"
+      ],
+
+      es: [
+        "sesamo",
+        "sésamo"
+      ]
+
     },
+
     products: [
       "allBurgersExceptLight"
     ]
+
   },
 
 
   {
     type: "allergen",
+
     names: {
       it: "Anidride solforosa e solfiti",
       en: "Sulphur dioxide and sulphites",
       de: "Schwefeldioxid und Sulfite",
       es: "Dióxido de azufre y sulfitos"
     },
+
     aliases: {
-      it: ["solfiti", "anidride solforosa"],
-      en: ["sulphites", "sulfites", "sulphur dioxide", "sulfur dioxide"],
-      de: ["sulfite", "schwefeldioxid"],
-      es: ["sulfitos", "dioxido di azufre", "dióxido de azufre"]
+
+      it: [
+        "solfiti",
+        "anidride solforosa"
+      ],
+
+      en: [
+        "sulphites",
+        "sulfites",
+        "sulphur dioxide",
+        "sulfur dioxide"
+      ],
+
+      de: [
+        "sulfite",
+        "schwefeldioxid"
+      ],
+
+      es: [
+        "sulfitos",
+        "dioxido de azufre",
+        "dióxido de azufre"
+      ]
+
     },
+
     products: []
+
   },
 
 
   {
     type: "allergen",
+
     names: {
       it: "Lupini",
       en: "Lupin",
       de: "Lupinen",
       es: "Altramuces"
     },
+
     aliases: {
-      it: ["lupini", "lupino"],
-      en: ["lupin", "lupins"],
-      de: ["lupinen", "lupine"],
-      es: ["altramuces", "altramuz"]
+
+      it: [
+        "lupini",
+        "lupino"
+      ],
+
+      en: [
+        "lupin",
+        "lupins"
+      ],
+
+      de: [
+        "lupinen",
+        "lupine"
+      ],
+
+      es: [
+        "altramuces",
+        "altramuz"
+      ]
+
     },
+
     products: []
+
   },
 
 
   {
     type: "allergen",
+
     names: {
       it: "Molluschi",
       en: "Molluscs",
       de: "Weichtiere",
       es: "Moluscos"
     },
+
     aliases: {
-      it: ["molluschi", "mollusco"],
-      en: ["molluscs", "mollusks", "mollusc", "mollusk"],
-      de: ["weichtiere", "schalentiere"],
-      es: ["moluscos", "molusco"]
+
+      it: [
+        "molluschi",
+        "mollusco"
+      ],
+
+      en: [
+        "molluscs",
+        "mollusks",
+        "mollusc",
+        "mollusk"
+      ],
+
+      de: [
+        "weichtiere",
+        "schalentiere"
+      ],
+
+      es: [
+        "moluscos",
+        "molusco"
+      ]
+
     },
+
     products: []
+
   },
 
 
-  /* ---------- LATTOSIO SEPARATO ---------- */
+  /* =======================================================
+     LATTOSIO
+     ======================================================= */
 
   {
     type: "ingredient",
+
     names: {
       it: "Lattosio",
       en: "Lactose",
       de: "Laktose",
       es: "Lactosa"
     },
+
     aliases: {
-      it: ["lattosio"],
-      en: ["lactose"],
-      de: ["laktose"],
-      es: ["lactosa"]
+
+      it: [
+        "lattosio"
+      ],
+
+      en: [
+        "lactose"
+      ],
+
+      de: [
+        "laktose"
+      ],
+
+      es: [
+        "lactosa"
+      ]
+
     },
+
     products: [
       "cheeseburger",
       "baconburger",
@@ -2207,6 +3057,8 @@ const entries = [
       "caesarSalad",
       "wiclowSalad",
       "mediterraneanSalad",
+
+      /* DESSERT */
       "pannaCotta",
       "cheesecakeLotus",
       "cheesecakeBerry",
@@ -2214,29 +3066,60 @@ const entries = [
       "whiteTruffle",
       "darkTruffle",
       "chocolateCake",
+
+      /* BEVANDA */
       "irishCoffee"
     ]
+
   },
 
 
-  /* =========================================================
-     VERDURE / INGREDIENTI VEGETALI
-     ========================================================= */
+  /* =======================================================
+     POMODORO
+     ======================================================= */
 
   {
     type: "ingredient",
+
     names: {
       it: "Pomodoro",
       en: "Tomato",
       de: "Tomate",
       es: "Tomate"
     },
+
     aliases: {
-      it: ["pomodoro", "pomodori", "pomodorino", "pomodorini"],
-      en: ["tomato", "tomatoes", "cherry tomato", "cherry tomatoes"],
-      de: ["tomate", "tomaten", "cherrytomate", "cherrytomaten"],
-      es: ["tomate", "tomates", "tomate cherry", "tomates cherry"]
+
+      it: [
+        "pomodoro",
+        "pomodori",
+        "pomodorino",
+        "pomodorini"
+      ],
+
+      en: [
+        "tomato",
+        "tomatoes",
+        "cherry tomato",
+        "cherry tomatoes"
+      ],
+
+      de: [
+        "tomate",
+        "tomaten",
+        "cherrytomate",
+        "cherrytomaten"
+      ],
+
+      es: [
+        "tomate",
+        "tomates",
+        "tomate cherry",
+        "tomates cherry"
+      ]
+
     },
+
     products: [
       "cheeseburger",
       "baconburger",
@@ -2253,23 +3136,45 @@ const entries = [
       "chickenWrap",
       "galway"
     ]
+
   },
 
 
+  /* =======================================================
+     LATTUGA
+     ======================================================= */
+
   {
     type: "ingredient",
+
     names: {
       it: "Lattuga",
       en: "Lettuce",
       de: "Blattsalat",
       es: "Lechuga"
     },
+
     aliases: {
-      it: ["lattuga", "insalata verde"],
-      en: ["lettuce"],
-      de: ["blattsalat"],
-      es: ["lechuga"]
+
+      it: [
+        "lattuga",
+        "insalata verde"
+      ],
+
+      en: [
+        "lettuce"
+      ],
+
+      de: [
+        "blattsalat"
+      ],
+
+      es: [
+        "lechuga"
+      ]
+
     },
+
     products: [
       "cheeseburger",
       "baconburger",
@@ -2287,23 +3192,57 @@ const entries = [
       "mediterraneanSalad",
       "chickenWrap"
     ]
+
   },
 
 
+  /* =======================================================
+     CIPOLLA
+     ======================================================= */
+
   {
     type: "ingredient",
+
     names: {
       it: "Cipolla",
       en: "Onion",
       de: "Zwiebel",
       es: "Cebolla"
     },
+
     aliases: {
-      it: ["cipolla", "cipolle", "cipolla cruda", "cipolla caramellata"],
-      en: ["onion", "onions", "raw onion", "caramelised onion", "caramelized onion"],
-      de: ["zwiebel", "zwiebeln", "rohe zwiebel", "karamellisierte zwiebel"],
-      es: ["cebolla", "cebollas", "cebolla cruda", "cebolla caramelizada"]
+
+      it: [
+        "cipolla",
+        "cipolle",
+        "cipolla cruda",
+        "cipolla caramellata"
+      ],
+
+      en: [
+        "onion",
+        "onions",
+        "raw onion",
+        "caramelised onion",
+        "caramelized onion"
+      ],
+
+      de: [
+        "zwiebel",
+        "zwiebeln",
+        "rohe zwiebel",
+        "karamellisierte zwiebel"
+      ],
+
+      es: [
+        "cebolla",
+        "cebollas",
+        "cebolla cruda",
+        "cebolla caramelizada"
+      ]
+
     },
+
     products: [
       "cheeseburger",
       "baconburger",
@@ -2319,46 +3258,94 @@ const entries = [
       "pulledSalad",
       "mediterraneanSalad"
     ]
+
   },
 
 
+  /* =======================================================
+     CETRIOLO
+     ======================================================= */
+
   {
     type: "ingredient",
+
     names: {
       it: "Cetriolo",
       en: "Cucumber",
       de: "Gurke",
       es: "Pepino"
     },
+
     aliases: {
-      it: ["cetriolo", "cetrioli"],
-      en: ["cucumber", "cucumbers"],
-      de: ["gurke", "gurken"],
-      es: ["pepino", "pepinos"]
+
+      it: [
+        "cetriolo",
+        "cetrioli"
+      ],
+
+      en: [
+        "cucumber",
+        "cucumbers"
+      ],
+
+      de: [
+        "gurke",
+        "gurken"
+      ],
+
+      es: [
+        "pepino",
+        "pepinos"
+      ]
+
     },
+
     products: [
       "hamburger",
       "wiclowSalad",
       "pulledSalad",
       "mediterraneanSalad"
     ]
+
   },
 
 
+  /* =======================================================
+     RUCOLA
+     ======================================================= */
+
   {
     type: "ingredient",
+
     names: {
       it: "Rucola",
       en: "Rocket / Arugula",
       de: "Rucola",
       es: "Rúcula"
     },
+
     aliases: {
-      it: ["rucola"],
-      en: ["rocket", "arugula"],
-      de: ["rucola"],
-      es: ["rucula", "rúcula"]
+
+      it: [
+        "rucola"
+      ],
+
+      en: [
+        "rocket",
+        "arugula"
+      ],
+
+      de: [
+        "rucola"
+      ],
+
+      es: [
+        "rucula",
+        "rúcula"
+      ]
+
     },
+
     products: [
       "rocketSide",
       "wiclowSalad",
@@ -2366,216 +3353,487 @@ const entries = [
       "bresaolaWrap",
       "galway"
     ]
+
   },
 
 
+  /* =======================================================
+     FUNGHI
+     ======================================================= */
+
   {
     type: "ingredient",
+
     names: {
       it: "Funghi",
       en: "Mushrooms",
       de: "Pilze",
       es: "Champiñones"
     },
+
     aliases: {
-      it: ["fungo", "funghi"],
-      en: ["mushroom", "mushrooms"],
-      de: ["pilz", "pilze"],
-      es: ["champinon", "champinones", "champiñon", "champiñones"]
+
+      it: [
+        "fungo",
+        "funghi"
+      ],
+
+      en: [
+        "mushroom",
+        "mushrooms"
+      ],
+
+      de: [
+        "pilz",
+        "pilze"
+      ],
+
+      es: [
+        "champinon",
+        "champinones",
+        "champiñon",
+        "champiñones"
+      ]
+
     },
+
     products: [
       "mushroomArtichokePizza",
       "speckMushroomPizza",
       "connemara",
       "stuffedToast"
     ]
+
   },
 
 
+  /* =======================================================
+     CARCIOFI
+     ======================================================= */
+
   {
     type: "ingredient",
+
     names: {
       it: "Carciofi",
       en: "Artichokes",
       de: "Artischocken",
       es: "Alcachofas"
     },
+
     aliases: {
-      it: ["carciofo", "carciofi", "carciofino", "carciofini"],
-      en: ["artichoke", "artichokes"],
-      de: ["artischocke", "artischocken"],
-      es: ["alcachofa", "alcachofas"]
+
+      it: [
+        "carciofo",
+        "carciofi",
+        "carciofino",
+        "carciofini"
+      ],
+
+      en: [
+        "artichoke",
+        "artichokes"
+      ],
+
+      de: [
+        "artischocke",
+        "artischocken"
+      ],
+
+      es: [
+        "alcachofa",
+        "alcachofas"
+      ]
+
     },
+
     products: [
       "mushroomArtichokePizza",
       "stuffedToast"
     ]
+
   },
 
 
+  /* =======================================================
+     OLIVE
+     ======================================================= */
+
   {
     type: "ingredient",
+
     names: {
       it: "Olive",
       en: "Olives",
       de: "Oliven",
       es: "Aceitunas"
     },
+
     aliases: {
-      it: ["oliva", "olive", "olive verdi"],
-      en: ["olive", "olives", "green olives"],
-      de: ["olive", "oliven", "grune oliven", "grüne oliven"],
-      es: ["aceituna", "aceitunas", "aceitunas verdes"]
+
+      it: [
+        "oliva",
+        "olive",
+        "olive verdi"
+      ],
+
+      en: [
+        "olive",
+        "olives",
+        "green olives"
+      ],
+
+      de: [
+        "olive",
+        "oliven",
+        "grune oliven",
+        "grüne oliven"
+      ],
+
+      es: [
+        "aceituna",
+        "aceitunas",
+        "aceitunas verdes"
+      ]
+
     },
+
     products: [
       "ascolane",
       "wiclowSalad",
       "mediterraneanSalad"
     ]
+
   },
 
 
+  /* =======================================================
+     JALAPEÑOS
+     ======================================================= */
+
   {
     type: "ingredient",
+
     names: {
       it: "Jalapeños",
       en: "Jalapeños",
       de: "Jalapeños",
       es: "Jalapeños"
     },
+
     aliases: {
-      it: ["jalapeno", "jalapenos", "jalapeño", "jalapeños"],
-      en: ["jalapeno", "jalapenos", "jalapeño", "jalapeños"],
-      de: ["jalapeno", "jalapenos", "jalapeño", "jalapeños"],
-      es: ["jalapeno", "jalapenos", "jalapeño", "jalapeños"]
+
+      it: [
+        "jalapeno",
+        "jalapenos",
+        "jalapeño",
+        "jalapeños"
+      ],
+
+      en: [
+        "jalapeno",
+        "jalapenos",
+        "jalapeño",
+        "jalapeños"
+      ],
+
+      de: [
+        "jalapeno",
+        "jalapenos",
+        "jalapeño",
+        "jalapeños"
+      ],
+
+      es: [
+        "jalapeno",
+        "jalapenos",
+        "jalapeño",
+        "jalapeños"
+      ]
+
     },
+
     products: [
       "jalapenos"
     ]
+
   },
 
 
+  /* =======================================================
+     CHILI / PEPERONCINO
+     ======================================================= */
+
   {
     type: "ingredient",
+
     names: {
       it: "Chili / peperoncino",
       en: "Chili",
       de: "Chili",
       es: "Chile"
     },
+
     aliases: {
-      it: ["chili", "chili fresco", "peperoncino", "piccante"],
-      en: ["chili", "chilli", "fresh chili", "fresh chilli", "hot sauce"],
-      de: ["chili", "frische chili", "scharf"],
-      es: ["chili", "chile", "chile fresco", "picante"]
+
+      it: [
+        "chili",
+        "chili fresco",
+        "peperoncino",
+        "piccante"
+      ],
+
+      en: [
+        "chili",
+        "chilli",
+        "fresh chili",
+        "fresh chilli",
+        "hot sauce"
+      ],
+
+      de: [
+        "chili",
+        "frische chili",
+        "scharf"
+      ],
+
+      es: [
+        "chili",
+        "chile",
+        "chile fresco",
+        "picante"
+      ]
+
     },
+
     products: [
       "coneyDog",
       "diablo",
       "devilburger"
     ]
+
   },
 
 
+  /* =======================================================
+     PATATE
+     ======================================================= */
+
   {
     type: "ingredient",
+
     names: {
       it: "Patata",
       en: "Potato",
       de: "Kartoffel",
       es: "Patata"
     },
+
     aliases: {
-      it: ["patata", "patate"],
-      en: ["potato", "potatoes", "fries", "french fries"],
-      de: ["kartoffel", "kartoffeln", "pommes", "pommes frites"],
-      es: ["patata", "patatas"]
+
+      it: [
+        "patata",
+        "patate"
+      ],
+
+      en: [
+        "potato",
+        "potatoes",
+        "fries",
+        "french fries"
+      ],
+
+      de: [
+        "kartoffel",
+        "kartoffeln",
+        "pommes",
+        "pommes frites"
+      ],
+
+      es: [
+        "patata",
+        "patatas"
+      ]
+
     },
+
+    /*
+      Patate Black Pepper volutamente NON presenti:
+      non sono più a menu.
+    */
     products: [
       "fries",
       "potatoCroquettes",
       "crazyFries"
     ]
+
   },
 
 
+  /* =======================================================
+     CAVOLO / COLESLAW
+     ======================================================= */
+
   {
     type: "ingredient",
+
     names: {
       it: "Cavolo / Coleslaw",
       en: "Cabbage / Coleslaw",
       de: "Kohl / Coleslaw",
       es: "Col / Coleslaw"
     },
+
     aliases: {
-      it: ["cavolo", "cavolo cappuccio", "coleslaw", "salsa coleslaw"],
-      en: ["cabbage", "coleslaw"],
-      de: ["kohl", "kraut", "coleslaw"],
-      es: ["col", "repollo", "coleslaw"]
+
+      it: [
+        "cavolo",
+        "cavolo cappuccio",
+        "coleslaw",
+        "salsa coleslaw"
+      ],
+
+      en: [
+        "cabbage",
+        "coleslaw"
+      ],
+
+      de: [
+        "kohl",
+        "kraut",
+        "coleslaw"
+      ],
+
+      es: [
+        "col",
+        "repollo",
+        "coleslaw"
+      ]
+
     },
+
     products: [
       "pulledPork",
       "pulledSalad"
     ]
+
   },
 
 
+  /* =======================================================
+     VERDURE
+     ======================================================= */
+
   {
     type: "ingredient",
+
     names: {
       it: "Verdure",
       en: "Vegetables",
       de: "Gemüse",
       es: "Verduras"
     },
+
     aliases: {
-      it: ["verdura", "verdure", "verdure grigliate", "verdure pastellate"],
-      en: ["vegetable", "vegetables", "grilled vegetables", "battered vegetables"],
-      de: ["gemuse", "gemüse", "gegrilltes gemuse", "gegrilltes gemüse"],
-      es: ["verdura", "verduras", "verduras a la parrilla", "verduras rebozadas"]
+
+      it: [
+        "verdura",
+        "verdure",
+        "verdure grigliate",
+        "verdure pastellate"
+      ],
+
+      en: [
+        "vegetable",
+        "vegetables",
+        "grilled vegetables",
+        "battered vegetables"
+      ],
+
+      de: [
+        "gemuse",
+        "gemüse",
+        "gegrilltes gemuse",
+        "gegrilltes gemüse"
+      ],
+
+      es: [
+        "verdura",
+        "verduras",
+        "verduras a la parrilla",
+        "verduras rebozadas"
+      ]
+
     },
+
     products: [
       "dublin",
       "batteredVegetables"
     ]
+
   },
 
 
-  /* =========================================================
-     ALTRI INGREDIENTI UTILI ALLA RICERCA
-     ========================================================= */
+  /* =======================================================
+     TONNO
+     ======================================================= */
 
   {
     type: "ingredient",
+
     names: {
       it: "Tonno",
       en: "Tuna",
       de: "Thunfisch",
       es: "Atún"
     },
+
     aliases: {
-      it: ["tonno"],
-      en: ["tuna"],
-      de: ["thunfisch"],
-      es: ["atun", "atún"]
+
+      it: [
+        "tonno"
+      ],
+
+      en: [
+        "tuna"
+      ],
+
+      de: [
+        "thunfisch"
+      ],
+
+      es: [
+        "atun",
+        "atún"
+      ]
+
     },
+
     products: [
       "tunaOnionPizza",
       "wiclowSalad",
       "mediterraneanSalad"
     ]
+
   },
 
 
+  /* =======================================================
+     FORMAGGIO
+     ======================================================= */
+
   {
     type: "ingredient",
+
     names: {
       it: "Formaggio",
       en: "Cheese",
       de: "Käse",
       es: "Queso"
     },
+
     aliases: {
+
       it: [
         "formaggio",
         "formaggi",
@@ -2587,6 +3845,7 @@ const entries = [
         "grana",
         "parmigiano"
       ],
+
       en: [
         "cheese",
         "cheddar",
@@ -2596,6 +3855,7 @@ const entries = [
         "feta",
         "parmesan"
       ],
+
       de: [
         "kase",
         "käse",
@@ -2606,6 +3866,7 @@ const entries = [
         "feta",
         "parmesan"
       ],
+
       es: [
         "queso",
         "cheddar",
@@ -2615,7 +3876,16 @@ const entries = [
         "feta",
         "parmesano"
       ]
+
     },
+
+    /*
+      NOTA:
+      la ricerca "formaggio" comprende il Grana,
+      ma questo NON significa automaticamente
+      che il Grana venga inserito nella ricerca
+      "lattosio".
+    */
     products: [
       "cheeseburger",
       "baconburger",
@@ -2634,39 +3904,68 @@ const entries = [
       "bresaolaWrap",
       "galway"
     ]
+
   },
 
 
+  /* =======================================================
+     BACON
+     ======================================================= */
+
   {
     type: "ingredient",
+
     names: {
       it: "Bacon",
       en: "Bacon",
       de: "Bacon",
       es: "Bacon"
     },
+
     aliases: {
-      it: ["bacon"],
-      en: ["bacon"],
-      de: ["bacon"],
-      es: ["bacon"]
+
+      it: [
+        "bacon"
+      ],
+
+      en: [
+        "bacon"
+      ],
+
+      de: [
+        "bacon"
+      ],
+
+      es: [
+        "bacon"
+      ]
+
     },
+
     products: [
       "baconburger",
       "frisburger"
     ]
+
   },
 
 
+  /* =======================================================
+     MAIALE / SUINO
+     ======================================================= */
+
   {
     type: "ingredient",
+
     names: {
       it: "Maiale / suino",
       en: "Pork",
       de: "Schweinefleisch",
       es: "Cerdo"
     },
+
     aliases: {
+
       it: [
         "maiale",
         "suino",
@@ -2679,6 +3978,7 @@ const entries = [
         "pulled pork",
         "bacon"
       ],
+
       en: [
         "pork",
         "ham",
@@ -2688,6 +3988,7 @@ const entries = [
         "pulled pork",
         "bacon"
       ],
+
       de: [
         "schwein",
         "schweinefleisch",
@@ -2698,6 +3999,7 @@ const entries = [
         "pulled pork",
         "bacon"
       ],
+
       es: [
         "cerdo",
         "jamon",
@@ -2708,7 +4010,9 @@ const entries = [
         "pulled pork",
         "bacon"
       ]
+
     },
+
     products: [
       "baconburger",
       "frisburger",
@@ -2723,23 +4027,52 @@ const entries = [
       "pulledPork",
       "pulledSalad"
     ]
+
   },
 
 
+  /* =======================================================
+     POLLO
+     ======================================================= */
+
   {
     type: "ingredient",
+
     names: {
       it: "Pollo",
       en: "Chicken",
       de: "Hähnchen",
       es: "Pollo"
     },
+
     aliases: {
-      it: ["pollo", "alette di pollo", "nuggets di pollo"],
-      en: ["chicken", "chicken wings", "chicken nuggets"],
-      de: ["hahnchen", "hähnchen", "huhn"],
-      es: ["pollo", "alitas de pollo", "nuggets de pollo"]
+
+      it: [
+        "pollo",
+        "alette di pollo",
+        "nuggets di pollo"
+      ],
+
+      en: [
+        "chicken",
+        "chicken wings",
+        "chicken nuggets"
+      ],
+
+      de: [
+        "hahnchen",
+        "hähnchen",
+        "huhn"
+      ],
+
+      es: [
+        "pollo",
+        "alitas de pollo",
+        "nuggets de pollo"
+      ]
+
     },
+
     products: [
       "salzburger",
       "chickenWings",
@@ -2747,69 +4080,78 @@ const entries = [
       "caesarSalad",
       "chickenWrap"
     ]
-  },
 
-
-  {
-    type: "ingredient",
-    names: {
-      it: "Coleslaw",
-      en: "Coleslaw",
-      de: "Coleslaw",
-      es: "Coleslaw"
-    },
-    aliases: {
-      it: ["coleslaw", "salsa coleslaw"],
-      en: ["coleslaw"],
-      de: ["coleslaw"],
-      es: ["coleslaw"]
-    },
-    products: [
-      "pulledPork",
-      "pulledSalad"
-    ]
   }
 
 ];
 
 
 /* =========================================================
-   NORMALIZZAZIONE
+   NORMALIZZAZIONE TESTO
    ========================================================= */
 
 function normalizeText(text) {
 
   return String(text || "")
+
     .toLowerCase()
+
     .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/[’']/g, "")
+
+    .replace(
+      /[\u0300-\u036f]/g,
+      ""
+    )
+
+    .replace(
+      /[’']/g,
+      ""
+    )
+
+    .replace(
+      /\s+/g,
+      " "
+    )
+
     .trim();
 
 }
 
 
 /* =========================================================
-   LINGUA TELEFONO
+   LINGUA DEL DISPOSITIVO
    ========================================================= */
 
 function browserLanguage() {
 
   const language =
-    (navigator.language || "it")
+    (
+      navigator.language ||
+      "it"
+    )
       .toLowerCase();
 
-  if (language.startsWith("de")) {
+
+  if (
+    language.startsWith("de")
+  ) {
     return "de";
   }
 
-  if (language.startsWith("es")) {
+
+  if (
+    language.startsWith("es")
+  ) {
     return "es";
   }
 
-  if (language.startsWith("en")) {
+
+  if (
+    language.startsWith("en")
+  ) {
     return "en";
   }
+
 
   return "it";
 
@@ -2817,66 +4159,115 @@ function browserLanguage() {
 
 
 /* =========================================================
-   RICERCA
+   RICERCA DELLA VOCE
    ========================================================= */
 
 function findEntry(query) {
 
-  const normalized = normalizeText(query);
+  const normalized =
+    normalizeText(query);
+
 
   if (!normalized) {
     return null;
   }
 
+
   const matches = [];
 
 
-  entries.forEach(function (entry) {
+  entries.forEach(
+    function (entry) {
 
-    Object.entries(entry.aliases)
-      .forEach(function ([lang, aliases]) {
 
-        aliases.forEach(function (alias) {
+      Object
+        .entries(entry.aliases)
+        .forEach(
+          function ([lang, aliases]) {
 
-          const normalizedAlias =
-            normalizeText(alias);
 
-          let score = 0;
+            aliases.forEach(
+              function (alias) {
 
-          if (normalized === normalizedAlias) {
-            score = 100;
+
+                const normalizedAlias =
+                  normalizeText(alias);
+
+
+                let score = 0;
+
+
+                /*
+                  CORRISPONDENZA ESATTA
+                */
+                if (
+                  normalized ===
+                  normalizedAlias
+                ) {
+
+                  score = 100;
+
+                }
+
+
+                /*
+                  UTENTE STA ANCORA SCRIVENDO
+                  Es:
+                  "pom" -> pomodoro
+                */
+                else if (
+                  normalizedAlias
+                    .startsWith(normalized) &&
+                  normalized.length >= 2
+                ) {
+
+                  score = 70;
+
+                }
+
+
+                /*
+                  QUERY PIÙ LUNGA DELL'ALIAS
+                */
+                else if (
+                  normalized
+                    .startsWith(normalizedAlias) &&
+                  normalizedAlias.length >= 3
+                ) {
+
+                  score = 60;
+
+                }
+
+
+                if (score > 0) {
+
+                  matches.push({
+
+                    entry: entry,
+
+                    lang: lang,
+
+                    score: score,
+
+                    aliasLength:
+                      normalizedAlias.length
+
+                  });
+
+                }
+
+
+              }
+            );
+
+
           }
+        );
 
-          else if (
-            normalizedAlias.startsWith(normalized) &&
-            normalized.length >= 2
-          ) {
-            score = 70;
-          }
 
-          else if (
-            normalized.startsWith(normalizedAlias) &&
-            normalizedAlias.length >= 3
-          ) {
-            score = 60;
-          }
-
-          if (score > 0) {
-
-            matches.push({
-              entry: entry,
-              lang: lang,
-              score: score,
-              aliasLength: normalizedAlias.length
-            });
-
-          }
-
-        });
-
-      });
-
-  });
+    }
+  );
 
 
   if (!matches.length) {
@@ -2888,29 +4279,56 @@ function findEntry(query) {
     browserLanguage();
 
 
-  matches.sort(function (a, b) {
+  matches.sort(
+    function (a, b) {
 
-    if (b.score !== a.score) {
-      return b.score - a.score;
+
+      if (
+        b.score !== a.score
+      ) {
+
+        return b.score - a.score;
+
+      }
+
+
+      /*
+        In caso di identica corrispondenza
+        preferiamo la lingua del telefono.
+      */
+
+      if (
+        a.lang === preferredLanguage &&
+        b.lang !== preferredLanguage
+      ) {
+
+        return -1;
+
+      }
+
+
+      if (
+        b.lang === preferredLanguage &&
+        a.lang !== preferredLanguage
+      ) {
+
+        return 1;
+
+      }
+
+
+      /*
+        Ultimo criterio:
+        alias più preciso.
+      */
+
+      return (
+        a.aliasLength -
+        b.aliasLength
+      );
+
     }
-
-    if (
-      a.lang === preferredLanguage &&
-      b.lang !== preferredLanguage
-    ) {
-      return -1;
-    }
-
-    if (
-      b.lang === preferredLanguage &&
-      a.lang !== preferredLanguage
-    ) {
-      return 1;
-    }
-
-    return a.aliasLength - b.aliasLength;
-
-  });
+  );
 
 
   return matches[0];
@@ -2919,15 +4337,18 @@ function findEntry(query) {
 
 
 /* =========================================================
-   STIMA LINGUA PER PAROLE NON TROVATE
+   STIMA LINGUA
+   PER RICERCHE NON TROVATE
    ========================================================= */
 
 function guessLanguage(query) {
 
-  const q = normalizeText(query);
+  const q =
+    normalizeText(query);
 
 
   const germanHints = [
+
     "milch",
     "laktose",
     "eier",
@@ -2945,10 +4366,12 @@ function guessLanguage(query) {
     "kartoffel",
     "gemuse",
     "kohl"
+
   ];
 
 
   const spanishHints = [
+
     "leche",
     "lactosa",
     "huevo",
@@ -2966,10 +4389,12 @@ function guessLanguage(query) {
     "alcach",
     "patata",
     "verdura"
+
   ];
 
 
   const englishHints = [
+
     "milk",
     "lactose",
     "egg",
@@ -2989,33 +4414,46 @@ function guessLanguage(query) {
     "potato",
     "vegetable",
     "cabbage"
+
   ];
 
 
   if (
-    germanHints.some(function (word) {
-      return q.includes(word);
-    })
+    germanHints.some(
+      function (word) {
+        return q.includes(word);
+      }
+    )
   ) {
+
     return "de";
+
   }
 
 
   if (
-    spanishHints.some(function (word) {
-      return q.includes(word);
-    })
+    spanishHints.some(
+      function (word) {
+        return q.includes(word);
+      }
+    )
   ) {
+
     return "es";
+
   }
 
 
   if (
-    englishHints.some(function (word) {
-      return q.includes(word);
-    })
+    englishHints.some(
+      function (word) {
+        return q.includes(word);
+      }
+    )
   ) {
+
     return "en";
+
   }
 
 
@@ -3025,22 +4463,33 @@ function guessLanguage(query) {
 
 
 /* =========================================================
-   NOME PRODOTTO NELLA LINGUA GIUSTA
+   TRADUZIONE NOME PRODOTTO
    ========================================================= */
 
-function translatedProduct(productKey, lang) {
+function translatedProduct(
+  productKey,
+  lang
+) {
 
   const product =
     productNames[productKey];
 
+
   if (!product) {
+
     return productKey;
+
   }
 
+
   return (
+
     product[lang] ||
+
     product.it ||
+
     productKey
+
   );
 
 }
@@ -3052,64 +4501,118 @@ function translatedProduct(productKey, lang) {
 
 function renderResult(match) {
 
-  const entry = match.entry;
-  const lang = match.lang;
-  const texts = ui[lang];
+  const entry =
+    match.entry;
+
+
+  const lang =
+    match.lang;
+
+
+  const texts =
+    ui[lang];
+
 
   const name =
+
     entry.names[lang] ||
+
     entry.names.it;
 
+
   const typeText =
+
     entry.type === "allergen"
+
       ? texts.allergenLabel
+
       : texts.ingredientLabel;
 
+
   const heading =
+
     entry.type === "allergen"
+
       ? texts.containsAllergen
+
       : texts.containsIngredient;
 
 
+  /*
+    Quando c'è una ricerca,
+    l'avviso diventa compatto.
+  */
+
   allergenWarning.textContent =
     texts.compactWarning;
+
 
   allergenWarning
     .classList
     .add("compact");
 
 
+  /*
+    ALLERGENE RICONOSCIUTO
+    MA SENZA PRODOTTI SPECIFICI.
+  */
+
   if (!entry.products.length) {
 
     allergenResults.innerHTML =
 
       '<div class="result-heading">' +
+
         name +
+
         '<span class="result-type">' +
+
           typeText +
+
         '</span>' +
+
       '</div>' +
 
+
       '<div class="no-specific-products">' +
+
         texts.noneForAllergen +
+
       '</div>';
+
 
     return;
 
   }
 
 
+  /*
+    CREA ELENCO PRODOTTI
+  */
+
   const productHtml =
+
     entry.products
-      .map(function (productKey) {
 
-        return (
-          '<div class="product-item">' +
-            translatedProduct(productKey, lang) +
-          '</div>'
-        );
+      .map(
+        function (productKey) {
 
-      })
+          return (
+
+            '<div class="product-item">' +
+
+              translatedProduct(
+                productKey,
+                lang
+              ) +
+
+            '</div>'
+
+          );
+
+        }
+      )
+
       .join("");
 
 
@@ -3118,22 +4621,33 @@ function renderResult(match) {
     '<div class="result-heading">' +
 
       heading +
+
       ' <strong>' +
+
         name +
+
       '</strong>' +
 
       '<span class="result-type">' +
+
         typeText +
+
       '</span>' +
 
     '</div>' +
 
+
     '<div class="result-subheading">' +
+
       texts.source +
+
     '</div>' +
 
+
     '<div class="product-list">' +
+
       productHtml +
+
     '</div>';
 
 }
@@ -3148,12 +4662,14 @@ function renderUnknown(query) {
   const lang =
     guessLanguage(query);
 
+
   const texts =
     ui[lang];
 
 
   allergenWarning.textContent =
     texts.compactWarning;
+
 
   allergenWarning
     .classList
@@ -3165,7 +4681,9 @@ function renderUnknown(query) {
     '<div class="no-search-result">' +
 
       '<strong>' +
+
         texts.unknownTitle +
+
       '</strong>' +
 
       texts.unknown +
@@ -3176,19 +4694,24 @@ function renderUnknown(query) {
 
 
 /* =========================================================
-   RESET
+   RESET RICERCA
    ========================================================= */
 
 function resetSearch() {
 
-  allergenResults.innerHTML = "";
+  allergenResults.innerHTML =
+    "";
+
 
   allergenWarning
     .classList
     .remove("compact");
 
+
   allergenWarning.textContent =
-    ui[browserLanguage()].warning;
+    ui[browserLanguage()]
+      .warning;
+
 
   searchClear
     .classList
@@ -3198,44 +4721,60 @@ function resetSearch() {
 
 
 /* =========================================================
-   FOCUS
+   FOCUS CAMPO RICERCA
    ========================================================= */
 
 allergenSearch.addEventListener(
   "focus",
   function () {
 
+
     allergenWarning
       .classList
       .add("compact");
 
+
     allergenWarning.textContent =
+
       ui[browserLanguage()]
         .compactWarning;
+
 
   }
 );
 
 
 /* =========================================================
-   DIGITAZIONE
+   DIGITAZIONE RICERCA
    ========================================================= */
 
 allergenSearch.addEventListener(
   "input",
   function () {
 
-    const query =
-      allergenSearch.value.trim();
 
+    const query =
+      allergenSearch
+        .value
+        .trim();
+
+
+    /*
+      CAMPO VUOTO
+    */
 
     if (!query) {
 
       resetSearch();
+
       return;
 
     }
 
+
+    /*
+      MOSTRA X
+    */
 
     searchClear
       .classList
@@ -3246,13 +4785,27 @@ allergenSearch.addEventListener(
       findEntry(query);
 
 
-    if (!match && query.length < 2) {
+    /*
+      Evitiamo di mostrare subito
+      "nessun risultato" con una sola lettera.
+    */
 
-      allergenResults.innerHTML = "";
+    if (
+      !match &&
+      query.length < 2
+    ) {
+
+      allergenResults.innerHTML =
+        "";
+
       return;
 
     }
 
+
+    /*
+      RISULTATO TROVATO
+    */
 
     if (match) {
 
@@ -3260,43 +4813,61 @@ allergenSearch.addEventListener(
 
     }
 
+
+    /*
+      NESSUN RISULTATO
+    */
+
     else {
 
       renderUnknown(query);
 
     }
 
+
   }
 );
 
 
 /* =========================================================
-   CANCELLA
+   CANCELLA RICERCA
    ========================================================= */
 
 searchClear.addEventListener(
   "click",
   function () {
 
-    allergenSearch.value = "";
+
+    allergenSearch.value =
+      "";
+
 
     resetSearch();
 
+
     allergenSearch.focus();
+
 
   }
 );
 
 
 /* =========================================================
-   AVVISO INIZIALE NELLA LINGUA DEL TELEFONO
+   AVVISO INIZIALE
    ========================================================= */
 
 allergenWarning.textContent =
-  ui[browserLanguage()].warning;
+  ui[browserLanguage()]
+    .warning;
+
+
+/* =========================================================
+   FINE JAVASCRIPT
+   ========================================================= */
 
 </script>
 
 
 </body>
+
 </html>
