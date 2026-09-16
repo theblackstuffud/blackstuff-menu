@@ -364,6 +364,7 @@ h1 {
 .seasonal-label-window {
   position: relative;
   flex: 1;
+  min-width: 0;
   height: 26px;
   overflow: hidden;
   margin-right: 11px;
@@ -405,18 +406,17 @@ h1 {
 .seasonal-marquee span {
   display: block;
   flex-shrink: 0;
-  padding-right: 0;
   font-size: 16px;
   font-weight: 700;
 }
 
 @keyframes seasonalScroll {
   from {
-    transform: translateX(0);
+    transform: translate3d(0,0,0);
   }
 
   to {
-    transform: translateX(-50%);
+    transform: translate3d(-50%,0,0);
   }
 }
 
@@ -505,6 +505,81 @@ h1 {
   cursor: pointer;
   appearance: none;
   -webkit-appearance: none;
+
+  position: relative;
+  overflow: hidden;
+}
+
+
+/* BANNER ALLERGENI MULTILINGUA */
+
+.allergen-label-window {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  height: 26px;
+  overflow: hidden;
+  margin-right: 11px;
+
+  -webkit-mask-image:
+    linear-gradient(
+      to right,
+      transparent 0%,
+      black 5%,
+      black 95%,
+      transparent 100%
+    );
+
+  mask-image:
+    linear-gradient(
+      to right,
+      transparent 0%,
+      black 5%,
+      black 95%,
+      transparent 100%
+    );
+}
+
+.allergen-marquee {
+  position: absolute;
+  left: 0;
+  top: 1px;
+
+  display: flex;
+  width: max-content;
+  white-space: nowrap;
+
+  animation:
+    allergenScroll 16s linear infinite;
+
+  will-change: transform;
+}
+
+.allergen-marquee-group {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  white-space: nowrap;
+
+  padding-right: 32px;
+
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 24px;
+}
+
+@keyframes allergenScroll {
+  from {
+    transform: translate3d(0,0,0);
+  }
+
+  to {
+    transform: translate3d(-50%,0,0);
+  }
+}
+
+.allergen-right {
+  flex-shrink: 0;
 }
 
 .allergen-icon {
@@ -884,12 +959,20 @@ footer {
     font-size: 15px;
   }
 
+  .allergen-marquee-group {
+    font-size: 15px;
+  }
+
 }
 
 @media (prefers-reduced-motion: reduce) {
 
   .seasonal-marquee {
     animation-duration: 35s;
+  }
+
+  .allergen-marquee {
+    animation-duration: 30s;
   }
 
 }
@@ -1082,7 +1165,29 @@ footer {
       type="button"
       aria-expanded="false">
 
-      <span>Allergeni</span>
+      <div class="allergen-label-window">
+
+        <div class="allergen-marquee">
+
+          <div class="allergen-marquee-group">
+            Allergeni&nbsp;&nbsp;·&nbsp;&nbsp;
+            Allergens&nbsp;&nbsp;·&nbsp;&nbsp;
+            Allergene&nbsp;&nbsp;·&nbsp;&nbsp;
+            Alérgenos&nbsp;&nbsp;·&nbsp;&nbsp;
+          </div>
+
+          <div
+            class="allergen-marquee-group"
+            aria-hidden="true">
+            Allergeni&nbsp;&nbsp;·&nbsp;&nbsp;
+            Allergens&nbsp;&nbsp;·&nbsp;&nbsp;
+            Allergene&nbsp;&nbsp;·&nbsp;&nbsp;
+            Alérgenos&nbsp;&nbsp;·&nbsp;&nbsp;
+          </div>
+
+        </div>
+
+      </div>
 
       <span class="allergen-right">
         <span class="allergen-icon">🔎</span>
