@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#06150d">
+<meta name="theme-color" content="#092a18">
 
 <title>The Black Stuff - Digital Menu</title>
 
@@ -14,12 +14,19 @@
 }
 
 html {
-  background: #031008;
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  background: #092a18;
 }
 
 body {
   margin: 0;
+  padding: 0;
+
   min-height: 100vh;
+  min-height: 100dvh;
+
   color: #f5f2e9;
 
   font-family:
@@ -29,7 +36,9 @@ body {
     Arial,
     sans-serif;
 
-  background:
+  background-color: #092a18;
+
+  background-image:
     radial-gradient(
       circle at 50% -10%,
       rgba(23, 91, 53, .45) 0%,
@@ -43,6 +52,10 @@ body {
       #04140c 68%,
       #020b06 100%
     );
+
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-attachment: fixed;
 
   position: relative;
 }
@@ -1059,7 +1072,7 @@ footer {
   </div>
 
 
-  <!-- ALLERGENI E INGREDIENTI -->
+  <!-- ALLERGENI -->
 
   <div class="allergen-wrap" id="allergenWrap">
 
@@ -1069,7 +1082,7 @@ footer {
       type="button"
       aria-expanded="false">
 
-      <span>Allergeni e ingredienti</span>
+      <span>Allergeni</span>
 
       <span class="allergen-right">
         <span class="allergen-icon">🔎</span>
