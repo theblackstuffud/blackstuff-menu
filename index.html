@@ -168,7 +168,8 @@ body{min-height:100vh;background:linear-gradient(to bottom,#1c4b31 0%,#133e29 23
 .beerSubgroup{margin:20px 0 28px}
 .beerSubgroup:first-of-type{margin-top:6px}
 .beerSubgroupTitle{margin:0 0 6px;padding:0 0 10px;border-bottom:1px solid rgba(204,202,160,.35);color:var(--gold);font-family:Georgia,serif;font-weight:500;font-size:20px;line-height:1.3}
-</style></head>
+</style><style id="food-only-allergy-notice">.filterInfo[hidden]{display:none!important}</style>
+</head>
 <body class="on-home">
 
 <!-- Popup originale di promozione del menu invernale -->
@@ -245,6 +246,15 @@ const FILTER_KEYS=['tomato','onion','gluten','lactose','egg','vegetarian','spicy
 const VERIFIED_FILTER_ITEMS={"onion":["alette-di-pollo","babyburger","brinner-burger","cesar-salad","cheesecake","chickn-cheese","connemara","coscia-di-pollo-disossata","crocchette-di-patate","diablo","dublin","frisburger","fritto-misto","fusi-di-pollo","guinness-pie-wrap","hamburger-light","hot-dog","irish","jalapenos-al-pezzo","mozzarelline-impanate","nuggets-di-pollo","olive-ascolane","panna-cotta","patate-fritte","patate-impazzite","polpette-al-sugo","ribs-di-maiale","ribs-di-maiale-1-2-porzione","salzburger","summerburger","tagliata-di-manzo","tartufo","tiramisu","toast","toast-farcito","tortino-al-cioccolato","trancio-diavola","trancio-funghi-carciofini","trancio-margherita","trancio-speck-funghi","verdure-pastellate"],"tomato":["alette-di-pollo","anelli-di-cipolla","babyburger","brinner-burger","cheesecake","chickn-cheese","coney-dog","connemara","crocchette-di-patate","diablo","eggburger","fritto-misto","guinness-pie-wrap","hot-dog","jalapenos-al-pezzo","mozzarelline-impanate","nuggets-di-pollo","olive-ascolane","panna-cotta","patate-fritte","pulled-pork","tartufo","tiramisu","toast","toast-farcito","tortino-al-cioccolato","verdure-pastellate","zuppa-alla-zucca"],"egg":["babyburger","baconburger","cheeseburger","chickn-cheese","coney-dog","coscia-di-pollo-disossata","devilburger","frisburger","fusi-di-pollo","guinness-pie-wrap","hamburger","hamburger-light","hot-dog","patate-fritte","polpette-al-sugo","ribs-di-maiale","ribs-di-maiale-1-2-porzione","summerburger","tagliata-di-manzo","trancio-diavola","trancio-funghi-carciofini","trancio-margherita","trancio-speck-funghi","trancio-tonno-cipolla","veggyburger","zuppa-alla-zucca"],"vegetarian":["anelli-di-cipolla","crocchette-di-patate","jalapenos-al-pezzo","mozzarelline-impanate","patate-fritte","trancio-funghi-carciofini","trancio-margherita","veggyburger","verdure-pastellate"],"spicy":["alette-di-pollo","anelli-di-cipolla","babyburger","baconburger","brinner-burger","cesar-salad","cheeseburger","cheesecake","chickn-cheese","connemara","coscia-di-pollo-disossata","crocchette-di-patate","dublin","eggburger","frisburger","fritto-misto","fusi-di-pollo","guinness-pie-wrap","hamburger","hamburger-light","hot-dog","irish","mozzarelline-impanate","nuggets-di-pollo","olive-ascolane","panna-cotta","patate-fritte","polpette-al-sugo","pulled-pork","pulled-salad","ribs-di-maiale","ribs-di-maiale-1-2-porzione","salzburger","summerburger","tagliata-di-manzo","tartufo","tiramisu","toast","toast-farcito","tortino-al-cioccolato","trancio-funghi-carciofini","trancio-margherita","trancio-speck-funghi","trancio-tonno-cipolla","veggyburger","verdure-pastellate","zuppa-alla-zucca"],"gluten":["casamatta-slip","tagliata-di-manzo","hamburger-light","coscia-di-pollo-disossata","fusi-di-pollo","ribs-di-maiale","ribs-di-maiale-1-2-porzione","pulled-salad","panna-cotta","tartufo","irish-coffee"],"lactose":[]};
 const VERIFIED_FILTER_SETS=Object.fromEntries(Object.entries(VERIFIED_FILTER_ITEMS).map(([k,ids])=>[k,new Set(ids)]));
 function filterBar(){const l=FILTER_LABELS[lang];return `<div class="filterBar" id="filterPanel" ${filtersOpen?'':'hidden'}><div class="filterHeading">${esc(l.heading)}</div><div class="filterChoices">${FILTER_KEYS.map(k=>`<button type="button" class="filterChip" data-filter="${k}" aria-pressed="${activeFilters.has(k)}">${esc(l[k])}</button>`).join('')}</div>${priceBar()}<p class="filterInfo">${esc(l.info)}</p></div>`;}
+// Allergy/cross-contamination messages belong only to food results, never beverages.
+const FOOD_GROUPS=new Set(['grill','burger','pizza','sandwich','fried','sharing','american','salads','seasonal','dessert']);
+const DRINK_DESSERT_IDS=new Set(['caffe','amaro','irish-coffee']);
+function isFoodProduct(item){return FOOD_GROUPS.has(item.group)&&!DRINK_DESSERT_IDS.has(item.id);}
+function syncFoodFilterNote(){
+ const note=document.querySelector('#filterPanel .filterInfo');
+ if(!note)return;
+ note.hidden=!!query.trim()&&!scored(query).ranked.some(x=>isFoodProduct(x.item));
+}
 function passesFilters(item){
  if(!passesPrice(item))return false;
  if(!activeFilters.size)return true;
@@ -258,8 +268,8 @@ function passesFilters(item){
  }
  return true;
 }
-function filteredResults(){const l=FILTER_LABELS[lang];const base=query.trim()?scored(query).ranked.map(x=>x.item):ITEMS.filter(i=>['burger','grill','sandwich','salads','fried','seasonal','pizza','american','beers'].includes(i.group));const matching=base.filter(passesFilters);return `<div class="sectionTop"><h2>${esc(t().results)}</h2></div>${activeFilters.size?`<div class="filterAlert">${esc(l.notice)}</div>`:''}${matching.length?matching.map(card).join(''):`<p class="empty">${esc(l.none)}</p>`}`;}
-function updateHomeContent(){const content=$('homeContent');if(content)content.innerHTML=query.trim()?results(query):categories();hydratePhotos(content);}
+function filteredResults(){const l=FILTER_LABELS[lang];const base=query.trim()?scored(query).ranked.map(x=>x.item):ITEMS.filter(i=>['burger','grill','sandwich','salads','fried','seasonal','pizza','american','beers'].includes(i.group));const matching=base.filter(passesFilters);return `<div class="sectionTop"><h2>${esc(t().results)}</h2></div>${activeFilters.size&&matching.some(isFoodProduct)?`<div class="filterAlert">${esc(l.notice)}</div>`:''}${matching.length?matching.map(card).join(''):`<p class="empty">${esc(l.none)}</p>`}`;}
+function updateHomeContent(){const content=$('homeContent');if(content)content.innerHTML=query.trim()?results(query):categories();hydratePhotos(content);syncFoodFilterNote();}
 const $=id=>document.getElementById(id);
 const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const t=()=>TR[lang];
@@ -311,20 +321,21 @@ function page(k){
   if((activeFilters.size||priceEnabled()) && !items.length)return '';
   return `<section class="group" id="group-${g}"><div class="groupTitle"><h2>${esc(t().groups[g])}</h2></div>${t().sideNotes&&t().sideNotes[g]?`<p class="groupSideNote">${esc(t().sideNotes[g])}</p>`:''}${g==='beers'?beerCategorySections(items):items.map(card).join('')}</section>`;
  }).filter(Boolean).join('');
- const filteredHeader=(activeFilters.size||priceEnabled())?`<div class="pageFilterStatus"><span>${lang==='it'?'Filtri attivi':lang==='en'?'Active filters':lang==='de'?'Aktive Filter':'Filtros activos'}: ${[...activeFilters].map(key=>esc(l[key])).concat(priceEnabled()?[fmtEuro(priceMin)+' – '+fmtEuro(priceMax)]:[]).join(' · ')}</span><button type="button" data-clear-filters>${lang==='it'?'Rimuovi filtri':lang==='en'?'Clear filters':lang==='de'?'Filter löschen':'Quitar filtros'}</button></div><p class="pageFilterDisclaimer">${esc(l.info)}</p>`:'';
+ const visibleFood=c.groups.some(g=>byGroup(g).some(item=>passesFilters(item)&&isFoodProduct(item)));
+ const filteredHeader=(activeFilters.size||priceEnabled())?`<div class="pageFilterStatus"><span>${lang==='it'?'Filtri attivi':lang==='en'?'Active filters':lang==='de'?'Aktive Filter':'Filtros activos'}: ${[...activeFilters].map(key=>esc(l[key])).concat(priceEnabled()?[fmtEuro(priceMin)+' – '+fmtEuro(priceMax)]:[]).join(' · ')}</span><button type="button" data-clear-filters>${lang==='it'?'Rimuovi filtri':lang==='en'?'Clear filters':lang==='de'?'Filter löschen':'Quitar filtros'}</button></div>`:'';
  const empty=(activeFilters.size||priceEnabled())?`<p class="empty">${esc(l.none)}</p>`:'';
- return `<button type="button" class="back" data-home>← ${esc(t().back)}</button><span class="eyebrow">THE BLACK STUFF · DIGITAL MENU</span><h1 class="pageTitle">${esc(t().categories[k])}</h1>${filteredHeader}<p class="pageLead">${esc(t().details)}</p>${sections||empty}<p class="note">${esc(t().footnote)}</p><div class="warn">${esc(t().allergens)}</div>`;
+ return `<button type="button" class="back" data-home>← ${esc(t().back)}</button><span class="eyebrow">THE BLACK STUFF · DIGITAL MENU</span><h1 class="pageTitle">${esc(t().categories[k])}</h1>${filteredHeader}<p class="pageLead">${esc(t().details)}</p>${sections||empty}<p class="note">${esc(t().footnote)}</p>${visibleFood?`<p class="pageFilterDisclaimer">${esc(l.info)}</p>`:''}`;
 }
 // Controlled, explainable search. No online services or invented menu items.
 const synonyms={
  birra:['birra','birre','beer','beers','bier','biere','cerveza','cervezas','pinta','pint'],
  cocktail:['cocktail','cocktails','drink','drinks','long drink','combinado','coctel','cocteles'],
- dolce:['dolce','dolci','sweet','suss','suess','dulce','dulces','dessert','desserts','postre','postres'],
+ dolce:['dolce','dolci','sweet','suss','suess','susse','susses','suesses','dulce','dulces','dessert','desserts','postre','postres'],
  amara:['amara','amaro','amare','amari','bitter','herb','amarga','amargo','amargue'],
- leggera:['leggera','leggero','leggere','light','leicht','ligera','ligero','delicata','mild'],
- forte:['forte','forti','strong','stark','fuerte','potente','alcolica','alcolico','doppio malto'],
- fresco:['fresca','fresco','fresche','freschi','rinfrescante','refreshing','fresh','frisch','refrescante'],
- piccante:['piccante','piccanti','spicy','hot','scharf','picante','picantes'],
+ leggera:['leggera','leggero','leggere','light','leicht','leichte','leichten','ligera','ligero','delicata','mild'],
+ forte:['forte','forti','strong','stark','starke','starken','fuerte','potente','alcolica','alcolico','doppio malto'],
+ fresco:['fresca','fresco','fresche','freschi','rinfrescante','refreshing','fresh','frisch','erfrischend','erfrischende','erfrischender','erfrischendes','erfrischenden','refrescante'],
+ piccante:['piccante','piccanti','spicy','hot','scharf','scharfe','scharfes','scharfen','picante','picantes'],
  fruttata:['fruttata','fruttato','fruttate','fruttati','fruity','fruchtig','afrutada','afrutado'],
  caramello:['caramello','caramel','karamell','caramelo','toffee'],
  cioccolato:['cioccolato','chocolate','schokolade','chocolat'],
@@ -415,6 +426,8 @@ function scored(q){
   }
   if(has('vegetariano')&&!VERIFIED_FILTER_SETS.vegetarian.has(item.id))continue;
   if(has('piccante')&&!tags.includes('piccante')&&!hay.includes('piccante'))continue;
+  // A refreshing cocktail must be served as a fresh/cold-style drink: never Irish Coffee.
+  if(has('cocktail')&&has('fresco')&&!tags.some(tag=>['fresco','fresca','rinfrescante','refreshing'].includes(tag)))continue;
   if(has('rossa')&&(!p||p.color!=='rossa'))continue;
   if(has('scura')&&(!p||p.color!=='scura'))continue;
   if(has('chiara')&&(!p||p.color!=='chiara'))continue;
@@ -455,6 +468,7 @@ function scored(q){
   if(has('cocktail')||has('vino')||has('pizza')||has('burger')||has('analcolico'))score+=8;
   if(excluded.size||has('vegetariano'))score+=6;
   if(has('dolce')&&group==='beers'&&tags.includes('dolce'))score+=9;
+  if(has('piccante'))score+=12; // Ensure 'Qualcosa di piccante' has real results.
   if(has('forte')&&group==='beers')score+=parseFloat(item.abv.replace(',','.'))>=6?8:0;
   if(has('rossa')&&p?.color==='rossa')score+=10;
   if(has('glutine')&&VERIFIED_FILTER_SETS.gluten.has(item.id))score+=6;
@@ -477,7 +491,7 @@ function results(q){
  const {ranked,intent:it}=scored(q);
  const recognizedAllergy=[...it.excluded].some(k=>['glutine','lattosio','cipolla','pomodoro','uova'].includes(k));
  if(it.allergy&&!recognizedAllergy&&!it.tokens.has('glutine'))return `<div class="sectionTop"><h2>${esc(t().results)}</h2></div><div class="warn">${esc(t().zero)} ${esc(t().allergens)}</div>`;
- return `<div class="sectionTop"><h2>${esc(t().results)}</h2><span>✧</span></div>${ranked.length?`<div class="resultList">${ranked.map(({item})=>card(item)).join('')}</div>`:`<p class="empty">${esc(t().noResults)}</p>`}<div class="warn">${esc(FILTER_LABELS[lang].notice)}</div>`;
+ return `<div class="sectionTop"><h2>${esc(t().results)}</h2><span>✧</span></div>${ranked.length?`<div class="resultList">${ranked.map(({item})=>card(item)).join('')}</div>`:`<p class="empty">${esc(t().noResults)}</p>`}${ranked.some(({item})=>isFoodProduct(item))?`<div class="warn">${esc(FILTER_LABELS[lang].notice)}</div>`:''}`;
 }
 function render(resetScroll=true){
  document.documentElement.lang=lang;
@@ -487,6 +501,7 @@ function render(resetScroll=true){
  if(resetScroll)window.scrollTo({top:0,behavior:'instant'});
  if(active)hydratePhotos($('app'));
  else if(query.trim())hydratePhotos($('homeContent'));
+ if(!active)syncFoodFilterNote();
 }
 function hydratePhotos(root){
  if(!root)return;
