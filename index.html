@@ -51,8 +51,78 @@ body{min-height:100vh;background:linear-gradient(to bottom,#1c4b31 0%,#133e29 23
 @media(min-width:640px){.on-home .categoryGrid{grid-template-columns:repeat(2,minmax(0,1fr))}.on-home .hero{padding-top:35px}.on-home .category{min-height:130px}}
 @media(max-width:360px){.wrap{padding-left:15px;padding-right:15px}.on-home .hero h1{font-size:30px}.on-home .chip{font-size:12px;padding:8px 10px}.on-home .category{min-height:106px}}
 
+
+/* Popup invernale originale The Black Stuff — ripristinato dal sito precedente */
+.winter-overlay{position:fixed;inset:0;z-index:10000;display:grid;place-items:center;padding:16px;background:rgba(1,10,6,.36);opacity:0;visibility:hidden;transition:opacity .35s ease,visibility .35s ease}
+.winter-overlay.visible{opacity:1;visibility:visible}
+.winter-dialog{position:relative;width:min(100%,390px);max-height:calc(100dvh - 32px);overflow-y:auto;overscroll-behavior:contain;border:1px solid rgba(222,193,126,.54);border-radius:23px;padding:21px 19px 19px;background:rgba(7,29,18,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 18px 70px rgba(0,0,0,.40),inset 0 0 35px rgba(255,255,255,.025);text-align:center;transform:translateY(13px) scale(.985);transition:transform .35s ease;color:#fff6e4}
+.winter-overlay.visible .winter-dialog{transform:translateY(0) scale(1)}
+.winter-close{position:absolute;right:11px;top:10px;width:35px;height:35px;display:grid;place-items:center;border:1px solid rgba(255,255,255,.17);border-radius:50%;background:rgba(0,0,0,.12);color:#fffdf5;font-size:22px;line-height:1;cursor:pointer;z-index:2}
+.winter-logo{display:block;max-width:120px;max-height:77px;width:auto;height:auto;margin:0 auto 10px;object-fit:contain}
+.winter-logo-fallback{display:none;margin:0 auto 9px;color:#f7efd7;font-family:Georgia,serif;font-size:25px;line-height:.85;font-weight:700;text-shadow:0 2px 15px #0006}
+.winter-logo-fallback small{display:block;font-size:10px;letter-spacing:2.6px;margin-top:8px;font-family:Arial,sans-serif}
+.winter-eyebrow{margin:5px 0 4px;color:#d6b976;font-size:10px;letter-spacing:2.5px;font-weight:800;text-transform:uppercase}
+.winter-title{margin:0;color:#fff6e4;font-family:Georgia,'Times New Roman',serif;font-weight:500;font-size:30px;letter-spacing:.2px;line-height:1.08}
+.winter-subtitle{margin:8px 0 14px;color:#e4e7dc;font-size:12px;line-height:1.45}
+.winter-photo-box{position:relative;overflow:hidden;border:1px solid rgba(240,227,188,.35);border-radius:13px;aspect-ratio:1/1;background:rgba(0,0,0,.25)}
+.winter-slide{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s ease;pointer-events:none}
+.winter-slide.active{opacity:1}
+.winter-photo-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:1;width:32px;height:42px;border:0;background:rgba(6,19,12,.42);color:#fff;font-size:25px;cursor:pointer}
+.winter-photo-arrow.prev{left:0;border-radius:0 9px 9px 0}.winter-photo-arrow.next{right:0;border-radius:9px 0 0 9px}
+.winter-photo-caption{min-height:23px;margin:9px 0 2px;font-family:Georgia,serif;font-size:14px;color:#f5ebd2;letter-spacing:1px}
+.winter-dots{display:flex;justify-content:center;gap:7px;margin:6px 0 15px}
+.winter-dot{width:6px;height:6px;border:0;border-radius:50%;background:rgba(255,255,255,.35);padding:0;cursor:pointer;transition:width .25s,background .25s}
+.winter-dot.active{width:21px;border-radius:7px;background:#d3b06c}
+.winter-cta{display:flex;justify-content:center;align-items:center;min-height:48px;width:100%;border-radius:11px;background:#d4b272;color:#132016;text-decoration:none;font-size:13px;letter-spacing:1.2px;font-weight:800;box-shadow:0 6px 19px rgba(0,0,0,.13);cursor:pointer;border:0}
+.winter-dismiss{margin:11px auto 0;padding:3px 8px;border:0;background:none;color:#e0e5db;font-size:11px;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+@media(max-height:710px){.winter-dialog{padding:12px 17px}.winter-logo{max-height:51px;max-width:100px;margin-bottom:5px}.winter-title{font-size:25px}.winter-subtitle{margin:5px 0 9px}.winter-photo-box{max-height:37dvh;aspect-ratio:1/1;margin-inline:auto;width:min(100%,37dvh)}.winter-photo-caption{margin-top:6px}.winter-dots{margin:3px 0 9px}}
+@media(prefers-reduced-motion:reduce){.winter-overlay,.winter-dialog,.winter-slide{transition:none}}
+
+/* Finitura grafica approvata: icone pulite e testi avorio, senza azzurro. */
+:root{--cream:#f5f1e8;--muted:#e3dccb;--gold:#d7bb7b}
+.on-home .catName,.on-home .chip,.on-home .hero h1,.on-home .category.season .catName{color:#f5f1e8}
+.on-home .category .catIcon{color:#e5c884;height:34px;align-items:center}
+.on-home .category .catIcon svg{width:30px;height:30px;display:block;overflow:visible;stroke:currentColor}
+.on-home .category{border-color:#526f56}
+.on-home .category:focus-visible{border-color:var(--gold)}
+.hero p,.pageLead,.itemdesc,.note,.foot,.smallLine,.empty,.placeholder span,.warn{color:#e3dccb}
+.itemname,.groupTitle h2,.pageTitle,.sectionTop h2,.itembtn,.catName{color:#f5f1e8}
+.chip{color:#f5f1e8}
+.foot a,.foot a:visited{color:#f5f1e8}
+.back{color:#e5c884}
+/* Il popup resta identico a quello del vecchio sito. */
 </style></head>
 <body class="on-home">
+
+<!-- Popup originale di promozione del menu invernale -->
+<div class="winter-overlay" id="winterOverlay" aria-hidden="true">
+  <section class="winter-dialog" role="dialog" aria-modal="true" aria-labelledby="winterTitle" tabindex="-1">
+    <button type="button" class="winter-close" id="winterClose" aria-label="Chiudi popup">&#215;</button>
+    <img class="winter-logo" src="logo.png" alt="The Black Stuff" onerror="this.style.display='none';document.getElementById('winterLogoFallback').style.display='block'">
+    <div class="winter-logo-fallback" id="winterLogoFallback">the<br>Black Stuff<small>IRISH PUB &#183; UDINE</small></div>
+    <p class="winter-eyebrow" id="winterEyebrow">NUOVE PROPOSTE &#183; STAGIONE 2026</p>
+    <h2 class="winter-title" id="winterTitle">Prova il nostro<br>menu invernale</h2>
+    <p class="winter-subtitle" id="winterSubtitle">Piatti caldi, sapori decisi e tutta l&#8217;atmosfera del pub.</p>
+    <div class="winter-photo-box" id="winterPhotoBox">
+      <img class="winter-slide active" src="popup-brinner.jpg" alt="BRINNER BURGER" loading="eager">
+      <img class="winter-slide" src="popup-chickn-cheese.jpg" alt="CHICK&#8217;N&#8217; CHEESE" loading="lazy">
+      <img class="winter-slide" src="popup-zuppa-zucca.jpg" alt="ZUPPA ALLA ZUCCA" loading="lazy">
+      <img class="winter-slide" src="popup-polpette.jpg" alt="POLPETTE AL SUGO" loading="lazy">
+      <button class="winter-photo-arrow prev" id="winterPrev" type="button" aria-label="Foto precedente">&#8249;</button>
+      <button class="winter-photo-arrow next" id="winterNext" type="button" aria-label="Foto successiva">&#8250;</button>
+    </div>
+    <div class="winter-photo-caption" id="winterPhotoCaption" aria-live="polite">BRINNER BURGER</div>
+    <div class="winter-dots" id="winterDots" aria-label="Seleziona foto">
+      <button class="winter-dot active" data-slide="0" aria-label="Brinner Burger" type="button"></button>
+      <button class="winter-dot" data-slide="1" aria-label="Chick’n’ Cheese" type="button"></button>
+      <button class="winter-dot" data-slide="2" aria-label="Zuppa alla Zucca" type="button"></button>
+      <button class="winter-dot" data-slide="3" aria-label="Polpette al Sugo" type="button"></button>
+    </div>
+    <button class="winter-cta" id="winterMenuLink" type="button">SCOPRI IL MENU INVERNALE ↗</button>
+    <button class="winter-dismiss" id="winterDismiss" type="button">Continua al menu principale</button>
+  </section>
+</div>
+
 <div class="snow" aria-hidden="true"><span class="flake">❄</span><span class="flake">❄</span><span class="flake">❄</span><span class="flake">❄</span><span class="flake">❄</span><span class="flake">❄</span></div>
 <div class="wrap">
 <header class="head"><a class="brand" href="#" id="homeBrand"><img src="logo.png" alt="" onerror="this.style.display='none'"><span class="brandtext">THE BLACK STUFF<small>IRISH PUB · UDINE</small></span></a><select class="lang" id="language" aria-label="Language"><option value="it">🇮🇹 Italiano</option><option value="en">🇬🇧 English</option><option value="de">🇩🇪 Deutsch</option><option value="es">🇪🇸 Español</option></select></header>
@@ -65,11 +135,11 @@ const ITEMS=[{"id":"guinness","group":"beers","name":{"it":"Guinness"},"price":"
 const TR={"it":{"title":"Cosa ti va oggi?","subtitle":"Scegli una categoria o cerca qualcosa che ti ispira.","search":"Una birra dolce, qualcosa di piccante…","suggestions":["Birra dolce","Cocktail fresco","Qualcosa di piccante","Sotto i 10 €"],"all":"Tutte le categorie","results":"I nostri consigli","noResults":"Nessuna corrispondenza precisa. Prova con un gusto, un ingrediente o il nome del prodotto.","searchNote":"I suggerimenti sono indicativi. Per allergie, intolleranze e preparazioni chiedi sempre al personale.","details":"Tocca un prodotto per i dettagli","photo":"Foto in arrivo","photoSub":"Presto una foto di questo prodotto.","back":"Torna alle categorie","footnote":"* Prodotto surgelato · ** Prodotto sottoposto ad abbattimento a temperatura negativa per garantirne qualità e sicurezza.","allergens":"Per allergeni e intolleranze rivolgiti al personale. Non usare la ricerca come garanzia di assenza di allergeni.","season":"Solo in inverno","summer":"Solo in estate","sides":"Puoi aggiungere un contorno di patate fritte per € 3,00.","see":"Scopri","tip":"Ti potrebbe piacere","zero":"Non abbiamo dati sufficienti per confermare questa richiesta: chiedi al personale.","categories":{"beers":"BIRRE","drinks":"DRINK","food":"FOOD","dessert":"DESSERT","seasonal":"MENU INVERNALE"},"groups":{"beers":"Le nostre birre","soft":"Drink analcolici","aperitifs":"Aperitivi","long":"Long drink","wine":"Vino","grill":"Grill","burger":"Burger","pizza":"Pizza","sandwich":"Sandwich","fried":"Fritti","sharing":"In compagnia","american":"American Bites","salads":"Insalatone","dessert":"Sweet Ending","seasonal":"Specialità invernali"},"sideNotes":{"grill":"I piatti Grill sono serviti con rucola, pomodorini e grana. Patate fritte aggiuntive + € 3,00.","burger":"Puoi aggiungere un contorno di patate fritte per € 3,00."}},"en":{"title":"What are you in the mood for?","subtitle":"Choose a category or find something you’ll love.","search":"A sweet beer, something spicy…","suggestions":["Sweet beer","Refreshing cocktail","Something spicy","Under €10"],"all":"All categories","results":"Our suggestions","noResults":"No exact match. Try a flavour, an ingredient or a product name.","searchNote":"Suggestions are indicative. For allergies, intolerances or preparation details, always ask our staff.","details":"Tap an item for details","photo":"Photo coming soon","photoSub":"A real photo of this item is on its way.","back":"Back to categories","footnote":"* Frozen product · ** Blast-chilled below 0 °C to ensure quality and safety.","allergens":"For allergens and intolerances, please ask our staff. Search results cannot guarantee the absence of allergens.","season":"Winter only","summer":"Summer only","sides":"Add a side of French fries for €3.00.","see":"Explore","tip":"You might enjoy","zero":"We cannot confirm this request from available information. Please ask our staff.","categories":{"beers":"BEERS","drinks":"DRINKS","food":"FOOD","dessert":"DESSERT","seasonal":"WINTER MENU"},"groups":{"beers":"Our beers","soft":"Soft drinks","aperitifs":"Aperitifs","long":"Long drinks","wine":"Wine","grill":"Grill","burger":"Burgers","pizza":"Pizza","sandwich":"Sandwiches","fried":"Fried items","sharing":"Sharing","american":"American Bites","salads":"Salads","dessert":"Sweet Ending","seasonal":"Winter specials"},"sideNotes":{"grill":"Grill dishes are served with rocket, cherry tomatoes and Parmesan. Add French fries for €3.00.","burger":"Add a side of French fries for €3.00."}},"de":{"title":"Worauf hast du Lust?","subtitle":"Wähle eine Kategorie oder entdecke etwas Passendes.","search":"Ein süßes Bier, etwas Scharfes…","suggestions":["Süßes Bier","Erfrischender Cocktail","Etwas Scharfes","Unter 10 €"],"all":"Alle Kategorien","results":"Unsere Empfehlungen","noResults":"Keine genaue Übereinstimmung. Probiere eine Geschmacksrichtung, Zutat oder einen Produktnamen.","searchNote":"Empfehlungen sind unverbindlich. Bei Allergien, Unverträglichkeiten und Zubereitung bitte das Personal fragen.","details":"Tippe auf ein Produkt für Details","photo":"Foto folgt","photoSub":"Ein echtes Produktfoto folgt in Kürze.","back":"Zurück zu den Kategorien","footnote":"* Tiefkühlprodukt · ** Zur Sicherung von Qualität und Sicherheit unter 0 °C schockgekühlt.","allergens":"Bei Allergenen und Unverträglichkeiten bitte das Personal fragen. Die Suche garantiert keine Allergenfreiheit.","season":"Nur im Winter","summer":"Nur im Sommer","sides":"Pommes frites als zusätzliche Beilage für 3,00 €.","see":"Entdecken","tip":"Das könnte dir schmecken","zero":"Diese Anfrage lässt sich anhand der verfügbaren Angaben nicht sicher bestätigen. Bitte das Personal fragen.","categories":{"beers":"BIER","drinks":"GETRÄNKE","food":"ESSEN","dessert":"DESSERT","seasonal":"WINTERMENÜ"},"groups":{"beers":"Unsere Biere","soft":"Softdrinks","aperitifs":"Aperitifs","long":"Longdrinks","wine":"Wein","grill":"Grill","burger":"Burger","pizza":"Pizza","sandwich":"Sandwiches","fried":"Frittiertes","sharing":"Zum Teilen","american":"American Bites","salads":"Salate","dessert":"Sweet Ending","seasonal":"Winterspezialitäten"},"sideNotes":{"grill":"Grillgerichte werden mit Rucola, Cherrytomaten und Parmesan serviert. Pommes frites zusätzlich +3,00 €.","burger":"Pommes frites als zusätzliche Beilage für 3,00 €."}},"es":{"title":"¿Qué te apetece hoy?","subtitle":"Elige una categoría o encuentra algo que te guste.","search":"Una cerveza dulce, algo picante…","suggestions":["Cerveza dulce","Cóctel fresco","Algo picante","Menos de 10 €"],"all":"Todas las categorías","results":"Nuestras sugerencias","noResults":"No hay coincidencia exacta. Prueba con un sabor, ingrediente o nombre.","searchNote":"Las sugerencias son orientativas. Para alergias, intolerancias o preparación, consulta siempre al personal.","details":"Toca un producto para ver los detalles","photo":"Foto próximamente","photoSub":"Pronto habrá una foto real de este producto.","back":"Volver a las categorías","footnote":"* Producto congelado · ** Producto enfriado rápidamente bajo 0 °C para garantizar calidad y seguridad.","allergens":"Para alérgenos e intolerancias, consulta al personal. La búsqueda no garantiza la ausencia de alérgenos.","season":"Solo en invierno","summer":"Solo en verano","sides":"Añade una guarnición de patatas fritas por 3,00 €.","see":"Descubrir","tip":"Te puede gustar","zero":"No podemos confirmar esta petición con la información disponible. Consulta al personal.","categories":{"beers":"CERVEZAS","drinks":"BEBIDAS","food":"COMIDA","dessert":"POSTRES","seasonal":"MENÚ DE INVIERNO"},"groups":{"beers":"Nuestras cervezas","soft":"Refrescos","aperitifs":"Aperitivos","long":"Cócteles","wine":"Vinos","grill":"Grill","burger":"Hamburguesas","pizza":"Pizza","sandwich":"Sándwiches","fried":"Fritos","sharing":"Para compartir","american":"American Bites","salads":"Ensaladas","dessert":"Sweet Ending","seasonal":"Especialidades de invierno"},"sideNotes":{"grill":"Los platos a la parrilla se sirven con rúcula, tomates cherry y parmesano. Añade patatas fritas por 3,00 €.","burger":"Añade una guarnición de patatas fritas por 3,00 €."}}};
 const CATS={"beers":{"icon":"♧","groups":["beers"]},"drinks":{"icon":"◌","groups":["soft","aperitifs","long","wine"]},"food":{"icon":"✧","groups":["grill","burger","pizza","sandwich","fried","sharing","american","salads"]},"dessert":{"icon":"✳","groups":["dessert"]},"seasonal":{"icon":"❄","groups":["seasonal"]}};
 const CATEGORY_ICONS={
- beers:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8h12v12H5zM17 10h3a2 2 0 0 1 0 4h-3M8 8v12M12 8v12M5 8V6a2 2 0 0 1 3-1.7A3 3 0 0 1 13 4a3 3 0 0 1 4 4"/></svg>',
- drinks:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h18l-9 10L3 4ZM12 14v7M8 21h8"/></svg>',
- food:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 3v7a3 3 0 0 0 6 0V3M7 3v18M18 21V3c-4 3-5 8-5 12h5"/></svg>',
- dessert:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18h18v3H3zM3 18l3-9 14 5-2 4M6 9c2-4 5-4 8-1 3-2 6 0 6 3M9 7l1-2M15 8l1-2"/></svg>',
- seasonal:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M12 2v20M2 12h20M5 5l14 14M19 5 5 19M9 4l3 3 3-3M9 20l3-3 3 3M4 9l3 3-3 3M20 9l-3 3 3 3"/></svg>'
+ beers:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h13v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V10Z"/><path d="M17 12h2a3 3 0 0 1 0 6h-2"/><path d="M7 13v6M11 13v6"/><path d="M4 10V7a3 3 0 0 1 4-2.8 4 4 0 0 1 7 0A3 3 0 0 1 18 7a3 3 0 0 1-3 3"/></svg>',
+ drinks:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 4h18L12 14 3 4Z"/><path d="M12 14v7M7.5 21h9"/><path d="m15.5 6 3.8-3.5"/><circle cx="8" cy="7" r="1" fill="currentColor" stroke="none"/></svg>',
+ food:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 2v7a3 3 0 0 0 6 0V2M7 2v20"/><path d="M19 22V2c-4 3-5.5 8-5.5 13H19"/></svg>',
+ dessert:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 18h18v3H3zM3 18l3-9 14 5-2 4H3Z"/><path d="M6 9c2-4 5-4 8-1 3-2 6 0 6 3"/><path d="M9 7 10 5M15 8l1-2"/></svg>',
+ seasonal:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2v20M3.34 7l17.32 10M3.34 17l17.32-10"/><path d="m9 4 3 3 3-3M9 20l3-3 3 3M4.2 9.5l4.1-.9-1.3-4M19.8 14.5l-4.1.9 1.3 4M4.2 14.5l4.1.9-1.3 4M19.8 9.5l-4.1-.9 1.3-4"/></svg>'
 };
 const LANGS=['it','en','de','es'];
 const DEFAULT_LANG=(navigator.language||'en').slice(0,2).toLowerCase();
@@ -233,4 +303,79 @@ document.addEventListener('input',e=>{
 $('language').addEventListener('change',e=>{lang=e.target.value;expanded.clear();render(false);});
 $('homeBrand').addEventListener('click',e=>{e.preventDefault();query='';goHome();});
 render();
-</script></body></html>
+</script>
+<script>
+/* Popup invernale originale: carosello delle quattro fotografie vere già nel repository. */
+(()=>{
+  const overlay=document.getElementById('winterOverlay');
+  const closeBtn=document.getElementById('winterClose');
+  const slides=[...overlay.querySelectorAll('.winter-slide')];
+  const dots=[...overlay.querySelectorAll('.winter-dot')];
+  const caption=document.getElementById('winterPhotoCaption');
+  const cta=document.getElementById('winterMenuLink');
+  const dismissBtn=document.getElementById('winterDismiss');
+  const prevBtn=document.getElementById('winterPrev');
+  const nextBtn=document.getElementById('winterNext');
+  const photoBox=document.getElementById('winterPhotoBox');
+  const names=['BRINNER BURGER','CHICK’N’ CHEESE','ZUPPA ALLA ZUCCA','POLPETTE AL SUGO'];
+  const strings={
+    it:{eyebrow:'NUOVE PROPOSTE · STAGIONE 2026',title:'Prova il nostro<br>menu invernale',subtitle:'Piatti caldi, sapori decisi e tutta l’atmosfera del pub.',cta:'SCOPRI IL MENU INVERNALE ↗',dismiss:'Continua al menu principale',close:'Chiudi popup',prev:'Foto precedente',next:'Foto successiva'},
+    en:{eyebrow:'NEW DISHES · WINTER 2026',title:'Discover our<br>winter menu',subtitle:'Warming dishes, bold flavours and all the atmosphere of our pub.',cta:'EXPLORE THE WINTER MENU ↗',dismiss:'Continue to the main menu',close:'Close popup',prev:'Previous photo',next:'Next photo'},
+    de:{eyebrow:'NEUE GERICHTE · WINTER 2026',title:'Entdecke unsere<br>Winterkarte',subtitle:'Wärmende Gerichte, kräftige Aromen und echte Pub-Atmosphäre.',cta:'WINTERKARTE ENTDECKEN ↗',dismiss:'Weiter zur Hauptkarte',close:'Pop-up schließen',prev:'Vorheriges Foto',next:'Nächstes Foto'},
+    es:{eyebrow:'NUEVOS PLATOS · INVIERNO 2026',title:'Descubre nuestro<br>menú de invierno',subtitle:'Platos reconfortantes, sabores intensos y todo el ambiente del pub.',cta:'DESCUBRE EL MENÚ DE INVIERNO ↗',dismiss:'Continuar al menú principal',close:'Cerrar ventana',prev:'Foto anterior',next:'Foto siguiente'}
+  };
+  function localize(){
+    const selected=document.getElementById('language').value;
+    const t=strings[selected]||strings.en;
+    document.getElementById('winterEyebrow').textContent=t.eyebrow;
+    document.getElementById('winterTitle').innerHTML=t.title;
+    document.getElementById('winterSubtitle').textContent=t.subtitle;
+    cta.textContent=t.cta;
+    dismissBtn.textContent=t.dismiss;
+    closeBtn.setAttribute('aria-label',t.close);
+    prevBtn.setAttribute('aria-label',t.prev);
+    nextBtn.setAttribute('aria-label',t.next);
+  }
+  let current=0,timer=null,touchX=null,oldFocus=null;
+  const reducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
+  function showSlide(n){
+    current=(n+slides.length)%slides.length;
+    slides.forEach((el,i)=>el.classList.toggle('active',i===current));
+    dots.forEach((el,i)=>{el.classList.toggle('active',i===current);el.setAttribute('aria-current',i===current?'true':'false');});
+    caption.textContent=names[current];
+  }
+  function stop(){if(timer!==null){clearInterval(timer);timer=null;}}
+  function play(){stop();if(!reducedMotion.matches&&overlay.classList.contains('visible'))timer=setInterval(()=>showSlide(current+1),4500);}
+  function dismiss(){stop();overlay.classList.remove('visible');overlay.setAttribute('aria-hidden','true');document.body.style.overflow='';if(oldFocus&&oldFocus.focus)oldFocus.focus();}
+  function open(){oldFocus=document.activeElement;localize();overlay.classList.add('visible');overlay.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';closeBtn.focus();play();}
+  prevBtn.addEventListener('click',()=>{showSlide(current-1);play();});
+  nextBtn.addEventListener('click',()=>{showSlide(current+1);play();});
+  dots.forEach((el,i)=>el.addEventListener('click',()=>{showSlide(i);play();}));
+  closeBtn.addEventListener('click',dismiss);
+  dismissBtn.addEventListener('click',dismiss);
+  cta.addEventListener('click',()=>{
+    dismiss();
+    // Il nuovo sito apre la categoria interattiva, non il vecchio PDF.
+    const winterCategory=document.querySelector('[data-cat="seasonal"]');
+    if(winterCategory)winterCategory.click();
+  });
+  overlay.addEventListener('click',e=>{if(e.target===overlay)dismiss();});
+  document.addEventListener('keydown',e=>{
+    if(!overlay.classList.contains('visible'))return;
+    if(e.key==='Escape')dismiss();
+    if(e.key==='ArrowRight'){showSlide(current+1);play();}
+    if(e.key==='ArrowLeft'){showSlide(current-1);play();}
+    if(e.key==='Tab'){
+      const controls=[...overlay.querySelectorAll('button')];
+      if(e.shiftKey&&document.activeElement===controls[0]){e.preventDefault();controls[controls.length-1].focus();}
+      else if(!e.shiftKey&&document.activeElement===controls[controls.length-1]){e.preventDefault();controls[0].focus();}
+    }
+  });
+  photoBox.addEventListener('touchstart',e=>{touchX=e.changedTouches[0].clientX;},{passive:true});
+  photoBox.addEventListener('touchend',e=>{if(touchX===null)return;const delta=e.changedTouches[0].clientX-touchX;if(Math.abs(delta)>40){showSlide(current+(delta<0?1:-1));play();}touchX=null;},{passive:true});
+  document.addEventListener('visibilitychange',()=>{if(document.hidden)stop();else if(overlay.classList.contains('visible'))play();});
+  document.getElementById('language').addEventListener('change',localize);
+  open();
+})();
+</script>
+</body></html>
