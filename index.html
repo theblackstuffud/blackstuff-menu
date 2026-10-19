@@ -144,7 +144,27 @@ body{min-height:100vh;background:linear-gradient(to bottom,#1c4b31 0%,#133e29 23
 .filterChip{padding:9px 12px;font-size:12px}
 .filterInfo{margin:12px 0 0;color:#d5dbcf}
 @media(max-width:370px){.searchWrap{gap:6px;padding-left:9px;padding-right:7px}.filterToggle{width:37px;height:37px;flex-basis:37px}}
-</style><style id="allergy-disclaimer-style">.filterInfo{margin-top:10px!important;padding-top:9px;border-top:1px solid #49664f;font-size:11px!important;line-height:1.4!important;color:#cbd3c7!important}</style></head>
+</style><style id="allergy-disclaimer-style">.filterInfo{margin-top:10px!important;padding-top:9px;border-top:1px solid #49664f;font-size:11px!important;line-height:1.4!important;color:#cbd3c7!important}</style><style id="browse-filtered-menu-style">
+.pageFilterStatus{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:9px;margin:14px 0 6px;padding:10px 12px;border:1px solid #47694d;border-radius:12px;background:#183e29;color:#eee8d8;font-size:12px;line-height:1.45}
+.pageFilterStatus span{flex:1 1 160px}.pageFilterStatus button{border:1px solid #c6b782;border-radius:20px;background:transparent;color:#eedaa7;padding:7px 10px;cursor:pointer;font-size:11px}
+.pageFilterDisclaimer{font-size:11px;color:#cbd3c7;margin:0 0 14px;line-height:1.45}
+</style><style id="price-slider-style">
+.priceFilter{margin:16px 0 7px;padding-top:14px;border-top:1px solid #48674f}
+.priceTitle,.priceValues{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.priceTitle{font-size:13px;font-weight:700;letter-spacing:.02em;color:#f4f0e6}
+.priceTitle button{background:none;border:none;color:#e8d7ad;font-size:11px;cursor:pointer}
+.priceTitle button[hidden]{display:none}
+.priceValues{font-size:12px;color:#d3dece;margin-top:12px}.priceValues strong{color:#f4f0e6;font-size:15px;display:block;margin-top:3px;font-weight:650}
+.priceSlider{height:46px;position:relative;margin:8px 9px 0}
+.priceTrack,.priceSelected{position:absolute;top:20px;height:4px;border-radius:4px}
+.priceTrack{left:0;right:0;background:#66806e}.priceSelected{background:#e8d7ad}
+.priceSlider input{appearance:none;-webkit-appearance:none;position:absolute;top:4px;left:0;width:100%;height:38px;margin:0;background:transparent;pointer-events:none;outline-offset:3px}
+.priceSlider input::-webkit-slider-runnable-track{height:4px;background:transparent}
+.priceSlider input::-moz-range-track{height:4px;background:transparent}
+.priceSlider input::-webkit-slider-thumb{appearance:none;-webkit-appearance:none;border:2px solid #153925;background:#e8d7ad;width:22px;height:22px;border-radius:50%;margin-top:-9px;pointer-events:auto;cursor:grab}
+.priceSlider input::-moz-range-thumb{border:2px solid #153925;background:#e8d7ad;width:19px;height:19px;border-radius:50%;pointer-events:auto;cursor:grab}
+.priceSlider #priceMin{z-index:3}.priceSlider #priceMax{z-index:4}
+</style></head>
 <body class="on-home">
 
 <!-- Popup originale di promozione del menu invernale -->
@@ -199,6 +219,15 @@ const DEFAULT_LANG=(navigator.language||'en').slice(0,2).toLowerCase();
 let lang=LANGS.includes(DEFAULT_LANG)?DEFAULT_LANG:'en';
 let active=null,query='',expanded=new Set();
 let filtersOpen=false;
+let priceMin=0, priceMax=21;
+const PRICE_LIMIT=21;
+const PRICE_I18N={it:{title:"Prezzo",from:"Da",to:"A",reset:"Tutti i prezzi",price:"Prezzo"},en:{title:"Price",from:"From",to:"To",reset:"All prices",price:"Price"},de:{title:"Preis",from:"Von",to:"Bis",reset:"Alle Preise",price:"Preis"},es:{title:"Precio",from:"Desde",to:"Hasta",reset:"Todos los precios",price:"Precio"}};
+const priceEnabled=()=>priceMin>0||priceMax<PRICE_LIMIT;
+const numberPrice=i=>String(i.price).split("–").map(n=>parseFloat(n.replace(",","."))).filter(Number.isFinite);
+const passesPrice=i=>{const v=numberPrice(i);return !v.length||(v[0]<=priceMax&&v[v.length-1]>=priceMin);};
+const fmtEuro=n=>"€ "+Number(n).toLocaleString("it-IT",{maximumFractionDigits:2});
+function priceBar(){const x=PRICE_I18N[lang];const a=100*priceMin/PRICE_LIMIT,b=100*priceMax/PRICE_LIMIT;return `<div class="priceFilter"><div class="priceTitle"><span>${esc(x.title)}</span><button type="button" data-reset-price ${priceEnabled()?"":"hidden"}>${esc(x.reset)}</button></div><div class="priceValues"><span>${esc(x.from)} <strong id="priceMinValue">${fmtEuro(priceMin)}</strong></span><span>${esc(x.to)} <strong id="priceMaxValue">${fmtEuro(priceMax)}</strong></span></div><div class="priceSlider"><div class="priceTrack"></div><div class="priceSelected" id="priceSelected" style="left:${a}%;right:${100-b}%"></div><input type="range" id="priceMin" aria-label="${esc(x.from)}" min="0" max="21" step="0.5" value="${priceMin}"><input type="range" id="priceMax" aria-label="${esc(x.to)}" min="0" max="21" step="0.5" value="${priceMax}"></div></div>`;}
+
 const FILTER_LABELS={
  it:{heading:'Preferenze e ingredienti',tomato:'Senza pomodoro',onion:'Senza cipolla',gluten:'Senza glutine',lactose:'Senza lattosio',egg:'Senza uova',vegetarian:'Vegetariano',spicy:'Non piccante',info:'Possibile contaminazione crociata. Per allergie non indicate o dubbi, chiedi allo staff.',none:'Nessun piatto verificabile con tutti i filtri selezionati.',notice:'Filtri basati sugli ingredienti dichiarati. Contaminazione crociata non esclusa. Per allergie o dubbi, chiedi allo staff.'},
  en:{heading:'Preferences & ingredients',tomato:'No tomato',onion:'No onion',gluten:'Gluten-free',lactose:'Lactose-free',egg:'No eggs',vegetarian:'Vegetarian',spicy:'Not spicy',info:'Cross-contamination is possible. For unlisted allergies or questions, ask our staff.',none:'No dishes can be verified for all selected filters.',notice:'Filters reflect declared ingredients. Cross-contamination is possible. For allergies or questions, ask our staff.'},
@@ -211,8 +240,9 @@ const FILTER_KEYS=['tomato','onion','gluten','lactose','egg','vegetarian','spicy
 // Positive lists exclude items with insufficient detail. Drinks only appear for declared gluten-free Casamatta Slip.
 const VERIFIED_FILTER_ITEMS={"onion":["alette-di-pollo","babyburger","brinner-burger","cesar-salad","cheesecake","chickn-cheese","connemara","coscia-di-pollo-disossata","crocchette-di-patate","diablo","dublin","frisburger","fritto-misto","fusi-di-pollo","guinness-pie-wrap","hamburger-light","hot-dog","irish","jalapenos-al-pezzo","mozzarelline-impanate","nuggets-di-pollo","olive-ascolane","panna-cotta","patate-fritte","patate-impazzite","polpette-al-sugo","ribs-di-maiale","ribs-di-maiale-1-2-porzione","salzburger","summerburger","tagliata-di-manzo","tartufo","tiramisu","toast","toast-farcito","tortino-al-cioccolato","trancio-diavola","trancio-funghi-carciofini","trancio-margherita","trancio-speck-funghi","verdure-pastellate"],"tomato":["alette-di-pollo","anelli-di-cipolla","babyburger","brinner-burger","cheesecake","chickn-cheese","coney-dog","connemara","crocchette-di-patate","diablo","eggburger","fritto-misto","guinness-pie-wrap","hot-dog","jalapenos-al-pezzo","mozzarelline-impanate","nuggets-di-pollo","olive-ascolane","panna-cotta","patate-fritte","pulled-pork","tartufo","tiramisu","toast","toast-farcito","tortino-al-cioccolato","verdure-pastellate","zuppa-alla-zucca"],"egg":["babyburger","baconburger","cheeseburger","chickn-cheese","coney-dog","coscia-di-pollo-disossata","devilburger","frisburger","fusi-di-pollo","guinness-pie-wrap","hamburger","hamburger-light","hot-dog","patate-fritte","polpette-al-sugo","ribs-di-maiale","ribs-di-maiale-1-2-porzione","summerburger","tagliata-di-manzo","trancio-diavola","trancio-funghi-carciofini","trancio-margherita","trancio-speck-funghi","trancio-tonno-cipolla","veggyburger","zuppa-alla-zucca"],"vegetarian":["anelli-di-cipolla","crocchette-di-patate","jalapenos-al-pezzo","mozzarelline-impanate","patate-fritte","trancio-funghi-carciofini","trancio-margherita","veggyburger","verdure-pastellate"],"spicy":["alette-di-pollo","anelli-di-cipolla","babyburger","baconburger","brinner-burger","cesar-salad","cheeseburger","cheesecake","chickn-cheese","connemara","coscia-di-pollo-disossata","crocchette-di-patate","dublin","eggburger","frisburger","fritto-misto","fusi-di-pollo","guinness-pie-wrap","hamburger","hamburger-light","hot-dog","irish","mozzarelline-impanate","nuggets-di-pollo","olive-ascolane","panna-cotta","patate-fritte","polpette-al-sugo","pulled-pork","pulled-salad","ribs-di-maiale","ribs-di-maiale-1-2-porzione","salzburger","summerburger","tagliata-di-manzo","tartufo","tiramisu","toast","toast-farcito","tortino-al-cioccolato","trancio-funghi-carciofini","trancio-margherita","trancio-speck-funghi","trancio-tonno-cipolla","veggyburger","verdure-pastellate","zuppa-alla-zucca"],"gluten":["casamatta-slip","tagliata-di-manzo","hamburger-light","coscia-di-pollo-disossata","fusi-di-pollo","ribs-di-maiale","ribs-di-maiale-1-2-porzione","pulled-salad"],"lactose":[]};
 const VERIFIED_FILTER_SETS=Object.fromEntries(Object.entries(VERIFIED_FILTER_ITEMS).map(([k,ids])=>[k,new Set(ids)]));
-function filterBar(){const l=FILTER_LABELS[lang];return `<div class="filterBar" id="filterPanel" ${filtersOpen?'':'hidden'}><div class="filterHeading">${esc(l.heading)}</div><div class="filterChoices">${FILTER_KEYS.map(k=>`<button type="button" class="filterChip" data-filter="${k}" aria-pressed="${activeFilters.has(k)}">${esc(l[k])}</button>`).join('')}</div><p class="filterInfo">${esc(l.info)}</p></div>`;}
+function filterBar(){const l=FILTER_LABELS[lang];return `<div class="filterBar" id="filterPanel" ${filtersOpen?'':'hidden'}><div class="filterHeading">${esc(l.heading)}</div><div class="filterChoices">${FILTER_KEYS.map(k=>`<button type="button" class="filterChip" data-filter="${k}" aria-pressed="${activeFilters.has(k)}">${esc(l[k])}</button>`).join('')}</div>${priceBar()}<p class="filterInfo">${esc(l.info)}</p></div>`;}
 function passesFilters(item){
+ if(!passesPrice(item))return false;
  if(!activeFilters.size)return true;
  // Beverage searches are excluded from food filters. Casamatta is the sole explicitly gluten-free beer.
  if(['beers','soft','aperitifs','long','wine'].includes(item.group)){
@@ -225,7 +255,7 @@ function passesFilters(item){
  return true;
 }
 function filteredResults(){const l=FILTER_LABELS[lang];const base=query.trim()?scored(query).ranked.map(x=>x.item):ITEMS.filter(i=>['burger','grill','sandwich','salads','fried','seasonal','pizza','american','beers'].includes(i.group));const matching=base.filter(passesFilters);return `<div class="sectionTop"><h2>${esc(t().results)}</h2></div>${activeFilters.size?`<div class="filterAlert">${esc(l.notice)}</div>`:''}${matching.length?matching.map(card).join(''):`<p class="empty">${esc(l.none)}</p>`}`;}
-function updateHomeContent(){const content=$('homeContent');if(content)content.innerHTML=activeFilters.size?filteredResults():query.trim()?results(query):categories();hydratePhotos(content);}
+function updateHomeContent(){const content=$('homeContent');if(content)content.innerHTML=query.trim()?results(query):categories();hydratePhotos(content);}
 const $=id=>document.getElementById(id);
 const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const t=()=>TR[lang];
@@ -243,14 +273,22 @@ function card(i){
  return `<article class="item ${opened?'open':''}" id="item-${esc(i.id)}"><button class="itembtn" type="button" data-toggle="${esc(i.id)}" aria-expanded="${opened}"><span class="itemname">${esc(name(i))}</span><span class="itemprice">${esc(price(i))}</span><span class="itemchev">⌄</span></button><div class="itembody">${abv}${description}${season}${(i.group==='grill'||i.group==='burger')?`<p class="groupSideNote">${esc(t().sideNotes[i.group])}</p>`:''}<div class="photobox" data-photo="${esc(i.photo)}"><div class="placeholder">${camera}<strong>${esc(t().photo)}</strong><span>${esc(t().photoSub)}</span></div><img alt="${esc(name(i))}" loading="lazy"></div></div></article>`;
 }
 function home(){
- return `<section class="hero"><img class="homeHeroLogo" src="logo.png" alt="The Black Stuff Irish Pub" loading="eager" onerror="this.style.display='none'"><h1>${esc(t().title)}</h1><div class="searchWrap"><span class="searchIcon" aria-hidden="true">⌕</span><input id="search" type="search" value="${esc(query)}" placeholder="${esc(t().search)}" autocomplete="off" aria-label="${esc(t().search)}"><button class="clear" id="clearSearch" aria-label="Clear search" ${query?'':'hidden'}>×</button><button type="button" id="filterToggle" class="filterToggle ${activeFilters.size?'hasFilters':''}" aria-label="${lang==='it'?'Filtra il menu':lang==='en'?'Filter menu':lang==='de'?'Menü filtern':'Filtrar menú'}" aria-expanded="${filtersOpen}" aria-controls="filterPanel" title="${esc(FILTER_LABELS[lang].heading)}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="21" height="21" aria-hidden="true"><line x1="4" y1="7" x2="20" y2="7"/><circle cx="9" cy="7" r="2" fill="currentColor" stroke="none"/><line x1="4" y1="17" x2="20" y2="17"/><circle cx="16" cy="17" r="2" fill="currentColor" stroke="none"/></svg>${activeFilters.size?`<span class="filterCount">${activeFilters.size}</span>`:''}</button></div>${filterBar()}<div class="chips">${t().suggestions.map(s=>`<button class="chip" data-suggest="${esc(s)}">${esc(s)}</button>`).join('')}</div></section><div id="homeContent">${activeFilters.size?filteredResults():query.trim()?results(query):categories()}</div>`;
+ return `<section class="hero"><img class="homeHeroLogo" src="logo.png" alt="The Black Stuff Irish Pub" loading="eager" onerror="this.style.display='none'"><h1>${esc(t().title)}</h1><div class="searchWrap"><span class="searchIcon" aria-hidden="true">⌕</span><input id="search" type="search" value="${esc(query)}" placeholder="${esc(t().search)}" autocomplete="off" aria-label="${esc(t().search)}"><button class="clear" id="clearSearch" aria-label="Clear search" ${query?'':'hidden'}>×</button><button type="button" id="filterToggle" class="filterToggle ${(activeFilters.size||priceEnabled())?'hasFilters':''}" aria-label="${lang==='it'?'Filtra il menu':lang==='en'?'Filter menu':lang==='de'?'Menü filtern':'Filtrar menú'}" aria-expanded="${filtersOpen}" aria-controls="filterPanel" title="${esc(FILTER_LABELS[lang].heading)}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="21" height="21" aria-hidden="true"><line x1="4" y1="7" x2="20" y2="7"/><circle cx="9" cy="7" r="2" fill="currentColor" stroke="none"/><line x1="4" y1="17" x2="20" y2="17"/><circle cx="16" cy="17" r="2" fill="currentColor" stroke="none"/></svg>${(activeFilters.size||priceEnabled())?`<span class="filterCount">${activeFilters.size+(priceEnabled()?1:0)}</span>`:''}</button></div>${filterBar()}<div class="chips">${t().suggestions.filter(s=>!s.includes('10')&&!s.toLowerCase().includes('under')&&!s.toLowerCase().includes('unter')&&!s.toLowerCase().includes('menos de')).map(s=>`<button class="chip" data-suggest="${esc(s)}">${esc(s)}</button>`).join('')}<button class="chip" type="button" data-open-price>${esc(PRICE_I18N[lang].title)} ${priceEnabled()?fmtEuro(priceMin)+'–'+fmtEuro(priceMax):'€'}</button></div></section><div id="homeContent">${query.trim()?results(query):categories()}</div>`;
 }
 function categories(){
  const keys=['beers','drinks','food','dessert','seasonal'];
  return `<div class="homeDivider" aria-hidden="true"></div><div class="categoryGrid">${keys.map(k=>`<button type="button" class="category ${k==='seasonal'?'season':''}" data-cat="${k}"><span class="catIcon" aria-hidden="true">${CATEGORY_ICONS[k]}</span><span class="catName">${esc(t().categories[k])}</span>${k==='seasonal'?'<span class="arr">↗</span>':''}</button>`).join('')}</div>`;
 }
 function page(k){
- const c=CATS[k];return `<button type="button" class="back" data-home>← ${esc(t().back)}</button><span class="eyebrow">THE BLACK STUFF · DIGITAL MENU</span><h1 class="pageTitle">${esc(t().categories[k])}</h1><p class="pageLead">${esc(t().details)}</p>${c.groups.map(g=>`<section class="group" id="group-${g}"><div class="groupTitle"><h2>${esc(t().groups[g])}</h2></div>${t().sideNotes&&t().sideNotes[g]?`<p class="groupSideNote">${esc(t().sideNotes[g])}</p>`:''}${byGroup(g).map(card).join('')}</section>`).join('')}<p class="note">${esc(t().footnote)}</p><div class="warn">${esc(t().allergens)}</div>`;
+ const c=CATS[k],l=FILTER_LABELS[lang];
+ const sections=c.groups.map(g=>{
+  const items=byGroup(g).filter(passesFilters);
+  if((activeFilters.size||priceEnabled()) && !items.length)return '';
+  return `<section class="group" id="group-${g}"><div class="groupTitle"><h2>${esc(t().groups[g])}</h2></div>${t().sideNotes&&t().sideNotes[g]?`<p class="groupSideNote">${esc(t().sideNotes[g])}</p>`:''}${items.map(card).join('')}</section>`;
+ }).filter(Boolean).join('');
+ const filteredHeader=(activeFilters.size||priceEnabled())?`<div class="pageFilterStatus"><span>${lang==='it'?'Filtri attivi':lang==='en'?'Active filters':lang==='de'?'Aktive Filter':'Filtros activos'}: ${[...activeFilters].map(key=>esc(l[key])).concat(priceEnabled()?[fmtEuro(priceMin)+' – '+fmtEuro(priceMax)]:[]).join(' · ')}</span><button type="button" data-clear-filters>${lang==='it'?'Rimuovi filtri':lang==='en'?'Clear filters':lang==='de'?'Filter löschen':'Quitar filtros'}</button></div><p class="pageFilterDisclaimer">${esc(l.info)}</p>`:'';
+ const empty=(activeFilters.size||priceEnabled())?`<p class="empty">${esc(l.none)}</p>`:'';
+ return `<button type="button" class="back" data-home>← ${esc(t().back)}</button><span class="eyebrow">THE BLACK STUFF · DIGITAL MENU</span><h1 class="pageTitle">${esc(t().categories[k])}</h1>${filteredHeader}<p class="pageLead">${esc(t().details)}</p>${sections||empty}<p class="note">${esc(t().footnote)}</p><div class="warn">${esc(t().allergens)}</div>`;
 }
 // Controlled, explainable search. No online services or invented menu items.
 const synonyms={
@@ -346,7 +384,7 @@ function scored(q){
 function results(q){
  const {ranked,intent:it}=scored(q);
  if(it.allergy && !it.tokens.has('glutine') && !it.excluded.has('glutine'))return `<div class="sectionTop"><h2>${esc(t().results)}</h2></div><div class="warn">${esc(t().zero)} ${esc(t().allergens)}</div>`;
- return `<div class="sectionTop"><h2>${esc(t().results)}</h2><span>✧</span></div>${ranked.length?`<div class="resultList">${ranked.map(({item})=>card(item)).join('')}</div>`:`<p class="empty">${esc(t().noResults)}</p>`}<div class="warn">${esc(t().searchNote)}</div>`;
+ return `<div class="sectionTop"><h2>${esc(t().results)}</h2><span>✧</span></div>${ranked.length?`<div class="resultList">${ranked.filter(({item})=>passesPrice(item)).map(({item})=>card(item)).join('')}</div>`:`<p class="empty">${esc(t().noResults)}</p>`}<div class="warn">${esc(t().searchNote)}</div>`;
 }
 function render(resetScroll=true){
  document.documentElement.lang=lang;
@@ -386,13 +424,18 @@ document.addEventListener('click',e=>{
  const home=e.target.closest('[data-home]');if(home){goHome();return;}
  const toggle=e.target.closest('[data-toggle]');if(toggle){const id=toggle.dataset.toggle;expanded.has(id)?expanded.delete(id):expanded.add(id);const item=toggle.closest('.item');if(item){item.classList.toggle('open',expanded.has(id));toggle.setAttribute('aria-expanded',expanded.has(id));hydratePhotos(item.parentNode);}return;}
  const filterButton=e.target.closest('#filterToggle');if(filterButton){filtersOpen=!filtersOpen;const panel=$('filterPanel');panel.hidden=!filtersOpen;filterButton.setAttribute('aria-expanded',String(filtersOpen));return;}
+ if(e.target.closest('[data-clear-filters]')){activeFilters.clear();priceMin=0;priceMax=PRICE_LIMIT;expanded.clear();render(false);return;}
+ if(e.target.closest('[data-open-price]')){filtersOpen=true;render(false);$('filterPanel')?.scrollIntoView({behavior:'smooth',block:'nearest'});return;}
+ if(e.target.closest('[data-reset-price]')){priceMin=0;priceMax=PRICE_LIMIT;expanded.clear();render(false);return;}
  const filter=e.target.closest('[data-filter]');if(filter){const k=filter.dataset.filter;activeFilters.has(k)?activeFilters.delete(k):activeFilters.add(k);expanded.clear();render(false);return;}
  const suggestion=e.target.closest('[data-suggest]');if(suggestion){query=suggestion.dataset.suggest;expanded.clear();const input=$('search');if(input)input.value=query;updateHomeContent();$('clearSearch').hidden=false;return;}
  if(e.target.closest('#clearSearch')){query='';expanded.clear();$('search').value='';$('clearSearch').hidden=true;updateHomeContent();$('search').focus();}
 });
 document.addEventListener('input',e=>{
+ if(e.target.id==='priceMin'||e.target.id==='priceMax'){let v=Number(e.target.value);if(e.target.id==='priceMin')priceMin=Math.min(v,priceMax);else priceMax=Math.max(v,priceMin);const min=$('priceMinValue'),max=$('priceMaxValue'),sel=$('priceSelected');if(min)min.textContent=fmtEuro(priceMin);if(max)max.textContent=fmtEuro(priceMax);if(sel){sel.style.left=(priceMin/PRICE_LIMIT*100)+'%';sel.style.right=(100-priceMax/PRICE_LIMIT*100)+'%';}updateHomeContent();return;}
  if(e.target.id!=='search')return;query=e.target.value;expanded.clear();$('clearSearch').hidden=!query;updateHomeContent();
 });
+document.addEventListener('change',e=>{if(e.target.id==='priceMin'||e.target.id==='priceMax'){expanded.clear();render(false);}});
 $('language').addEventListener('change',e=>{lang=e.target.value;expanded.clear();render(false);});
 $('homeBrand').addEventListener('click',e=>{e.preventDefault();query='';goHome();});
 render();
