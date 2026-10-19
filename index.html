@@ -530,7 +530,23 @@ function goHome(){active=null;expanded.clear();render();}
 document.addEventListener('click',e=>{
  const cat=e.target.closest('[data-cat]');if(cat){active=cat.dataset.cat;query='';expanded.clear();render();return;}
  const home=e.target.closest('[data-home]');if(home){goHome();return;}
- const toggle=e.target.closest('[data-toggle]');if(toggle){const id=toggle.dataset.toggle;expanded.has(id)?expanded.delete(id):expanded.add(id);const item=toggle.closest('.item');if(item){item.classList.toggle('open',expanded.has(id));toggle.setAttribute('aria-expanded',expanded.has(id));hydratePhotos(item.parentNode);}return;}
+ const toggle=e.target.closest('[data-toggle]');if(toggle){
+  const id=toggle.dataset.toggle;
+  const wasOpen=expanded.has(id);
+  // Accordion: keep at most one product open, including search results.
+  expanded.clear();
+  document.querySelectorAll('.item.open').forEach(item=>{
+   item.classList.remove('open');
+   const button=item.querySelector('[data-toggle]');
+   if(button)button.setAttribute('aria-expanded','false');
+  });
+  if(!wasOpen){
+   expanded.add(id);
+   const item=toggle.closest('.item');
+   if(item){item.classList.add('open');toggle.setAttribute('aria-expanded','true');hydratePhotos(item.parentNode);}
+  }
+  return;
+ }
  const filterButton=e.target.closest('#filterToggle');if(filterButton){filtersOpen=!filtersOpen;const panel=$('filterPanel');panel.hidden=!filtersOpen;filterButton.setAttribute('aria-expanded',String(filtersOpen));return;}
  if(e.target.closest('[data-clear-filters]')){activeFilters.clear();priceMin=0;priceMax=PRICE_LIMIT;expanded.clear();render(false);return;}
  if(e.target.closest('[data-open-price]')){filtersOpen=true;render(false);$('filterPanel')?.scrollIntoView({behavior:'smooth',block:'nearest'});return;}
