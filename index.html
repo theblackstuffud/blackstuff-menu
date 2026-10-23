@@ -284,7 +284,7 @@ function card(i){
  const opened=expanded.has(i.id),season=i.season?`<span class="smallLine">${esc(i.season==='winter'?t().season:t().summer)}</span>`:'';
  const description=desc(i)?`<p class="itemdesc">${esc(desc(i))}</p>`:'';
  const abv=i.abv?`<p class="abv">${esc(i.abv)} vol.</p>`:'';
- return `<article class="item ${opened?'open':''}" id="item-${esc(i.id)}"><button class="itembtn" type="button" data-toggle="${esc(i.id)}" aria-expanded="${opened}"><span class="itemname">${esc(name(i))}</span><span class="itemprice">${esc(price(i))}</span><span class="itemchev">⌄</span></button><div class="itembody">${abv}${description}${season}${(i.group==='grill'||i.group==='burger')?`<p class="groupSideNote">${esc(t().sideNotes[i.group])}</p>`:''}<div class="photobox" data-photo="${esc(i.photo)}"><div class="placeholder">${camera}<strong>${esc(t().photo)}</strong><span>${esc(t().photoSub)}</span></div><img alt="${esc(name(i))}" loading="lazy"></div></div></article>`;
+ return `<article class="item ${opened?'open':''}" id="item-${esc(i.id)}"><button class="itembtn" type="button" data-toggle="${esc(i.id)}" aria-expanded="${opened}"><span class="itemname">${esc(name(i))}</span><span class="itemprice">${esc(price(i))}</span><span class="itemchev">⌄</span></button><div class="itembody">${abv}${description}${season}${(i.group==='grill'||i.group==='burger')?`<p class="groupSideNote">${esc(t().sideNotes[i.group])}</p>`:''}<div class="photobox" data-photo="${esc(i.photo)}" data-photo-group="${esc(i.group)}"><div class="placeholder">${camera}<strong>${esc(t().photo)}</strong><span>${esc(t().photoSub)}</span></div><img alt="${esc(name(i))}" loading="lazy"></div></div></article>`;
 }
 function home(){
  return `<section class="hero"><img class="homeHeroLogo" src="logo.png" alt="The Black Stuff Irish Pub" loading="eager" onerror="this.style.display='none'"><h1>${esc(t().title)}</h1><div class="searchWrap"><span class="searchIcon" aria-hidden="true">⌕</span><input id="search" type="search" value="${esc(query)}" placeholder="${esc(t().search)}" autocomplete="off" aria-label="${esc(t().search)}"><button class="clear" id="clearSearch" aria-label="Clear search" ${query?'':'hidden'}>×</button><button type="button" id="filterToggle" class="filterToggle ${(activeFilters.size||priceEnabled())?'hasFilters':''}" aria-label="${lang==='it'?'Filtra il menu':lang==='en'?'Filter menu':lang==='de'?'Menü filtern':'Filtrar menú'}" aria-expanded="${filtersOpen}" aria-controls="filterPanel" title="${esc(FILTER_LABELS[lang].heading)}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="21" height="21" aria-hidden="true"><line x1="4" y1="7" x2="20" y2="7"/><circle cx="9" cy="7" r="2" fill="currentColor" stroke="none"/><line x1="4" y1="17" x2="20" y2="17"/><circle cx="16" cy="17" r="2" fill="currentColor" stroke="none"/></svg>${(activeFilters.size||priceEnabled())?`<span class="filterCount">${activeFilters.size+(priceEnabled()?1:0)}</span>`:''}</button></div>${filterBar()}<div class="chips">${t().suggestions.filter(s=>!s.includes('10')&&!s.toLowerCase().includes('under')&&!s.toLowerCase().includes('unter')&&!s.toLowerCase().includes('menos de')).map(s=>`<button class="chip" data-suggest="${esc(s)}">${esc(s)}</button>`).join('')}<button class="chip" type="button" data-open-price>${esc(PRICE_I18N[lang].title)} ${priceEnabled()?fmtEuro(priceMin)+'–'+fmtEuro(priceMax):'€'}</button></div></section><div id="homeContent">${query.trim()?results(query):categories()}</div>`;
@@ -503,6 +503,15 @@ function render(resetScroll=true){
  else if(query.trim())hydratePhotos($('homeContent'));
  if(!active)syncFoodFilterNote();
 }
+/* Cartelle fotografiche, una per ogni sottocategoria del menu.
+   Il prodotto usa solamente il nome del file (ad es. "eggburger"):
+   la cartella viene scelta automaticamente dal gruppo. */
+const PHOTO_FOLDERS={
+  beers:'birre',soft:'analcolici',aperitifs:'aperitivi',long:'cocktail',
+  wine:'vini',grill:'griglia',burger:'hamburger',pizza:'pizze',
+  sandwich:'sandwich-toast',fried:'fritti',sharing:'taglieri',
+  american:'american-bites',salads:'insalate',dessert:'dolci'
+};
 function hydratePhotos(root){
  if(!root)return;
  root.querySelectorAll('.item.open .photobox').forEach(el=>{
@@ -510,25 +519,146 @@ function hydratePhotos(root){
   if(image.dataset.loaded)return;
   image.dataset.loaded='pending';
   const key=el.dataset.photo;
-  // Nomi alternativi dei file caricati su GitHub dall'iPhone.
-  const photoAliases={'hamburger-light':['lightburger']};
-  const legacy={'guinness-pie-wrap':null,'chickn-cheese':'popup-chickn-cheese.jpg','brinner-burger':'popup-brinner.jpg','polpette-al-sugo':'popup-polpette.jpg','zuppa-alla-zucca':'popup-zuppa-zucca.jpg'};
-  // Su GitHub da iPhone le foto sono state caricate nella radice come "foto:nome.jpeg".
-  // Il prefisso ./ e' necessario: senza, il browser interpreta "foto:" come protocollo.
-  // Si cercano prima questi file, poi quelli nella cartella foto/ per compatibilita'.
-  const names=[key,...(photoAliases[key]||[])];
-  const urls=[];
-  for(const name of names){
-    for(const ext of ['jpeg','jpg','png','webp'])urls.push('./foto:'+name+'.'+ext);
-    for(const ext of ['jpeg','jpg','png','webp'])urls.push('foto/'+name+'.'+ext);
+  const group=el.dataset.photoGroup;
+  const folder=PHOTO_FOLDERS[group];
+  // Le fotografie stagionali restano NELLA RADICE del repository,
+  // insieme ai loghi; solo le foto della galleria vanno in foto/<categoria>/.
+  const seasonalRootPhotos={
+    'chickn-cheese':'popup-chickn-cheese.jpg',
+    'brinner-burger':'popup-brinner.jpg',
+    'polpette-al-sugo':'popup-polpette.jpg',
+    'zuppa-alla-zucca':'popup-zuppa-zucca.jpg'
+  };
+  if(group==='seasonal'){
+    const rootFile=seasonalRootPhotos[key];
+    if(!rootFile){image.dataset.loaded='missing';return;}
+    const probe=new Image();
+    probe.onload=()=>{image.src=rootFile;image.style.display='block';placeholder.style.display='none';image.dataset.loaded='yes';};
+    probe.onerror=()=>{image.dataset.loaded='missing';};
+    probe.src=rootFile;
+    return;
   }
-  if(legacy[key])urls.unshift(legacy[key]);
-  let ix=0;function tryNext(){if(ix>=urls.length){image.dataset.loaded='missing';return;}const src=urls[ix++];const test=new Image();test.onload=()=>{image.src=src;image.style.display='block';placeholder.style.display='none';image.dataset.loaded='yes';};test.onerror=tryNext;test.src=src;}tryNext();
+  if(!key||!folder){image.dataset.loaded='missing';return;}
+  // "hamburger-light" può essere salvato anche con il vecchio nome "lightburger".
+  const photoAliases={'hamburger-light':['lightburger']};
+  const names=[key,...(photoAliases[key]||[])];
+  const ext=['jpeg','jpg','png','webp'];
+  const urls=[];
+  function addFolder(dir){for(const filename of names){for(const e of ext){
+    urls.push(`${dir}/${encodeURIComponent(filename)}.${e}`);
+  }}}
+  // Nuova struttura: foto/hamburger/eggburger.jpeg ecc.
+  addFolder(`foto/${folder}`);
+  // Irish Coffee compare anche tra i dolci: basta una sola fotografia.
+  if(key==='irish-coffee'){
+    addFolder(group==='dessert'?'foto/cocktail':'foto/dolci');
+  }
+  // Compatibilità provvisoria con gli upload fatti prima della riorganizzazione.
+  for(const filename of names){for(const e of ext)urls.push('./foto:'+filename+'.'+e);}
+  addFolder('foto');
+  let ix=0;
+  function tryNext(){
+    if(ix>=urls.length){image.dataset.loaded='missing';return;}
+    const url=urls[ix++];const probe=new Image();
+    probe.onload=()=>{image.src=url;image.style.display='block';placeholder.style.display='none';image.dataset.loaded='yes';};
+    probe.onerror=tryNext;probe.src=url;
+  }
+  tryNext();
  });
 }
-function goHome(){active=null;expanded.clear();render();}
+/* Navigazione compatibile con Safari swipe, pulsanti browser Indietro/Avanti
+   e navigazione diretta a una categoria tramite URL #/categoria.
+   Ogni apertura di una categoria crea una vera voce nella cronologia. */
+const MENU_HISTORY_KEY='blackstuffMenuRouteV1';
+const MENU_CATEGORY_KEYS=new Set(Object.keys(CATS));
+const MENU_BASE_URL=window.location.pathname+window.location.search;
+function menuCategoryFromUrl(){
+ const fragment=window.location.hash;
+ if(!fragment.startsWith('#/'))return null;
+ try{
+  const key=decodeURIComponent(fragment.slice(2));
+  return MENU_CATEGORY_KEYS.has(key)?key:null;
+ }catch(error){return null;}
+}
+function menuUrl(category){return MENU_BASE_URL+(category?'#/'+encodeURIComponent(category):'');}
+function menuState(fromHome=false){
+ return {
+  [MENU_HISTORY_KEY]:true,
+  category:active,
+  query,
+  lang,
+  filters:[...activeFilters],
+  filtersOpen,
+  priceMin,
+  priceMax,
+  scrollY:window.scrollY,
+  fromHome
+ };
+}
+function syncMenuHistory(){
+ if(window.history.state?.[MENU_HISTORY_KEY]){
+  window.history.replaceState(menuState(window.history.state.fromHome===true),'',window.location.href);
+ }
+}
+function navigateMenu(category){
+ if(category!==null&&!MENU_CATEGORY_KEYS.has(category))return;
+ if(category===active){expanded.clear();render();syncMenuHistory();return;}
+ syncMenuHistory(); // Memorizza ricerca, filtri e posizione della pagina precedente.
+ const fromHome=active===null && category!==null;
+ active=category;
+ if(category!==null)query='';
+ expanded.clear();
+ window.history.pushState(menuState(fromHome),'',menuUrl(category));
+ render();
+ syncMenuHistory();
+}
+function goHome(){
+ if(active===null){query='';expanded.clear();render();syncMenuHistory();return;}
+ // Quando l'utente era entrato dalla home, usa la STESSA cronologia del browser.
+ // Evita di creare una pagina Home extra premendo il pulsante del sito.
+ if(window.history.state?.[MENU_HISTORY_KEY] && window.history.state.fromHome===true){
+  syncMenuHistory();
+  window.history.back();
+ }else navigateMenu(null); // Funziona anche aprendo una categoria da un link diretto.
+}
+window.addEventListener('popstate',event=>{
+ const state=event.state;
+ if(state?.[MENU_HISTORY_KEY]){
+  active=MENU_CATEGORY_KEYS.has(state.category)?state.category:null;
+  query=typeof state.query==='string'?state.query:'';
+  if(LANGS.includes(state.lang))lang=state.lang;
+  activeFilters.clear();
+  if(Array.isArray(state.filters))for(const key of state.filters){if(FILTER_KEYS.includes(key))activeFilters.add(key);}
+  filtersOpen=state.filtersOpen===true;
+  if(typeof state.priceMin==='number'&&Number.isFinite(state.priceMin))priceMin=Math.max(0,Math.min(PRICE_LIMIT,state.priceMin));
+  if(typeof state.priceMax==='number'&&Number.isFinite(state.priceMax))priceMax=Math.max(priceMin,Math.min(PRICE_LIMIT,state.priceMax));
+  expanded.clear();
+  render(false);
+  const scrollY=Math.max(0,Number(state.scrollY)||0);
+  window.requestAnimationFrame(()=>window.scrollTo({top:scrollY,behavior:'instant'}));
+ }else{
+  // Cronologia precedente o hash modificato fuori dal menu.
+  active=menuCategoryFromUrl();
+  query='';expanded.clear();render();
+  window.history.replaceState(menuState(false),'',window.location.href);
+ }
+});
+// Registra anche modifiche a filtri, ricerca, lingua e posizione dello scroll.
+const rememberMenuState=()=>window.queueMicrotask(syncMenuHistory);
+document.addEventListener('click',rememberMenuState);
+document.addEventListener('input',rememberMenuState);
+document.addEventListener('change',rememberMenuState);
+let menuScrollQueued=false;
+window.addEventListener('scroll',()=>{
+ if(menuScrollQueued)return;
+ menuScrollQueued=true;
+ window.requestAnimationFrame(()=>{menuScrollQueued=false;syncMenuHistory();});
+},{passive:true});
+// Se apri direttamente un link come #/beers o #/food, viene mostrata la categoria.
+active=menuCategoryFromUrl();
+window.history.replaceState(menuState(false),'',window.location.href);
 document.addEventListener('click',e=>{
- const cat=e.target.closest('[data-cat]');if(cat){active=cat.dataset.cat;query='';expanded.clear();render();return;}
+ const cat=e.target.closest('[data-cat]');if(cat){navigateMenu(cat.dataset.cat);return;}
  const home=e.target.closest('[data-home]');if(home){goHome();return;}
  const toggle=e.target.closest('[data-toggle]');if(toggle){
   const id=toggle.dataset.toggle;
