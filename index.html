@@ -207,7 +207,9 @@ html[data-menu-theme="christmas"] .chip::before{left:12px;right:12px;top:-4px;he
 .privacy-link{appearance:none;border:0;background:transparent;color:inherit;font:inherit;font-size:12px;text-decoration:underline;text-underline-offset:3px;cursor:pointer;min-height:44px;padding:8px 5px}.privacy-login{font-size:12px;line-height:1.6}.privacy-surface{--p-bg:#fafbf9;--p-text:#192b23;--p-muted:#526359;--p-line:#c9d3cb;--p-accent:#18553c;color:var(--p-text);background:var(--p-bg);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:14px;line-height:1.65;text-align:left;letter-spacing:normal;text-transform:none;box-sizing:border-box}.privacy-surface p{font-size:inherit;line-height:inherit;color:inherit;text-transform:none;letter-spacing:normal;margin:12px 0}.privacy-surface h2,.privacy-surface h3{font-family:inherit;color:inherit;text-transform:none;letter-spacing:normal;line-height:1.3}.privacy-surface h2{font-size:22px;margin:0}.privacy-surface h3{font-size:17px;margin:24px 0 8px}.privacy-surface a{color:var(--p-accent);text-decoration:underline}.privacy-surface button{font-family:inherit;cursor:pointer}.privacy-surface :focus-visible,.privacy-link:focus-visible{outline:3px solid #629e7b;outline-offset:3px}.privacy-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:20000;display:flex;align-items:center;justify-content:center;padding:18px}.privacy-overlay[hidden],.privacy-surface[hidden],.privacy-surface [hidden]{display:none!important}.privacy-sheet{border:1px solid var(--p-line);border-radius:24px;width:100%;max-width:720px;max-height:calc(100dvh - 36px);overflow:auto;padding:25px;overscroll-behavior:contain;box-shadow:0 18px 80px #0004}.privacy-top{display:flex;gap:18px;align-items:center;justify-content:space-between}.privacy-close{flex:none;width:44px;height:44px;border:1px solid var(--p-line);border-radius:50%;color:inherit;background:transparent;font-size:25px;line-height:1}.privacy-actions{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}.privacy-choice{flex:1;min-width:130px;min-height:46px;border:1px solid var(--p-accent);border-radius:12px;background:transparent;color:var(--p-accent);font-size:14px;font-weight:600;padding:10px 12px}.privacy-choice:disabled{opacity:.5;cursor:default}.privacy-choice:hover:not(:disabled){background:color-mix(in srgb,var(--p-accent) 8%,transparent)}.privacy-preferences{border:1px solid var(--p-line);padding:18px;border-radius:16px;margin:20px 0}.privacy-preferences h3{margin:0}.privacy-meta{color:var(--p-muted)!important;font-size:12px!important}.privacy-menu-footer{margin:8px auto 0;max-width:440px}.privacy-sheet:focus{outline:none}@media(prefers-color-scheme:dark){.privacy-surface{--p-bg:#15251e;--p-text:#edf4ef;--p-muted:#b4c7bb;--p-line:#41594b;--p-accent:#a1d1b6}}@media(max-width:480px){.privacy-overlay{padding:9px}.privacy-sheet{padding:20px;max-height:calc(100dvh - 18px);border-radius:19px}}
 
 </style>
-</head>
+<style>
+.dietaryNotice,.dietaryExplanation{font-size:13px;line-height:1.65;color:var(--muted);margin:12px 0 18px}.dietaryNotice{border:1px solid currentColor;border-radius:12px;padding:10px 14px}.dietaryNotice p{margin:4px 0}.dietaryGroup{margin:28px 0}.dietaryGroup h3{font-size:18px;margin:0 0 8px}.dietaryCategory{margin:20px 0}.dietaryCategory h4{font-size:15px;margin:12px 0 8px}.dietaryGroup h3 span{font-size:14px;opacity:.75}.dietaryBadge{display:block;width:fit-content;font-size:11px;font-weight:500;line-height:1.5;padding:2px 7px;margin-top:5px;border:1px solid currentColor;border-radius:6px;opacity:.85}.otherAllergens{margin-top:12px}.otherAllergens summary{cursor:pointer;font-size:14px;padding:8px 0}
+</style></head>
 <body class="on-home"><div id="menuSyncStatus" role="status" style="padding:10px 20px;font-size:12px;background:#294632;color:#fff">Verifica prezzi e disponibilità… / Checking prices and availability…</div>
 
 <!-- Popup originale di promozione del menu invernale -->
@@ -380,18 +382,75 @@ const fmtEuro=n=>"€ "+Number(n).toLocaleString("it-IT",{maximumFractionDigits:
 function priceBar(){const x=PRICE_I18N[lang];const a=100*priceMin/PRICE_LIMIT,b=100*priceMax/PRICE_LIMIT;return `<div class="priceFilter"><div class="priceTitle"><span>${esc(x.title)}</span><button type="button" data-reset-price ${priceEnabled()?"":"hidden"}>${esc(x.reset)}</button></div><div class="priceValues"><span>${esc(x.from)} <strong id="priceMinValue">${fmtEuro(priceMin)}</strong></span><span>${esc(x.to)} <strong id="priceMaxValue">${fmtEuro(priceMax)}</strong></span></div><div class="priceSlider"><div class="priceTrack"></div><div class="priceSelected" id="priceSelected" style="left:${a}%;right:${100-b}%"></div><input type="range" id="priceMin" aria-label="${esc(x.from)}" min="0" max="21" step="0.5" value="${priceMin}"><input type="range" id="priceMax" aria-label="${esc(x.to)}" min="0" max="21" step="0.5" value="${priceMax}"></div></div>`;}
 
 const FILTER_LABELS={
- it:{heading:'Preferenze e ingredienti',tomato:'Senza pomodoro',onion:'Senza cipolla',gluten:'Senza glutine',lactose:'Senza lattosio',egg:'Senza uova',vegetarian:'Vegetariano',spicy:'Non piccante',info:'Possibile contaminazione crociata. Per allergie non indicate o dubbi, chiedi allo staff.',none:'Nessun piatto verificabile con tutti i filtri selezionati.',notice:'Filtri basati sugli ingredienti dichiarati. Contaminazione crociata non esclusa. Per allergie o dubbi, chiedi allo staff.'},
- en:{heading:'Preferences & ingredients',tomato:'No tomato',onion:'No onion',gluten:'Gluten-free',lactose:'Lactose-free',egg:'No eggs',vegetarian:'Vegetarian',spicy:'Not spicy',info:'Cross-contamination is possible. For unlisted allergies or questions, ask our staff.',none:'No dishes can be verified for all selected filters.',notice:'Filters reflect declared ingredients. Cross-contamination is possible. For allergies or questions, ask our staff.'},
- de:{heading:'Vorlieben & Zutaten',tomato:'Ohne Tomaten',onion:'Ohne Zwiebeln',gluten:'Glutenfrei',lactose:'Laktosefrei',egg:'Ohne Eier',vegetarian:'Vegetarisch',spicy:'Nicht scharf',info:'Kreuzkontamination möglich. Bei nicht aufgeführten Allergien oder Fragen bitte unser Personal ansprechen.',none:'Keine Gerichte für alle gewählten Filter überprüfbar.',notice:'Filter basieren auf angegebenen Zutaten. Kreuzkontamination möglich. Bei Allergien oder Fragen bitte Personal ansprechen.'},
- es:{heading:'Preferencias e ingredientes',tomato:'Sin tomate',onion:'Sin cebolla',gluten:'Sin gluten',lactose:'Sin lactosa',egg:'Sin huevo',vegetarian:'Vegetariano',spicy:'No picante',info:'Posible contaminación cruzada. Para alergias no indicadas o dudas, consulta al personal.',none:'No se pueden verificar platos para todos los filtros seleccionados.',notice:'Filtros basados en los ingredientes declarados. Posible contaminación cruzada. Para alergias o dudas, consulta al personal.'}
+ it:{heading:'Preferenze e ingredienti',tomato:'Senza pomodoro',onion:'Senza cipolla',gluten:'Senza glutine',lactose:'Senza lattosio',milk:'Senza latte',egg:'Senza uova',vegetarian:'Vegetariano',spicy:'Non piccante',info:'Possibile contaminazione crociata. Per allergie non indicate o dubbi, chiedi allo staff.',none:'Nessun piatto verificabile con tutti i filtri selezionati.',notice:'Filtri basati sugli ingredienti dichiarati. Contaminazione crociata non esclusa. Per allergie o dubbi, chiedi allo staff.'},
+ en:{heading:'Preferences & ingredients',tomato:'No tomato',onion:'No onion',gluten:'Gluten-free',lactose:'Lactose-free',milk:'No milk',egg:'No eggs',vegetarian:'Vegetarian',spicy:'Not spicy',info:'Cross-contamination is possible. For unlisted allergies or questions, ask our staff.',none:'No dishes can be verified for all selected filters.',notice:'Filters reflect declared ingredients. Cross-contamination is possible. For allergies or questions, ask our staff.'},
+ de:{heading:'Vorlieben & Zutaten',tomato:'Ohne Tomaten',onion:'Ohne Zwiebeln',gluten:'Glutenfrei',lactose:'Laktosefrei',milk:'Ohne Milch',egg:'Ohne Eier',vegetarian:'Vegetarisch',spicy:'Nicht scharf',info:'Kreuzkontamination möglich. Bei nicht aufgeführten Allergien oder Fragen bitte unser Personal ansprechen.',none:'Keine Gerichte für alle gewählten Filter überprüfbar.',notice:'Filter basieren auf angegebenen Zutaten. Kreuzkontamination möglich. Bei Allergien oder Fragen bitte Personal ansprechen.'},
+ es:{heading:'Preferencias e ingredientes',tomato:'Sin tomate',onion:'Sin cebolla',gluten:'Sin gluten',lactose:'Sin lactosa',milk:'Sin leche',egg:'Sin huevo',vegetarian:'Vegetariano',spicy:'No picante',info:'Posible contaminación cruzada. Para alergias no indicadas o dudas, consulta al personal.',none:'No se pueden verificar platos para todos los filtros seleccionados.',notice:'Filtros basados en los ingredientes declarados. Posible contaminación cruzada. Para alergias o dudas, consulta al personal.'}
 };
 const activeFilters=new Set();
-const FILTER_KEYS=['tomato','onion','gluten','lactose','egg','vegetarian','spicy'];
-// Curated product-by-product from the pub's official ingredient descriptions and allergen matrix.
-// Positive lists exclude items with insufficient detail. Drinks only appear for declared gluten-free Casamatta Slip.
-const VERIFIED_FILTER_ITEMS={"onion":["alette-di-pollo","babyburger","brinner-burger","cesar-salad","cheesecake","chickn-cheese","connemara","coscia-di-pollo-disossata","crocchette-di-patate","diablo","dublin","frisburger","fritto-misto","fusi-di-pollo","guinness-pie-wrap","hamburger-light","hot-dog","irish","jalapenos-al-pezzo","mozzarelline-impanate","nuggets-di-pollo","olive-ascolane","panna-cotta","patate-fritte","patate-impazzite","polpette-al-sugo","ribs-di-maiale","ribs-di-maiale-1-2-porzione","salzburger","summerburger","tagliata-di-manzo","tartufo","tiramisu","toast","toast-farcito","tortino-al-cioccolato","trancio-diavola","trancio-funghi-carciofini","trancio-margherita","trancio-speck-funghi","verdure-pastellate"],"tomato":["alette-di-pollo","anelli-di-cipolla","babyburger","brinner-burger","cheesecake","chickn-cheese","coney-dog","connemara","crocchette-di-patate","diablo","eggburger","fritto-misto","guinness-pie-wrap","hot-dog","jalapenos-al-pezzo","mozzarelline-impanate","nuggets-di-pollo","olive-ascolane","panna-cotta","patate-fritte","pulled-pork","tartufo","tiramisu","toast","toast-farcito","tortino-al-cioccolato","verdure-pastellate","zuppa-alla-zucca"],"egg":["babyburger","baconburger","cheeseburger","chickn-cheese","coney-dog","coscia-di-pollo-disossata","devilburger","frisburger","fusi-di-pollo","guinness-pie-wrap","hamburger","hamburger-light","hot-dog","patate-fritte","polpette-al-sugo","ribs-di-maiale","ribs-di-maiale-1-2-porzione","summerburger","tagliata-di-manzo","trancio-diavola","trancio-funghi-carciofini","trancio-margherita","trancio-speck-funghi","trancio-tonno-cipolla","veggyburger","zuppa-alla-zucca"],"vegetarian":["anelli-di-cipolla","crocchette-di-patate","jalapenos-al-pezzo","mozzarelline-impanate","patate-fritte","trancio-funghi-carciofini","trancio-margherita","veggyburger","verdure-pastellate"],"spicy":["alette-di-pollo","anelli-di-cipolla","babyburger","baconburger","brinner-burger","cesar-salad","cheeseburger","cheesecake","chickn-cheese","connemara","coscia-di-pollo-disossata","crocchette-di-patate","dublin","eggburger","frisburger","fritto-misto","fusi-di-pollo","guinness-pie-wrap","hamburger","hamburger-light","hot-dog","irish","mozzarelline-impanate","nuggets-di-pollo","olive-ascolane","panna-cotta","patate-fritte","polpette-al-sugo","pulled-pork","pulled-salad","ribs-di-maiale","ribs-di-maiale-1-2-porzione","salzburger","summerburger","tagliata-di-manzo","tartufo","tiramisu","toast","toast-farcito","tortino-al-cioccolato","trancio-funghi-carciofini","trancio-margherita","trancio-speck-funghi","trancio-tonno-cipolla","veggyburger","verdure-pastellate","zuppa-alla-zucca"],"gluten":["casamatta-slip","tagliata-di-manzo","hamburger-light","coscia-di-pollo-disossata","fusi-di-pollo","ribs-di-maiale","ribs-di-maiale-1-2-porzione","pulled-salad","panna-cotta","tartufo","irish-coffee"],"lactose":[]};
-const VERIFIED_FILTER_SETS=Object.fromEntries(Object.entries(VERIFIED_FILTER_ITEMS).map(([k,ids])=>[k,new Set(ids)]));
-function filterBar(){const l=FILTER_LABELS[lang];return `<div class="filterBar" id="filterPanel" ${filtersOpen?'':'hidden'}><div class="filterHeading">${esc(l.heading)}</div><div class="filterChoices">${FILTER_KEYS.map(k=>`<button type="button" class="filterChip" data-filter="${k}" aria-pressed="${activeFilters.has(k)}">${esc(l[k])}</button>`).join('')}</div>${priceBar()}<p class="filterInfo">${esc(l.info)}</p></div>`;}
+const FILTER_KEYS=['tomato','onion','gluten','lactose','milk','egg','vegetarian','spicy',...Object.keys(PRODUCT_ALLERGENS).filter(k=>!['gluten','milk','eggs'].includes(k))];
+const ALLERGEN_TABLE_BY_ID={"cheeseburger":["gluten","sesame"],"baconburger":["gluten","sesame"],"hamburger":["gluten","sesame"],"babyburger":["gluten","sesame"],"frisburger":["gluten","mustard","sesame"],"eggburger":["gluten","eggs","sesame"],"summerburger":["gluten","sesame"],"devilburger":["gluten","sesame"],"veggyburger":["gluten","soy","sesame"],"salzburger":["gluten","eggs","sesame"],"hamburger-light":["gluten"],"irish":["gluten","eggs","milk","nuts"],"diablo":["gluten","eggs","milk","nuts"],"connemara":["gluten","eggs","milk","nuts"],"dublin":["gluten","eggs","milk","nuts"],"toast":["gluten","eggs"],"toast-farcito":["gluten","eggs"],"trancio-margherita":["gluten","milk"],"trancio-funghi-carciofini":["gluten","milk"],"trancio-speck-funghi":["gluten","milk"],"trancio-diavola":["gluten","milk"],"trancio-tonno-cipolla":["gluten","milk"],"tagliere-di-pizza-margherita":["gluten","milk"],"tagliere-di-pizza-farcito":["gluten","milk"],"hot-dog":["gluten","milk"],"coney-dog":["gluten","milk","mustard"],"alette-di-pollo":["gluten","celery"],"verdure-pastellate":["gluten","milk"],"anelli-di-cipolla":["gluten"],"mozzarelline-impanate":["gluten","milk"],"olive-ascolane":["gluten","soy","milk","celery"],"jalapenos-al-pezzo":["gluten","milk"],"nuggets-di-pollo":["gluten"],"guinness":["gluten"],"kilkenny-cream":["gluten"],"kilkenny-strong":["gluten"],"bulldog-strong-ale":["gluten"],"guinness-blonde-ipa":["gluten"],"hop-house-13":["gluten"],"maes-pils":["gluten"],"ichnusa-non-filtrata":["gluten"],"messina-cristalli-di-sale":["gluten"],"bulldog-strong-lager":["gluten"],"lagunitas-ipa":["gluten"],"crocchette-di-patate":["milk"],"fritto-misto":["celery","gluten","milk","soy"]};
+// Positive evidence only. A missing allergen in the PDF is never proof of absence.
+// The source table is used for unreviewed legacy records; reviewed current recipes take precedence.
+function dietaryKey(key){return key==='lactose'?'milk':key==='egg'?'eggs':key;}
+function dietaryNormalize(value){return String(value||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[’']/g,' ').replace(/[^a-z0-9]+/g,' ').trim();}
+function dietaryEvidence(item){
+ const d=item.details,positive=new Map(),add=(key,source)=>{if(!positive.has(key))positive.set(key,[]);if(!positive.get(key).includes(source))positive.get(key).push(source);};
+ for(const key of d?.allergens||[])add(key,'scheda salvata');
+ if(!d?.allergensReviewed){
+  for(const key of ALLERGEN_TABLE_BY_ID[item.id]||[])add(key,'tabella PDF');
+  const description=dietaryNormalize([d?.name?.it||item.name?.it,d?.ingredients?.it||d?.description?.it||item.desc?.it].join(' '));
+  const beer=item.group==='beers'||item.group==='soft'&&(item.beerProfile||/\bbirra\b/.test(description));
+  if(beer&&item.id!=='casamatta-slip'&&!/\b(?:senza glutine|gluten free|glutenfrei)\b/.test(description))add('gluten','tabella PDF: tutte le birre salvo quelle senza glutine');
+ }
+ // Beer tasting notes (hazelnut, cream, chocolate, etc.) do not establish ingredients.
+ if(item.group!=='beers'&&!item.beerProfile){
+  const recipe=d?(d.ingredients?.it||d.description?.it||''):(item.desc?.it||'');
+  const text=dietaryNormalize((d?.name?.it||item.name?.it||'')+'. '+recipe);
+  const rules={milk:['latte','mozzarella','mozzarelline','scamorza','formaggio','formaggi','cheddar','edamer','grana','parmigiano','mascarpone','burro','panna','yogurt','ricotta'],eggs:['uovo','uova','albume','tuorlo'],fish:['tonno','salmone','acciuga','acciughe','alici','pesce'],crustaceans:['gambero','gamberi','gamberetti','scampi','granchio','crostacei'],molluscs:['calamari','seppie','polpo','cozze','vongole','molluschi'],peanuts:['arachide','arachidi'],nuts:['noci','nocciole','nocciola','mandorle','pistacchi','anacardi'],soy:['soia'],celery:['sedano'],mustard:['senape'],sesame:['sesamo'],lupin:['lupini'],sulphites:['solfiti']};
+  for(const [key,terms] of Object.entries(rules))for(const term of terms){
+   const pattern=new RegExp('(?:^| )('+term+')(?![a-z0-9])','g');let hit;
+   while((hit=pattern.exec(text))){
+    const start=hit.index+(hit[0].startsWith(' ')?1:0),before=text.slice(0,start),after=text.slice(start+term.length);
+    if(/(?:^| )(?:senza|no|privo di|priva di) $/.test(before))continue;
+    if(key==='milk'&&(/^(?: di)? (?:cocco|soia|mandorla|avena|riso)(?: |$)/.test(after)||/^(?: vegetale| vegano| vegana)(?: |$)/.test(after)))continue;
+    add(key,'testo della ricetta: '+term);
+   }
+  }
+ }
+ return positive;
+}
+function dietaryAssessment(item,requested){
+ const keys=[...new Set([...requested].map(dietaryKey))],d=item.details,evidence=dietaryEvidence(item);
+ if(!keys.length)return {status:'check',reasons:[],keys};
+ const present=keys.filter(k=>evidence.has(k));
+ if(present.length)return {status:'contains',keys:present,reasons:present.flatMap(k=>evidence.get(k).map(source=>({key:k,source})))};
+ const traces=keys.filter(k=>(d?.mayContain||[]).includes(k)||k==='gluten'&&(d?.preparation==='shared-fryer'||item.group==='fried'));
+ if(traces.length)return {status:'traces',keys:traces,reasons:[]};
+ const reviewed=!!d&&d.allergensReviewed===true&&d.crossContact==='assessed'&&d.preparation!=='unknown';
+ return {status:reviewed?'verified':'check',keys,reasons:[]};
+}
+function dietaryCandidate(item,keys){return ['verified','check'].includes(dietaryAssessment(item,keys).status);}
+
+const DIETARY_TEXT={
+ it:{heading:'Esclusioni alimentari',more:'Altri allergeni',exclude:'Escludi',verified:'Schede verificate per questa esclusione',check:'Da verificare con il personale',badge:'Da verificare',verifiedBadge:'Scheda verificata',intro:'Sono esclusi i prodotti con indicazioni di presenza o possibili tracce degli allergeni richiesti. Gli altri sono divisi in base alla verifica della scheda.',pending:'Non risultano indicazioni di presenza nei dati consultati, ma ricette, etichette e contaminazioni non sono ancora tutte verificate. Questi prodotti non sono dichiarati «senza allergeni»: chiedi al personale prima di ordinare.',reviewed:'Le schede indicano allergeni e preparazione verificati per questa esclusione. Comunica comunque la tua esigenza al personale.',lactose:'La tabella del menu riporta «Latte», non il contenuto di lattosio. Per questa ricerca escludiamo anche i prodotti con latte o derivati; non è una certificazione «senza lattosio». L’allergia al latte è diversa dall’intolleranza al lattosio.',unknown:'Questa richiesta contiene un’allergia o un’esclusione che non riesco a verificare. Chiedi al personale: non mostro risultati che potrebbero ignorarla.',empty:'Nessun prodotto da mostrare con tutte queste esclusioni. Chiedi al personale.',extra:'Altre indicazioni dalla tabella o dalla ricetta, da verificare'},
+ en:{heading:'Dietary exclusions',more:'Other allergens',exclude:'Exclude',verified:'Records reviewed for this exclusion',check:'Check with staff',badge:'Check with staff',verifiedBadge:'Reviewed record',intro:'Products with indications of the requested allergens or possible traces are excluded. Remaining products are grouped by review status.',pending:'No presence is indicated in the available data, but recipes, labels and cross-contact have not all been checked. These products are not declared allergen-free: ask staff before ordering.',reviewed:'These records mark allergens and preparation as reviewed for this exclusion. Still tell staff about your needs.',lactose:'The menu table lists milk, not lactose content. This search also excludes products with milk or dairy; it does not certify them as lactose-free. Milk allergy and lactose intolerance are different.',unknown:'This request includes an allergy or exclusion I cannot verify. Ask staff: results that could ignore it are not shown.',empty:'No products to show for all these exclusions. Ask staff.',extra:'Other indications from the table or recipe, to be checked'},
+ de:{heading:'Lebensmittel ausschließen',more:'Weitere Allergene',exclude:'Ausschließen',verified:'Für diesen Ausschluss geprüfte Angaben',check:'Beim Personal nachfragen',badge:'Noch zu prüfen',verifiedBadge:'Geprüfte Angaben',intro:'Produkte mit Hinweisen auf die gewünschten Allergene oder mögliche Spuren werden ausgeschlossen. Die übrigen sind nach Prüfstatus gruppiert.',pending:'In den verfügbaren Daten ist kein Vorkommen angegeben. Rezepte, Etiketten und Kreuzkontakt sind aber noch nicht vollständig geprüft. Diese Produkte sind nicht als allergenfrei ausgewiesen. Vor der Bestellung beim Personal nachfragen.',reviewed:'Allergene und Zubereitung sind für diesen Ausschluss als geprüft markiert. Informiere dennoch das Personal über deine Bedürfnisse.',lactose:'Die Tabelle nennt Milch, keinen Laktosegehalt. Diese Suche schließt auch Milchprodukte aus und bestätigt keine Laktosefreiheit. Milchallergie und Laktoseintoleranz sind unterschiedlich.',unknown:'Diese Anfrage enthält eine Allergie oder einen Ausschluss, den ich nicht prüfen kann. Bitte frage das Personal; unvollständig gefilterte Ergebnisse werden nicht gezeigt.',empty:'Keine Produkte für alle diese Ausschlüsse. Bitte Personal fragen.',extra:'Weitere Hinweise aus Tabelle oder Rezept, noch zu prüfen'},
+ es:{heading:'Exclusiones alimentarias',more:'Otros alérgenos',exclude:'Excluir',verified:'Fichas revisadas para esta exclusión',check:'Consultar al personal',badge:'Por verificar',verifiedBadge:'Ficha revisada',intro:'Se excluyen productos con indicaciones de los alérgenos solicitados o posibles trazas. Los demás se agrupan según la revisión de su ficha.',pending:'Los datos disponibles no indican su presencia, pero recetas, etiquetas y contaminación cruzada no están completamente verificadas. No se declaran libres de alérgenos: consulta al personal antes de pedir.',reviewed:'Las fichas indican alérgenos y preparación revisados para esta exclusión. Comunica igualmente tus necesidades al personal.',lactose:'La tabla indica leche, no contenido de lactosa. Esta búsqueda también excluye productos con leche o derivados; no certifica que sean sin lactosa. La alergia a la leche y la intolerancia a la lactosa son diferentes.',unknown:'La solicitud contiene una alergia o exclusión que no puedo verificar. Consulta al personal: no se muestran resultados que podrían ignorarla.',empty:'No hay productos para todas estas exclusiones. Consulta al personal.',extra:'Otras indicaciones de la tabla o receta, por verificar'}
+};
+function dietaryFilterKeys(){return [...activeFilters].filter(k=>k==='lactose'||k==='egg'||Object.hasOwn(PRODUCT_ALLERGENS,k));}
+function dietarySearchKeys(q){return new Set([...allergenIntent(q).keys,...dietaryFilterKeys()]);}
+function filterLabel(key){if(FILTER_LABELS[lang][key])return FILTER_LABELS[lang][key];return DIETARY_TEXT[lang].exclude+' '+PRODUCT_ALLERGENS[key][PRODUCT_LANGS.indexOf(lang)];}
+function dietaryNotice(keys){const x=DIETARY_TEXT[lang];return `<div class="dietaryNotice"><p>${esc(x.intro)}</p>${[...keys].includes('lactose')?`<p>${esc(x.lactose)}</p>`:''}</div>`;}
+function dietaryBadge(item,keys){if(!keys?.size)return '';const status=dietaryAssessment(item,keys).status,x=DIETARY_TEXT[lang];return `<span class="dietaryBadge ${status==='verified'?'reviewed':''}">${esc(status==='verified'?x.verifiedBadge:x.badge)}</span>`;}
+function dietaryGroups(items,keys){
+ const x=DIETARY_TEXT[lang];
+ const sections=['verified','check'].map(status=>{const matching=items.filter(i=>dietaryAssessment(i,keys).status===status);if(!matching.length)return '';return `<section class="dietaryGroup" data-dietary-group="${status}"><h3>${esc(x[status])} <span>(${matching.length})</span></h3><p class="dietaryExplanation">${esc(status==='verified'?x.reviewed:x.pending)}</p>${['grill','burger','pizza','sandwich','fried','sharing','american','salads','seasonal','dessert','beers','soft','aperitifs','long','wine'].map(group=>{const products=matching.filter(i=>i.group===group);return products.length?`<section class="dietaryCategory"><h4>${esc(t().groups[group])} <span>(${products.length})</span></h4>${products.map(i=>card(i,keys)).join('')}</section>`:'';}).join('')}</section>`;}).join('');
+ return dietaryNotice(keys)+(sections||`<p class="empty">${esc(x.empty)}</p>`);
+}
+
+
+function filterBar(){const l=FILTER_LABELS[lang],x=DIETARY_TEXT[lang],chips=keys=>keys.map(k=>`<button type="button" class="filterChip" data-filter="${k}" aria-pressed="${activeFilters.has(k)}">${esc(filterLabel(k))}</button>`).join('');return `<div class="filterBar" id="filterPanel" ${filtersOpen?'':'hidden'}><div class="filterHeading">${esc(l.heading)}</div><div class="filterChoices">${chips(FILTER_KEYS.slice(0,8))}</div><details class="otherAllergens" ${FILTER_KEYS.slice(8).some(k=>activeFilters.has(k))?'open':''}><summary>${esc(x.more)}</summary><div class="filterChoices">${chips(FILTER_KEYS.slice(8))}</div></details>${priceBar()}<p class="filterInfo">${esc(l.info)}</p></div>`;}
 // Allergy/cross-contamination messages belong only to food results, never beverages.
 const FOOD_GROUPS=new Set(['grill','burger','pizza','sandwich','fried','sharing','american','salads','seasonal','dessert']);
 const DRINK_DESSERT_IDS=new Set(['caffe','amaro','irish-coffee']);
@@ -399,7 +458,7 @@ function isFoodProduct(item){return FOOD_GROUPS.has(item.group)&&!DRINK_DESSERT_
 function syncFoodFilterNote(){
  const note=document.querySelector('#filterPanel .filterInfo');
  if(!note)return;
- note.hidden=!!query.trim()&&!scored(query).ranked.some(x=>isFoodProduct(x.item));
+ note.hidden=!!query.trim()&&!dietarySearchKeys(query).size&&!scored(query).ranked.some(x=>isFoodProduct(x.item));
 }
 const PRODUCT_TEXT={
  it:{ingredients:'Ingredienti',present:'Allergeni dichiarati',traces:'Possibili tracce',unknown:'Informazioni sugli allergeni non ancora verificate.',none:'Nessun allergene dichiarato negli ingredienti verificati.',contact:'Per allergie o celiachia verifica sempre con il personale.',cross:'Contaminazione crociata non esclusa.',fryer:'Preparato in friggitrice condivisa: possibile contaminazione da glutine.',insufficient:'Le informazioni verificate potrebbero non essere sufficienti per questa richiesta.'},
@@ -410,16 +469,17 @@ const PRODUCT_TEXT={
 function productInfo(item){
  const d=item.details,x=PRODUCT_TEXT[lang],li=PRODUCT_LANGS.indexOf(lang);if(!d)return `<p class="warn">${esc(x.unknown)} ${esc(x.contact)}</p>`;
  const names=list=>list.map(k=>PRODUCT_ALLERGENS[k][li]).join(', '),ingredients=d.ingredients[lang]||d.ingredients.it;
+ const additional=[...dietaryEvidence(item).keys()].filter(k=>!d.allergens.includes(k));
  return (ingredients?`<p class="itemdesc"><strong>${esc(x.ingredients)}:</strong> ${esc(ingredients)}</p>`:'')
  + (d.traits.length?`<p class="smallLine">${d.traits.map(k=>esc(PRODUCT_TRAITS[k].labels[li])).join(' · ')}</p>`:'')
- + `<div class="warn">${!d.allergensReviewed?`<p>${esc(x.unknown)}</p>`:''}${d.allergens.length?`<p><strong>${esc(x.present)}:</strong> ${esc(names(d.allergens))}</p>`:d.allergensReviewed?`<p>${esc(x.none)}</p>`:''}${d.mayContain.length?`<p><strong>${esc(x.traces)}:</strong> ${esc(names(d.mayContain))}</p>`:''}${d.preparation==='shared-fryer'?`<p>${esc(x.fryer)}</p>`:d.crossContact!=='assessed'?`<p>${esc(x.cross)}</p>`:''}<p>${esc(x.contact)}</p></div>`;
+ + `<div class="warn">${!d.allergensReviewed?`<p>${esc(x.unknown)}</p>`:''}${d.allergens.length?`<p><strong>${esc(x.present)}:</strong> ${esc(names(d.allergens))}</p>`:d.allergensReviewed?`<p>${esc(x.none)}</p>`:''}${additional.length?`<p><strong>${esc(DIETARY_TEXT[lang].extra)}:</strong> ${esc(names(additional))}</p>`:''}${d.mayContain.length?`<p><strong>${esc(x.traces)}:</strong> ${esc(names(d.mayContain))}</p>`:''}${d.preparation==='shared-fryer'?`<p>${esc(x.fryer)}</p>`:d.crossContact!=='assessed'?`<p>${esc(x.cross)}</p>`:''}<p>${esc(x.contact)}</p></div>`;
 }
 function allergenCompatible(item,key){
  const d=item.details;return !!d&&d.allergensReviewed&&d.crossContact==='assessed'&&d.preparation!=='unknown'&&!d.allergens.includes(key)&&!d.mayContain.includes(key)&&!(key==='gluten'&&(d.preparation==='shared-fryer'||item.group==='fried'));
 }
 function productRestriction(item,key){
  const d=item.details;if(!d)return false;
- const allergen={gluten:'gluten',lactose:'milk',egg:'eggs'}[key];if(allergen)return allergenCompatible(item,allergen);
+ if(key==='lactose'||key==='egg'||Object.hasOwn(PRODUCT_ALLERGENS,key))return dietaryCandidate(item,[key]);
  if(['onion','tomato','cheese'].includes(key))return d.absentIngredients.includes(key);
  if(key==='vegetarian')return d.traits.includes('vegetarian')||d.traits.includes('vegan');
  if(key==='spicy')return d.traits.includes('mild');return false;
@@ -438,22 +498,27 @@ function traitIntent(q){
  return {wanted,avoided};
 }
 const ALLERGEN_ALIASES={
- gluten:['glutine','gluten','glutenfrei','gluten free','celiaco','celiaca','celiac','coeliac','zoliakie','celiaquia'],
- crustaceans:['crostacei','gamberi','crustaceans','prawns','shellfish','krebstiere','crustaceos'],eggs:['uova','uovo','egg','eggs','eier','huevo','huevos'],fish:['pesce','fish','fisch','pescado'],peanuts:['arachidi','arachide','peanut','peanuts','erdnusse','cacahuetes'],soy:['soia','soy','soybeans','soja'],milk:['latte','lattosio','lactose','laktose','lactosa','milk','dairy','milch','leche'],nuts:['frutta a guscio','noci','nocciole','mandorle','nuts','tree nuts','schalenfruchte','nusse','frutos secos','frutos de cascara'],celery:['sedano','celery','sellerie','apio'],mustard:['senape','mustard','senf','mostaza'],sesame:['sesamo','sesame','sesam'],sulphites:['solfiti','sulfites','sulphites','sulfite','sulfitos'],lupin:['lupini','lupin','lupinen','altramuces'],molluscs:['molluschi','molluscs','mollusks','weichtiere','moluscos']
+ gluten:['glutine','gluten','glutenfrei','gluten free','glutenfree','glutenfreie','glutenfreies','glutenfreier','celiaco','celiaca','celiac','coeliac','zoliakie','celiaquia'],
+ crustaceans:['crostacei','gamberi','crustaceans','prawns','shellfish','krebstiere','crustaceos'],eggs:['uova','uovo','egg','eggs','eier','huevo','huevos'],fish:['pesce','fish','fisch','pescado'],peanuts:['arachidi','arachide','peanut','peanuts','erdnusse','cacahuetes'],soy:['soia','soy','soybeans','soja'],milk:['latte','milk','dairy','milch','leche','milchfrei','dairy free'],lactose:['lattosio','lactose','laktose','lactosa','laktosefrei','lactose free'],nuts:['frutta a guscio','noci','nocciole','mandorle','nuts','tree nuts','schalenfruchte','nusse','frutos secos','frutos de cascara'],celery:['sedano','celery','sellerie','apio'],mustard:['senape','mustard','senf','mostaza'],sesame:['sesamo','sesame','sesam'],sulphites:['solfiti','sulfites','sulphites','sulfite','sulfitos'],lupin:['lupini','lupin','lupinen','altramuces'],molluscs:['molluschi','molluscs','mollusks','weichtiere','moluscos']
 };
 function allergenIntent(q){
  const text=norm(q),keys=new Set(),allergyMode=/allerg|alerg|intoller|intoler|celiac|coeliac|zoliak/.test(text);
- for(const [key,aliases] of Object.entries(ALLERGEN_ALIASES))for(const phrase of aliases)for(const [start] of phrasePositions(text,norm(phrase))){
-  const before=text.slice(0,start).trim().split(' ').slice(-6).join(' ');
-  if(allergyMode||/(?:^| )(senza|without|ohne|sin|no|non|not)(?: |$)/.test(before)||/free|frei|celiac|coeliac/.test(phrase))keys.add(key);
+ const negative=/(?:^| )(?:senza|without|ohne|sin|no|non|not|evitare|evito|avoid|excluir)(?: |$)/;
+ for(const [key,aliases] of Object.entries(ALLERGEN_ALIASES))for(const phrase of aliases)for(const [start,end] of phrasePositions(text,norm(phrase))){
+  if(key==='soy'&&phrase==='soy'&&start===0&&/^ (?:intolerante|alergico|alergica)(?: |$)/.test(text.slice(end)))continue;
+  const before=text.slice(0,start).trim().split(' ').slice(-7).join(' '),after=text.slice(end);
+  if(allergyMode||negative.test(before)||/free|frei|celiac|coeliac|zoliak/.test(phrase)||/^ (?:free|frei|intolerant|intolerante)(?: |$)/.test(after))keys.add(key);
  }
- // Unknown restrictions, even mixed with recognised ones, must not be silently ignored.
+ // Unrecognised restrictions are retained as a blocking condition, including mixed requests.
  let unknown=allergyMode&&!keys.size;
- const known=[...Object.values(ALLERGEN_ALIASES).flat(),...Object.values(PRODUCT_TRAITS).flatMap(v=>v.aliases),'cipolla','cipolle','onion','onions','zwiebel','zwiebeln','cebolla','pomodoro','pomodori','tomato','tomatoes','tomate','tomates','formaggio','cheese','kase','queso','carne','meat','fleisch','alcol','alcohol'].map(norm).sort((a,b)=>b.length-a.length);
- for(const match of text.matchAll(/(?:\bsenza\b|\bwithout\b|\bohne\b|\bsin\b|(?:allerg\w*|alerg\w*|intoller\w*|intoler\w*)(?: (?:a|al|alla|alle|to|auf))?|non tollero|non posso mangiare)\s+(.+)/g)){
-  let tail=match[1].split(/\b(?:ma|but|vorrei|voglio|preferisco|con|with|under|sotto|meno di)\b/)[0];
+ const known=[...Object.values(ALLERGEN_ALIASES).flat(),...Object.values(PRODUCT_TRAITS).flatMap(v=>v.aliases),'cipolla','cipolle','onion','onions','zwiebel','zwiebeln','cebolla','pomodoro','pomodori','tomato','tomatoes','tomate','tomates','formaggio','cheese','kase','queso','carne','meat','fleisch','alcol','alcool','alcohol'].map(norm).sort((a,b)=>b.length-a.length);
+ const triggers=[...text.matchAll(/\b(?:senza|without|ohne|sin|evitare|evito|avoid|excluir|allerg\w*|alerg\w*|intoller\w*|intoler\w*|non tollero|non posso mangiare|non posso assumere)\b/g)];
+ for(let i=0;i<triggers.length;i++){
+  const match=triggers[i];let tail=text.slice(match.index+match[0].length,i+1<triggers.length?triggers[i+1].index:undefined).split(/\b(?:ma|but|vorrei|voglio|preferisco|con|with|under|sotto|meno di)\b/)[0];
   for(const term of known)tail=(' '+tail+' ').split(' '+term+' ').join(' ').trim();
-  tail=tail.replace(/\b(?:e|ed|o|oppure|and|or|und|y|senza|without|ohne|sin|di|del|della|dei|a|al|alla|alle|la|le|il|el|los|las|der|die|das|the|any|please|per favore|grazie)\b/g,'').trim();if(tail)unknown=true;
+  tail=tail.replace(/\b(?:cosa posso mangiare|cosa posso bere|che cosa posso ordinare|cosa posso ordinare|cosa mi consigli|mi consigli|potete consigliarmi|quali piatti|quali prodotti|what can i eat|what can i drink|what can i order|can you recommend|was kann ich essen|was kann ich trinken|que puedo comer|que puedo beber|per favore)\b/g,' ');
+  tail=tail.replace(/\b(?:e|ed|o|oppure|and|or|und|y|a|al|ai|agli|alla|alle|allo|di|del|della|dei|delle|il|lo|la|le|un|una|the|to|of|der|die|das|auf|gegen|el|los|las|any|please|grazie|thanks|bitte|gracias|sono|io|am|i|intollerante|allergico|allergica|intolerant|food|cibo|cibi|piatto|piatti|prodotto|prodotti|mangiare|bere|qualcosa|burger|hamburger|pizza|pizze|birra|birre|beer|beers|sandwich|panino|panini|beverage|bebida|plato|comida|free|frei|ho|una|un)\b/g,' ').replace(/\s+/g,' ').trim();
+  if(tail)unknown=true;
  }
  return {keys,unknown};
 }
@@ -464,8 +529,9 @@ function passesFilters(item){
  for(const key of activeFilters){if(!productRestriction(item,key))return false;}
  return true;
 }
-function filteredResults(){const l=FILTER_LABELS[lang];const base=query.trim()?scored(query).ranked.map(x=>x.item):ITEMS.filter(i=>['burger','grill','sandwich','salads','fried','seasonal','pizza','american','beers'].includes(i.group));const matching=base.filter(passesFilters);return `<div class="sectionTop"><h2>${esc(t().results)}</h2></div>${activeFilters.size&&matching.some(isFoodProduct)?`<div class="filterAlert">${esc(l.notice)}</div>`:''}${matching.length?matching.map(card).join(''):`<p class="empty">${esc(l.none)}</p>`}`;}
-function updateHomeContent(){const content=$('homeContent');if(content)content.innerHTML=query.trim()?results(query):categories();hydratePhotos(content);syncFoodFilterNote();}
+function filteredResults(){const keys=new Set(dietaryFilterKeys()),base=ITEMS.filter(passesFilters);return `<div class="sectionTop"><h2>${esc(t().results)}</h2></div>`+(keys.size?dietaryGroups(base,keys):base.length?base.map(i=>card(i)).join(''):`<p class="empty">${esc(FILTER_LABELS[lang].none)}</p>`);}
+function homeResults(){return query.trim()?results(query):(activeFilters.size||priceEnabled())?filteredResults():categories();}
+function updateHomeContent(){const content=$('homeContent');if(content)content.innerHTML=homeResults();hydratePhotos(content);syncFoodFilterNote();}
 const $=id=>document.getElementById(id);
 const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const t=()=>TR[lang];
@@ -476,14 +542,14 @@ const price=i=>i.price.includes('–')?'€ '+i.price.replace('–',' – € ')
 const byGroup=g=>ITEMS.filter(i=>i.group===g);
 const rootGroup=g=>Object.keys(CATS).find(k=>CATS[k].groups.includes(g));
 const camera='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h3l2-2h6l2 2h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1Z"/><circle cx="12" cy="13" r="3"/></svg>';
-function card(i){
+function card(i,restrictionKeys=new Set(dietaryFilterKeys())){
  const opened=expanded.has(i.id),season=i.season?`<span class="smallLine">${esc(i.season==='winter'?t().season:t().summer)}</span>`:'';
  const description=(!i.details?.ingredients.it&&desc(i))?`<p class="itemdesc">${esc(desc(i))}</p>`:'';
  const abv=i.abv?`<p class="abv">${esc(i.abv)} vol.</p>`:'';
- return `<article class="item ${opened?'open':''}" id="item-${esc(i.id)}"><button class="itembtn" type="button" data-toggle="${esc(i.id)}" aria-expanded="${opened}"><span class="itemname">${esc(name(i))}</span><span class="itemprice">${esc(price(i))}</span><span class="itemchev">⌄</span></button><div class="itembody">${abv}${description}${productInfo(i)}${season}${(i.group==='grill'||i.group==='burger')?`<p class="groupSideNote">${esc(t().sideNotes[i.group])}</p>`:''}<div class="photobox" data-photo-state="idle" data-photo="${esc(i.photo)}" data-photo-group="${esc(i.photoGroup||i.group)}" data-photo-kind="${esc(i.photoKind||'legacy')}"><div class="photo-loading" role="status">${esc(PHOTO_TEXT[lang].loading)}</div><div class="placeholder" hidden>${camera}<strong>${esc(PHOTO_TEXT[lang].unavailable)}</strong><span hidden></span><button type="button" class="photo-retry" data-retry-photo hidden>${esc(PHOTO_TEXT[lang].retry)}</button></div><img alt="${esc(name(i))}" loading="lazy" draggable="false"></div></div></article>`;
+ return `<article class="item ${opened?'open':''}" id="item-${esc(i.id)}"><button class="itembtn" type="button" data-toggle="${esc(i.id)}" aria-expanded="${opened}"><span class="itemname">${esc(name(i))}${dietaryBadge(i,restrictionKeys)}</span><span class="itemprice">${esc(price(i))}</span><span class="itemchev">⌄</span></button><div class="itembody">${abv}${description}${productInfo(i)}${season}${(i.group==='grill'||i.group==='burger')?`<p class="groupSideNote">${esc(t().sideNotes[i.group])}</p>`:''}<div class="photobox" data-photo-state="idle" data-photo="${esc(i.photo)}" data-photo-group="${esc(i.photoGroup||i.group)}" data-photo-kind="${esc(i.photoKind||'legacy')}"><div class="photo-loading" role="status">${esc(PHOTO_TEXT[lang].loading)}</div><div class="placeholder" hidden>${camera}<strong>${esc(PHOTO_TEXT[lang].unavailable)}</strong><span hidden></span><button type="button" class="photo-retry" data-retry-photo hidden>${esc(PHOTO_TEXT[lang].retry)}</button></div><img alt="${esc(name(i))}" loading="lazy" draggable="false"></div></div></article>`;
 }
 function home(){
- return `<section class="hero"><img class="homeHeroLogo" src="logo.png" alt="The Black Stuff Irish Pub" loading="eager" onerror="this.style.display='none'"><h1>${esc(t().title)}</h1><div class="searchWrap"><span class="searchIcon" aria-hidden="true">⌕</span><input id="search" type="search" value="${esc(query)}" placeholder="${esc(t().search)}" autocomplete="off" aria-label="${esc(t().search)}"><button class="clear" id="clearSearch" aria-label="Clear search" ${query?'':'hidden'}>×</button><button type="button" id="filterToggle" class="filterToggle ${(activeFilters.size||priceEnabled())?'hasFilters':''}" aria-label="${lang==='it'?'Filtra il menu':lang==='en'?'Filter menu':lang==='de'?'Menü filtern':'Filtrar menú'}" aria-expanded="${filtersOpen}" aria-controls="filterPanel" title="${esc(FILTER_LABELS[lang].heading)}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="21" height="21" aria-hidden="true"><line x1="4" y1="7" x2="20" y2="7"/><circle cx="9" cy="7" r="2" fill="currentColor" stroke="none"/><line x1="4" y1="17" x2="20" y2="17"/><circle cx="16" cy="17" r="2" fill="currentColor" stroke="none"/></svg>${(activeFilters.size||priceEnabled())?`<span class="filterCount">${activeFilters.size+(priceEnabled()?1:0)}</span>`:''}</button></div>${filterBar()}<div class="chips">${t().suggestions.filter(s=>!s.includes('10')&&!s.toLowerCase().includes('under')&&!s.toLowerCase().includes('unter')&&!s.toLowerCase().includes('menos de')).map(s=>`<button class="chip" data-suggest="${esc(s)}">${esc(s)}</button>`).join('')}<button class="chip" type="button" data-open-price>${esc(PRICE_I18N[lang].title)} ${priceEnabled()?fmtEuro(priceMin)+'–'+fmtEuro(priceMax):'€'}</button></div></section><div id="homeContent">${query.trim()?results(query):categories()}</div>`;
+ return `<section class="hero"><img class="homeHeroLogo" src="logo.png" alt="The Black Stuff Irish Pub" loading="eager" onerror="this.style.display='none'"><h1>${esc(t().title)}</h1><div class="searchWrap"><span class="searchIcon" aria-hidden="true">⌕</span><input id="search" type="search" value="${esc(query)}" placeholder="${esc(t().search)}" autocomplete="off" aria-label="${esc(t().search)}"><button class="clear" id="clearSearch" aria-label="Clear search" ${query?'':'hidden'}>×</button><button type="button" id="filterToggle" class="filterToggle ${(activeFilters.size||priceEnabled())?'hasFilters':''}" aria-label="${lang==='it'?'Filtra il menu':lang==='en'?'Filter menu':lang==='de'?'Menü filtern':'Filtrar menú'}" aria-expanded="${filtersOpen}" aria-controls="filterPanel" title="${esc(FILTER_LABELS[lang].heading)}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="21" height="21" aria-hidden="true"><line x1="4" y1="7" x2="20" y2="7"/><circle cx="9" cy="7" r="2" fill="currentColor" stroke="none"/><line x1="4" y1="17" x2="20" y2="17"/><circle cx="16" cy="17" r="2" fill="currentColor" stroke="none"/></svg>${(activeFilters.size||priceEnabled())?`<span class="filterCount">${activeFilters.size+(priceEnabled()?1:0)}</span>`:''}</button></div>${filterBar()}<div class="chips">${t().suggestions.filter(s=>!s.includes('10')&&!s.toLowerCase().includes('under')&&!s.toLowerCase().includes('unter')&&!s.toLowerCase().includes('menos de')).map(s=>`<button class="chip" data-suggest="${esc(s)}">${esc(s)}</button>`).join('')}<button class="chip" type="button" data-open-price>${esc(PRICE_I18N[lang].title)} ${priceEnabled()?fmtEuro(priceMin)+'–'+fmtEuro(priceMax):'€'}</button></div></section><div id="homeContent">${homeResults()}</div>`;
 }
 function categories(){
  const keys=['beers','drinks','food','dessert','seasonal'];
@@ -508,7 +574,7 @@ function beerCategorySections(items){
   const matching=items.filter(item=>(item.beerSection||BEER_SECTIONS.find(s=>s.ids.includes(item.id))?.key||'other')===key);
   if(!matching.length)return '';
   const title=BEER_SECTION_TITLES[lang][key]||titles[lang][key];
-  return `<section class="beerSubgroup" id="beers-${key}"><${heading} class="${heading==='h3'?'beerServingTitle':'beerSubgroupTitle'}">${esc(title)}</${heading}>${matching.map(card).join('')}</section>`;
+  return `<section class="beerSubgroup" id="beers-${key}"><${heading} class="${heading==='h3'?'beerServingTitle':'beerSubgroupTitle'}">${esc(title)}</${heading}>${matching.map(i=>card(i)).join('')}</section>`;
  };
  const tap=['blonde','red','ipa','dark'].map(key=>section(key,'h4')).join('');
  return (tap?`<section id="beers-on-tap"><h3 class="beerServingTitle">${esc(titles[lang].tap)}</h3>${tap}</section>`:'')+['packaged','alcoholfree','other'].map(key=>section(key,'h3')).join('');
@@ -518,12 +584,12 @@ function page(k){
  const sections=c.groups.map(g=>{
   const items=byGroup(g).filter(passesFilters);
   if((activeFilters.size||priceEnabled()) && !items.length)return '';
-  return `<section class="group" id="group-${g}"><div class="groupTitle"><h2>${esc(t().groups[g])}</h2></div>${t().sideNotes&&t().sideNotes[g]?`<p class="groupSideNote">${esc(t().sideNotes[g])}</p>`:''}${g==='beers'?beerCategorySections(items):items.map(card).join('')}</section>`;
+  return `<section class="group" id="group-${g}"><div class="groupTitle"><h2>${esc(t().groups[g])}</h2></div>${t().sideNotes&&t().sideNotes[g]?`<p class="groupSideNote">${esc(t().sideNotes[g])}</p>`:''}${g==='beers'?beerCategorySections(items):items.map(i=>card(i)).join('')}</section>`;
  }).filter(Boolean).join('');
  const visibleFood=c.groups.some(g=>byGroup(g).some(item=>passesFilters(item)&&isFoodProduct(item)));
- const filteredHeader=(activeFilters.size||priceEnabled())?`<div class="pageFilterStatus"><span>${lang==='it'?'Filtri attivi':lang==='en'?'Active filters':lang==='de'?'Aktive Filter':'Filtros activos'}: ${[...activeFilters].map(key=>esc(l[key])).concat(priceEnabled()?[fmtEuro(priceMin)+' – '+fmtEuro(priceMax)]:[]).join(' · ')}</span><button type="button" data-clear-filters>${lang==='it'?'Rimuovi filtri':lang==='en'?'Clear filters':lang==='de'?'Filter löschen':'Quitar filtros'}</button></div>`:'';
+ const filteredHeader=(activeFilters.size||priceEnabled())?`<div class="pageFilterStatus"><span>${lang==='it'?'Filtri attivi':lang==='en'?'Active filters':lang==='de'?'Aktive Filter':'Filtros activos'}: ${[...activeFilters].map(key=>esc(filterLabel(key))).concat(priceEnabled()?[fmtEuro(priceMin)+' – '+fmtEuro(priceMax)]:[]).join(' · ')}</span><button type="button" data-clear-filters>${lang==='it'?'Rimuovi filtri':lang==='en'?'Clear filters':lang==='de'?'Filter löschen':'Quitar filtros'}</button></div>`:'';
  const empty=(activeFilters.size||priceEnabled())?`<p class="empty">${esc(l.none)}</p>`:'';
- return `<button type="button" class="back" data-home>← ${esc(t().back)}</button><span class="eyebrow">THE BLACK STUFF · DIGITAL MENU</span><h1 class="pageTitle">${esc(t().categories[k])}</h1>${filteredHeader}<p class="pageLead">${esc(t().details)}</p>${sections||empty}<p class="note">${esc(t().footnote)}</p>${visibleFood?`<p class="pageFilterDisclaimer">${esc(l.info)}</p>`:''}`;
+ return `<button type="button" class="back" data-home>← ${esc(t().back)}</button><span class="eyebrow">THE BLACK STUFF · DIGITAL MENU</span><h1 class="pageTitle">${esc(t().categories[k])}</h1>${filteredHeader}${dietaryFilterKeys().length?dietaryNotice(new Set(dietaryFilterKeys()))+`<p class="dietaryExplanation">${esc(DIETARY_TEXT[lang].pending)}</p>`:''}<p class="pageLead">${esc(t().details)}</p>${sections||empty}<p class="note">${esc(t().footnote)}</p>${visibleFood?`<p class="pageFilterDisclaimer">${esc(l.info)}</p>`:''}`;
 }
 // Controlled, explainable search. No online services or invented menu items.
 const synonyms={
@@ -609,7 +675,8 @@ function scored(q){
   const p=item.beerProfile, tags=item.tags.map(norm), group=item.group;
   const beerProduct=group==='beers'||group==='soft'&&(!!p||tags.includes('birra')||/\bbirra\b/.test(norm(item.desc.it||'')));
   if(restrictions.unknown)continue;
-  if([...restrictions.keys].some(k=>!allergenCompatible(item,k)))continue;
+  if(restrictions.keys.size&&!categoryRequest){if(/(?:^| )(mangiare|cibo|cibi|piatti|eat|food|essen|comer|comida)(?: |$)/.test(it.clean)&&!isFoodProduct(item))continue;if(/(?:^| )(bere|bevande|drink|trinken|beber|bebidas)(?: |$)/.test(it.clean)&&isFoodProduct(item))continue;}
+  if(!dietaryCandidate(item,restrictions.keys)&&restrictions.keys.size)continue;
   if(foodPreferences&&(preferences.wanted.size||preferences.avoided.size)){if(!isFoodProduct(item))continue;const labels=[...(item.details?.traits||[])];if(labels.includes('vegan'))labels.push('vegetarian');if([...preferences.wanted].some(k=>!labels.includes(k))||[...preferences.avoided].some(k=>labels.includes(k)))continue;}
   const label=norm(name(item)), allNames=[item.name.it,item.name.en,item.name.de,item.name.es].filter(Boolean).map(norm);
   const nameExact=allNames.some(n=>n===it.clean);
@@ -687,20 +754,23 @@ function scored(q){
  }
  ranked.sort((a,b)=>b.score-a.score||ITEMS.indexOf(a.item)-ITEMS.indexOf(b.item));
  const exact=ranked.filter(x=>x.score>=100).sort((a,b)=>(a.item.group==='dessert'?-1:0)-(b.item.group==='dessert'?-1:0))[0];
- if(exact)return {ranked:[exact],intent:it};
+ if(exact&&!restrictions.keys.size&&!dietaryFilterKeys().length)return {ranked:[exact],intent:it};
  // Budget-only searches must not fill every result slot with the beer section.
- if(it.budget!==null&&!categoryRequest&&tokens.size===0&&excluded.size===0){
+ if(it.budget!==null&&!categoryRequest&&tokens.size===0&&excluded.size===0&&!restrictions.keys.size&&!dietaryFilterKeys().length){
   const groups=['grill','burger','pizza','sandwich','fried','sharing','american','salads','dessert','beers','soft','aperitifs','long','wine','seasonal'];
   const picks=[];for(const g of groups){picks.push(...ranked.filter(x=>x.item.group===g).slice(0,3));}
   return {ranked:picks,intent:it};
  }
- return {ranked:ranked.slice(0,beerRequest?16:18),intent:it};
+ return {ranked:restrictions.keys.size||dietaryFilterKeys().length?ranked:ranked.slice(0,beerRequest?16:18),intent:it};
 }
 function results(q){
- const {ranked,intent:it}=scored(q);
+ const {ranked,intent:it}=scored(q),restriction=allergenIntent(q),keys=dietarySearchKeys(q);
+ const heading=`<div class="sectionTop"><h2>${esc(t().results)}</h2></div>`;
+ if(restriction.unknown)return heading+`<div class="warn">${esc(DIETARY_TEXT[lang].unknown)}</div>`;
+ if(keys.size)return heading+dietaryGroups(ranked.map(({item})=>item),keys);
  const recognizedAllergy=[...it.excluded].some(k=>['glutine','lattosio','cipolla','pomodoro','uova'].includes(k));
- if(allergenIntent(q).unknown||(it.allergy&&!recognizedAllergy&&!it.tokens.has('glutine')&&!allergenIntent(q).keys.size))return `<div class="sectionTop"><h2>${esc(t().results)}</h2></div><div class="warn">${esc(t().zero)} ${esc(t().allergens)}</div>`;
- return `<div class="sectionTop"><h2>${esc(t().results)}</h2><span>✧</span></div>${ranked.length?`<div class="resultList">${ranked.map(({item})=>card(item)).join('')}</div>`:`<p class="empty">${esc(t().noResults)} ${esc(PRODUCT_TEXT[lang].insufficient)}</p>`}${ranked.some(({item})=>isFoodProduct(item))?`<div class="warn">${esc(FILTER_LABELS[lang].notice)}</div>`:''}`;
+ if(it.allergy&&!recognizedAllergy&&!it.tokens.has('glutine'))return heading+`<div class="warn">${esc(t().zero)} ${esc(t().allergens)}</div>`;
+ return heading+(ranked.length?`<div class="resultList">${ranked.map(({item})=>card(item)).join('')}</div>`:`<p class="empty">${esc(t().noResults)} ${esc(PRODUCT_TEXT[lang].insufficient)}</p>`)+(ranked.some(({item})=>isFoodProduct(item))?`<div class="warn">${esc(FILTER_LABELS[lang].notice)}</div>`:'');
 }
 function render(resetScroll=true){
  document.documentElement.lang=lang;
@@ -709,7 +779,7 @@ function render(resetScroll=true){
  $('app').innerHTML=active?page(active):home();
  if(resetScroll)window.scrollTo({top:0,behavior:'instant'});
  if(active)hydratePhotos($('app'));
- else if(query.trim())hydratePhotos($('homeContent'));
+ else if(query.trim()||activeFilters.size||priceEnabled())hydratePhotos($('homeContent'));
  if(!active)syncFoodFilterNote();
 }
 /* Cartelle fotografiche, una per ogni sottocategoria del menu.
