@@ -194,6 +194,11 @@ html[data-menu-theme="christmas"] .chip::before{left:12px;right:12px;top:-4px;he
 @media(prefers-reduced-motion:reduce){.photo-loading::before{animation:none}}
 </style>
 <style>.beerServingTitle{font:600 22px/1.4 var(--font-body,system-ui);margin:22px 0 16px;color:var(--gold,#c4b77a)}#beers-on-tap{margin-bottom:32px}</style>
+<style id="photoSaveDeterrent">
+/* Discourage casual image saving; public image URLs and screenshots remain accessible. */
+.photobox,.winter-photo-box,.winter-slide{-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
+.photobox img,.winter-slide{-webkit-user-drag:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
+</style>
 </head>
 <body class="on-home"><div id="menuSyncStatus" role="status" style="padding:10px 20px;font-size:12px;background:#294632;color:#fff">Verifica prezzi e disponibilità… / Checking prices and availability…</div>
 
@@ -207,10 +212,10 @@ html[data-menu-theme="christmas"] .chip::before{left:12px;right:12px;top:-4px;he
     <h2 class="winter-title" id="winterTitle">Prova il nostro<br>menu invernale</h2>
     <p class="winter-subtitle" id="winterSubtitle">Piatti caldi, sapori decisi e tutta l&#8217;atmosfera del pub.</p>
     <div class="winter-photo-box" id="winterPhotoBox">
-      <img class="winter-slide active" src="popup-brinner.jpg" alt="BRINNER BURGER" loading="eager">
-      <img class="winter-slide" src="popup-chickn-cheese.jpg" alt="CHICK&#8217;N&#8217; CHEESE" loading="lazy">
-      <img class="winter-slide" src="popup-zuppa-zucca.jpg" alt="ZUPPA ALLA ZUCCA" loading="lazy">
-      <img class="winter-slide" src="popup-polpette.jpg" alt="POLPETTE AL SUGO" loading="lazy">
+      <img draggable="false" class="winter-slide active" src="popup-brinner.jpg" alt="BRINNER BURGER" loading="eager">
+      <img draggable="false" class="winter-slide" src="popup-chickn-cheese.jpg" alt="CHICK&#8217;N&#8217; CHEESE" loading="lazy">
+      <img draggable="false" class="winter-slide" src="popup-zuppa-zucca.jpg" alt="ZUPPA ALLA ZUCCA" loading="lazy">
+      <img draggable="false" class="winter-slide" src="popup-polpette.jpg" alt="POLPETTE AL SUGO" loading="lazy">
       <button class="winter-photo-arrow prev" id="winterPrev" type="button" aria-label="Foto precedente">&#8249;</button>
       <button class="winter-photo-arrow next" id="winterNext" type="button" aria-label="Foto successiva">&#8250;</button>
     </div>
@@ -464,7 +469,7 @@ function card(i){
  const opened=expanded.has(i.id),season=i.season?`<span class="smallLine">${esc(i.season==='winter'?t().season:t().summer)}</span>`:'';
  const description=(!i.details?.ingredients.it&&desc(i))?`<p class="itemdesc">${esc(desc(i))}</p>`:'';
  const abv=i.abv?`<p class="abv">${esc(i.abv)} vol.</p>`:'';
- return `<article class="item ${opened?'open':''}" id="item-${esc(i.id)}"><button class="itembtn" type="button" data-toggle="${esc(i.id)}" aria-expanded="${opened}"><span class="itemname">${esc(name(i))}</span><span class="itemprice">${esc(price(i))}</span><span class="itemchev">⌄</span></button><div class="itembody">${abv}${description}${productInfo(i)}${season}${(i.group==='grill'||i.group==='burger')?`<p class="groupSideNote">${esc(t().sideNotes[i.group])}</p>`:''}<div class="photobox" data-photo-state="idle" data-photo="${esc(i.photo)}" data-photo-group="${esc(i.photoGroup||i.group)}" data-photo-kind="${esc(i.photoKind||'legacy')}"><div class="photo-loading" role="status">${esc(PHOTO_TEXT[lang].loading)}</div><div class="placeholder" hidden>${camera}<strong>${esc(PHOTO_TEXT[lang].unavailable)}</strong><span hidden></span><button type="button" class="photo-retry" data-retry-photo hidden>${esc(PHOTO_TEXT[lang].retry)}</button></div><img alt="${esc(name(i))}" loading="lazy"></div></div></article>`;
+ return `<article class="item ${opened?'open':''}" id="item-${esc(i.id)}"><button class="itembtn" type="button" data-toggle="${esc(i.id)}" aria-expanded="${opened}"><span class="itemname">${esc(name(i))}</span><span class="itemprice">${esc(price(i))}</span><span class="itemchev">⌄</span></button><div class="itembody">${abv}${description}${productInfo(i)}${season}${(i.group==='grill'||i.group==='burger')?`<p class="groupSideNote">${esc(t().sideNotes[i.group])}</p>`:''}<div class="photobox" data-photo-state="idle" data-photo="${esc(i.photo)}" data-photo-group="${esc(i.photoGroup||i.group)}" data-photo-kind="${esc(i.photoKind||'legacy')}"><div class="photo-loading" role="status">${esc(PHOTO_TEXT[lang].loading)}</div><div class="placeholder" hidden>${camera}<strong>${esc(PHOTO_TEXT[lang].unavailable)}</strong><span hidden></span><button type="button" class="photo-retry" data-retry-photo hidden>${esc(PHOTO_TEXT[lang].retry)}</button></div><img alt="${esc(name(i))}" loading="lazy" draggable="false"></div></div></article>`;
 }
 function home(){
  return `<section class="hero"><img class="homeHeroLogo" src="logo.png" alt="The Black Stuff Irish Pub" loading="eager" onerror="this.style.display='none'"><h1>${esc(t().title)}</h1><div class="searchWrap"><span class="searchIcon" aria-hidden="true">⌕</span><input id="search" type="search" value="${esc(query)}" placeholder="${esc(t().search)}" autocomplete="off" aria-label="${esc(t().search)}"><button class="clear" id="clearSearch" aria-label="Clear search" ${query?'':'hidden'}>×</button><button type="button" id="filterToggle" class="filterToggle ${(activeFilters.size||priceEnabled())?'hasFilters':''}" aria-label="${lang==='it'?'Filtra il menu':lang==='en'?'Filter menu':lang==='de'?'Menü filtern':'Filtrar menú'}" aria-expanded="${filtersOpen}" aria-controls="filterPanel" title="${esc(FILTER_LABELS[lang].heading)}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="21" height="21" aria-hidden="true"><line x1="4" y1="7" x2="20" y2="7"/><circle cx="9" cy="7" r="2" fill="currentColor" stroke="none"/><line x1="4" y1="17" x2="20" y2="17"/><circle cx="16" cy="17" r="2" fill="currentColor" stroke="none"/></svg>${(activeFilters.size||priceEnabled())?`<span class="filterCount">${activeFilters.size+(priceEnabled()?1:0)}</span>`:''}</button></div>${filterBar()}<div class="chips">${t().suggestions.filter(s=>!s.includes('10')&&!s.toLowerCase().includes('under')&&!s.toLowerCase().includes('unter')&&!s.toLowerCase().includes('menos de')).map(s=>`<button class="chip" data-suggest="${esc(s)}">${esc(s)}</button>`).join('')}<button class="chip" type="button" data-open-price>${esc(PRICE_I18N[lang].title)} ${priceEnabled()?fmtEuro(priceMin)+'–'+fmtEuro(priceMax):'€'}</button></div></section><div id="homeContent">${query.trim()?results(query):categories()}</div>`;
@@ -770,6 +775,10 @@ function hydratePhotos(root){
   image.onerror=()=>finish(false);image.loading='eager';image.src=result.url;
  });
 }
+for(const type of ['contextmenu','dragstart'])document.addEventListener(type,event=>{
+ const target=event.target instanceof Element?event.target:null;
+ if(target?.closest('.photobox img,.winter-slide,.winter-photo-box'))event.preventDefault();
+});
 document.addEventListener('click',event=>{
  const button=event.target.closest('[data-retry-photo]');if(!button)return;
  const el=button.closest('.photobox');if(el.dataset.photoState==='loading')return;
